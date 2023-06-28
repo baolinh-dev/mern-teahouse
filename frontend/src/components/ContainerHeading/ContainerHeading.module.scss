@@ -1,0 +1,12 @@
+.container-heading {
+    display: flex; 
+    &.center {
+        justify-content: center;
+    }
+    &.left {
+        justify-content: left;
+    }
+    &.right {
+        justify-content: right;
+    }
+}

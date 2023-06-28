@@ -1,0 +1,61 @@
+.time-opeing { 
+    margin-top: 100px;
+    .left-module {
+        padding: 80px 56px 96px 65px;
+        background: #4d8a54;
+        min-height: 443px;
+        position: relative;
+        .content-module {
+            p {
+                color: #fff;
+                font-size: 1.4rem;
+                font-weight: 700;
+                font-family: 'Quicksand', sans-serif;
+                margin-top: 10px;
+                margin-bottom: 25px;
+            }
+            .time {
+                color: #fff;
+                font-weight: 700;
+                font-size: 18px;
+                font-family: 'Quicksand', sans-serif;
+                display: block;
+                width: 100%;
+            }
+            a {
+                display: inline-block;
+                border-radius: 30px;
+                color: #4d8a54;
+                background: #fff;
+                padding: 0 32px;
+                height: 45px;
+                line-height: 45px;
+                font-size: 1.6rem;
+                font-weight: 700;
+                margin-top: 23px;
+                border: 1px solid transparent;
+            }
+        }
+        &::before {
+            content: '';
+            position: absolute;
+            background-image: url(//bizweb.dktcdn.net/100/415/010/themes/894852/assets/vector_datban.png?1665397312430);
+            background-repeat: no-repeat;
+            width: 225px;
+            height: 201px;
+            bottom: 0;
+            right: 10px;
+        }
+    }
+}
+.right-module { 
+    background-image: url(//bizweb.dktcdn.net/100/415/010/themes/894852/assets/banner_time_open.jpg?1665397312430);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 486px;
+    height: 420px;
+    background-position: right;
+    padding: 0;
+    margin-top: 12px;
+    margin-left: -15px;
+}

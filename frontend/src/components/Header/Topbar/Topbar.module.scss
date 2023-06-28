@@ -1,0 +1,150 @@
+.topbar-container {
+    background-color: var(--primary);
+    height: 58px;
+    line-height: 58px;
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    .topbar {
+        display: flex;
+        height: 58px;
+        margin: auto;
+        font-size: 1.4rem;
+        font-weight: 600;
+        .left-topbar {
+            width: 50%;
+            display: flex;
+            align-items: center;
+            svg,
+            span {
+                margin-right: 5px;
+            }
+            svg {
+                font-size: 18px;
+            }
+            a {
+                color: #fff;
+                text-decoration: none;
+                &:hover {
+                    color: #282828;
+                }
+            }
+        }
+        .right-topbar {
+            width: 100%;
+            ul {
+                justify-content: right;
+                display: flex;
+                margin-bottom: 0;
+                padding: 8px;
+                height: 58px;
+                li {
+                    margin-right: 12px;
+                    list-style: none;
+                    display: flex;
+                    align-items: center;
+                    svg,
+                    span {
+                        margin-right: 5px;
+                    }
+                    svg {
+                        font-size: 18px;
+                    }
+                }
+                .search {
+                    position: relative;
+                    .search-box {
+                        position: absolute;  
+                        height: 74px;
+                        opacity: 0;
+                        transition: opacity 0.3s ease, transform 0.3s ease;
+                        transform: translateX(-55%); 
+                        padding: 12px 0 ;   
+                        form { 
+                            position: relative;
+                            display: flex;  
+                            height: 46px;
+                            align-items: center; 
+                            background-color: #fff; 
+                            padding: 0 12px;
+                            border-radius: 20px;
+                            border: 1px solid #ddd; 
+                            height: 100%;
+                            input {
+                                height: 40px;
+                                padding: 0 14px 0 40px;
+                                outline: none; 
+                                border: none;
+                                &::before {
+                                    content: '';
+                                    background: url('https://th.bing.com/th/id/OIP.hGaetDAQWapgIJbIOhPhXwHaHa?pid=ImgDet&rs=1')
+                                        no-repeat center;
+                                    background-size: contain;
+                                    display: inline-block;
+                                    width: 20px;
+                                    height: 20px;
+                                    background-color: red;
+                                    position: absolute;
+                                    left: 15px;
+                                    top: 50%;
+                                    transform: translateY(-50%);
+                                }
+                            } 
+                            button {  
+                                outline: none; 
+                                border: none;
+                                background-color: transparent; 
+                            }
+                        }
+                    }
+                    &:hover {
+                        .search-box {
+                            opacity: 1;
+                        }
+                    }
+                }
+                .account {
+                    position: relative;
+                    cursor: pointer;
+                    .login-dropdown {
+                        display: none;
+                        position: absolute;
+                        min-width: 120px;
+                        top: 100%;
+                        left: 0;
+                        z-index: 1;
+                        color: #000;
+                        background-color: #fff;
+                        box-shadow: 0 0 15px -5px rgba(0, 0, 0, 0.4);
+                        border: 1px solid #ddd;
+
+                        &:before {
+                            content: '';
+                            position: absolute;
+                            top: -8px;
+                            left: 50%;
+                            margin-left: -8px;
+                            border-left: 8px solid transparent;
+                            border-right: 8px solid transparent;
+                            border-bottom: 8px solid white;
+                            transform: rotate(0deg);
+                        }
+
+                        a {
+                            display: block;
+                            padding: 0 12px;
+                            text-align: left;
+                            border-bottom: 1px solid #ddd;
+                        }
+                    }
+
+                    &:hover {
+                        .login-dropdown {
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

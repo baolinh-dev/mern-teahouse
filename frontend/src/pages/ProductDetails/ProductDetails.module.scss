@@ -1,0 +1,170 @@
+.bg-product {
+    background-image: url(https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/bg-top-product.jpg?1676274744913);
+    background-position: left center;
+    background-size: contain;
+    background-repeat: repeat;
+
+    .product-item {
+        margin-top: 200px;
+
+        .product-item-content {
+            display: flex;
+            justify-content: center;
+
+            .product-item-left {
+                margin-right: 70px;
+
+                .product-image {
+                    img {
+                        width: 420px;
+                        height: 420px;
+                        border: 1px solid #ddd;
+                    }
+                }
+            }
+
+            .product-item-right {
+                display: flex;
+                flex-direction: column;
+
+                .title {
+                    h3 {
+                        color: #282828;
+                        font-size: 24px;
+                        line-height: normal;
+                        font-family: 'Quicksand', sans-serif;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        display: inline-block;
+                        float: left;
+                        margin-bottom: 22px;
+                    }
+                }
+
+                .desc {
+                    margin-bottom: 16px;
+
+                    p {
+                        font-size: 16px;
+                        color: #282828;
+                        font-weight: 700;
+                        line-height: 22px;
+                    }
+                }
+
+                .price-calculator {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 12px;
+                }
+
+                .price,
+                .total {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 20px;
+
+                    span {
+                        font-size: 16px;
+                        font-weight: 700;
+                        padding-right: 5px;
+                        display: inline-block;
+                        float: left;
+                        padding-top: 4px;
+                        color: #282828;
+                    }
+
+                    p {
+                        font-size: 24px;
+                        color: #4d8a54;
+                        font-weight: 700;
+                        line-height: 30px;
+                        font-family: 'Quicksand', sans-serif;
+                        display: inline-block;
+                        margin-bottom: 0;
+                    }
+                }
+
+                .quantity {
+                    span {
+                        font-size: 16px;
+                        font-weight: 700;
+                        padding-right: 5px;
+                        display: inline-block;
+                        float: left;
+                        padding-top: 4px;
+                        color: #282828;
+                    }
+
+                    input {
+                        height: 30px;
+                        width: 60px;
+                        padding: 5px;
+                        border: 1px solid #ccc;
+                        border-radius: 5px;
+                        text-align: center;
+                    }
+
+                    button {
+                        width: 30px;
+                        height: 30px;
+                        background-color: #eee;
+                        border: none;
+                        border-radius: 5px;
+                        margin: 0px 5px;
+                        cursor: pointer;
+                    }
+                }
+
+                .buttons {
+                    padding: 20px 0;
+                    border-bottom: 1px solid #ddd;
+
+                    button {
+                        font-family: 'Quicksand', sans-serif;
+                        color: #4d8a54;
+                        font-weight: 700;
+                        text-decoration: none;
+                        background: #f3fff4;
+                        display: flex;
+                        font-size: 18px;
+                        border-radius: 30px;
+                        border: solid 1px #4d8a54;
+                        float: left;
+                        padding: 12px 20px;
+                        margin-right: 20px;
+                        min-width: 200px;
+
+                        &.highlight {
+                            background-color: var(--primary);
+                            color: #fff;
+                        }
+
+                        &:hover {
+                            background-color: var(--primary);
+                            color: #fff;
+                        }
+
+                        a {
+                            width: 100%;
+                            text-align: center;
+                        }
+                    }
+                }
+
+                .shipping-infor {
+                    padding-top: 20px;
+
+                    p {
+                        font-size: 16px;
+                        color: #282828;
+
+                        b {
+                            font-weight: 700;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

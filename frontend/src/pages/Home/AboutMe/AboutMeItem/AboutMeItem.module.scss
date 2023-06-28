@@ -1,0 +1,31 @@
+.about-me-item {
+    display: flex; 
+    margin-top: 42px;
+    .icon {
+        margin-right: 20px;
+        img {
+            width: 53px; 
+            height: 53px;
+        }
+    }
+    .infor {
+        h3 {
+            display: block;
+            font-size: 24px;
+            font-weight: bolder;
+            text-transform: none;
+            line-height: normal;
+            color: #282828;
+        }
+        p {
+            display: block; 
+            width: 400px;
+            font-size: 18px;
+            font-weight: 500;
+            line-height: normal;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            color: #282828; 
+        }
+    }
+}
