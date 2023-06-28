@@ -1,0 +1,26 @@
+.infor-item {
+    display: flex; 
+    margin-bottom: 24px;
+    .icon { 
+        margin-right: 12px;
+        svg {
+            width: 30px;
+            text-align: left;
+            font-size: 18px;
+            color: #4d8a54;
+            display: block;
+            height: 24px;
+            line-height: 24px;
+        }
+    }
+    .text {
+        p {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #282828;
+            span {
+                font-weight: 700;
+            }
+        }
+    }
+}

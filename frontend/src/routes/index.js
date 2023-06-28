@@ -8,7 +8,7 @@ import Introduce from '~/pages/Introduce';
 // Public routes
 const publicRoutes = [
     { path: '/', component: Home }, 
-    { path: '/introduce', component: Introduce },
+    { path: '/introduce', component: Introduce }, 
     { path: '/contact', component: Contact },
     { path: '/products', component: Products },
     { path: '/products/:id', component: ProductDetails },

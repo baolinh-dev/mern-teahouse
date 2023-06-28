@@ -1,0 +1,58 @@
+.contact {
+    margin-top: 200px;
+
+    .content {
+        display: flex;
+        .map {
+            margin-right: 86px;
+        }
+        .infor {
+            .desc {
+                font-size: 1.6rem;
+                font-weight: 500;
+                color: var(--text-black);
+                margin-bottom: 30px;
+                padding-top: 10px;
+            }
+            form {
+                .form-group {
+                    margin-bottom: 20px;
+                    input,
+                    textarea {
+                        width: 100%;
+                        padding: 10px 20px;
+                        border-radius: 20px;
+                        border: 1px solid #ccc;
+                    }
+                    textarea {
+                        min-height: 200px;
+                    }
+                }
+                button {
+                    --height: 62px;
+                    display: block;
+                    height: var(--height) !important;
+                    line-height: var(--height) !important;
+                    float: right;
+                    font-family: 'Quicksand', sans-serif;
+                    border: 1px var(--primary) solid;
+                    background: var(--primary);
+                    color: #fff;
+                    padding: 0px 40px;
+                    font-weight: 700;
+                    font-size: 17px;
+                    display: inline-block;
+                    border-radius: 30px;
+                    position: relative;
+
+                    transition: background-color 0.3s ease, border-color 0.3s ease;
+
+                    &:hover {
+                        background-color: #fff;
+                        border: 1px solid var(--primary);
+                    }
+                }
+            }
+        }
+    }
+}
