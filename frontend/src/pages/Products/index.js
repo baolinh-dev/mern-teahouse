@@ -8,6 +8,9 @@ import Breadcrumb from '~/components/Breadcrumb';
 import ProductItem from '~/components/ProductItem';
 import Footer from '~/components/Footer';
 import Pagination from '~/components/Pagination';
+import Contact from '../Contact';
+import ContainerHeading from '~/components/ContainerHeading';
+import Heading from '~/components/Heading';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
@@ -74,6 +77,9 @@ const Products = () => {
             <div className={cx('container')}>
                 <div className={cx('products')}>
                     <Breadcrumb items={breadcrumbItems} />
+                    <ContainerHeading center>
+                        <Heading content={'Tất cả sản phẩm'} />
+                    </ContainerHeading>
                     <ul className={cx('list')}>
                         {products.map((product) => (
                             <ProductItem
