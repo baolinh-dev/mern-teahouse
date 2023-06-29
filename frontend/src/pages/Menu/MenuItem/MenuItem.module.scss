@@ -1,0 +1,16 @@
+.desc {
+    text-align: center;
+    padding: 0 295px;
+    p {
+        font-size: 16px;
+        color: #443c33;
+        font-weight: 700;
+        margin: 5px 0 70px;
+    }
+} 
+.list { 
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-gap: 20px;
+    margin-top: 20px;
+} 

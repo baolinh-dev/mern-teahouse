@@ -38,8 +38,8 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
 exports.getAllProduct = catchAsyncErrors(async (req, res) => {
     const resultPerPage = 4;
     const apiFeature = new ApiFeatures(Product.find(), req.query).search().filter().category().pagination(resultPerPage);
-    const products = await apiFeature.query; 
-    const productCount = await Product.countDocuments();
+    const products = await apiFeature.query;
+    const productCount = await apiFeature.countQuery;
 
     res.status(200).json({
         success: true,

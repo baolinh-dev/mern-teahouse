@@ -7,6 +7,7 @@ import Header from '~/components/Header';
 import Breadcrumb from '~/components/Breadcrumb';
 import ProductItem from '~/components/ProductItem';
 import Footer from '~/components/Footer';
+import Pagination from '~/components/Pagination';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
@@ -84,7 +85,7 @@ const Products = () => {
                             />
                         ))}
                     </ul>
-                    <ul className={cx('pagination')}>{renderPageNumbers()}</ul>
+                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
                 </div>
             </div>
             <Footer />

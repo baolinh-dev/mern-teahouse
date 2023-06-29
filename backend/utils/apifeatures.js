@@ -31,6 +31,7 @@ class ApiFeatures {
         if (this.queryStr.category) {
             this.query = this.query.find({ category: this.queryStr.category });
         }
+        this.countQuery = this.query.model.countDocuments(this.query._conditions); // Count documents with category filter applied
         return this;
     }
     pagination(resultPerPage) {
