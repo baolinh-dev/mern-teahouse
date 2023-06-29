@@ -7,12 +7,14 @@ import Products from '~/pages/Products';
 import ProductDetails from '~/pages/ProductDetails';
 import Introduce from '~/pages/Introduce';
 import Menu from '~/pages/Menu';
+import ProductCategory from '~/pages/ProductCategory';
 
 // Public routes
 const publicRoutes = [
     { path: '/', component: Home },  
     { path: '/menu', component: Menu}, 
-    { path: '/login', component: Login }, 
+    { path: '/login', component: Login },  
+    { path: '/productCategory', component: ProductCategory }, 
     { path: '/register', component: Register }, 
     { path: '/introduce', component: Introduce },  
     { path: '/contact', component: Contact },

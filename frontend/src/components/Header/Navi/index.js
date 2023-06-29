@@ -29,10 +29,10 @@ function Navigation() {
                             <FontAwesomeIcon icon={faCaretDown} />
                         </Link>
                         <div className={cx('dropdown')}>
-                            <Link to="/caphe">Cà phê</Link>
-                            <Link to="/banhngot">Bánh ngọt</Link>
-                            <Link to="/smoothies">Smoothies</Link>
-                            <Link to="/trahoaqua">Trà hoa quả</Link>
+                            <Link to="/productCategory?category=Cà phê">Cà phê</Link>
+                            <Link to="/productCategory?category=Bánh ngọt">Bánh ngọt</Link>
+                            <Link to="/productCategory?category=Smoothies">Smoothies</Link>
+                            <Link to="/productCategory?category=Trà hoa quả">Trà hoa quả</Link>
                         </div>
                     </li>
                 </ul>
