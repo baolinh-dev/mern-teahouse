@@ -19,12 +19,18 @@ class ApiFeatures {
     filter() {
         const queryCopy = { ...this.queryStr };
         // Removing some fields for category
-        const removeFields = ['keyword', 'page', 'limit'];
+        const removeFields = ['keyword', 'page', 'limit', 'category']; // Thêm 'category' vào danh sách các trường loại bỏ
         removeFields.forEach((key) => delete queryCopy[key]);
         // Filter For Price and Rating
         let queryStr = JSON.stringify(queryCopy);
         queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
         this.query = this.query.find(JSON.parse(queryStr));
+        return this;
+    }
+    category() {
+        if (this.queryStr.category) {
+            this.query = this.query.find({ category: this.queryStr.category });
+        }
         return this;
     }
     pagination(resultPerPage) {

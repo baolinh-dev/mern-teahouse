@@ -20,8 +20,9 @@ function Navigation() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/introduce">Giới thiệu</Link>
+                        <Link to="/menu">Thực đơn</Link>
                     </li>
+
                     <li className={cx('item-product')}>
                         <Link to="/products">
                             Sản phẩm
@@ -45,9 +46,7 @@ function Navigation() {
                         <Link to="/news">Tin tức</Link>
                     </li>
                     <li>
-                        <Link to="/menu
-                        
-                        ">Thực đơn</Link>
+                        <Link to="/introduce">Giới thiệu</Link>
                     </li>
                     <li>
                         <Link to="/contact">Liên hệ</Link>

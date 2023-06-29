@@ -6,6 +6,7 @@ import styles from './Products.module.scss';
 import Header from '~/components/Header';
 import Breadcrumb from '~/components/Breadcrumb';
 import ProductItem from '~/components/ProductItem';
+import Footer from '~/components/Footer';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
@@ -86,6 +87,7 @@ const Products = () => {
                     <ul className={cx('pagination')}>{renderPageNumbers()}</ul>
                 </div>
             </div>
+            <Footer />
         </>
     );
 };

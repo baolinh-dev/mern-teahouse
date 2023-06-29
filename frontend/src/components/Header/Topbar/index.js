@@ -91,7 +91,7 @@ function Topbar() {
                     </ul>
                 </div>
             </div>
-            {shouldRedirect && <Navigate to="/login" />}
+            {shouldRedirect && <Navigate to="/" />}
         </div>
     );
 }

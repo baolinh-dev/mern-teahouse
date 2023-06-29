@@ -6,10 +6,12 @@ import Contact from '~/pages/Contact';
 import Products from '~/pages/Products';
 import ProductDetails from '~/pages/ProductDetails';
 import Introduce from '~/pages/Introduce';
+import Menu from '~/pages/Menu';
 
 // Public routes
 const publicRoutes = [
-    { path: '/', component: Home }, 
+    { path: '/', component: Home },  
+    { path: '/menu', component: Menu}, 
     { path: '/login', component: Login }, 
     { path: '/register', component: Register }, 
     { path: '/introduce', component: Introduce },  

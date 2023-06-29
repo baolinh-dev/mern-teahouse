@@ -39,6 +39,7 @@ function Login() {
                 setEmail('');
                 setPassword('');
                 setRedirect(true);
+                localStorage.removeItem('lastRegisteredEmail');
             })
             .catch((error) => {
                 console.log(error);

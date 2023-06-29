@@ -36,10 +36,10 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
 
 // Get All Product
 exports.getAllProduct = catchAsyncErrors(async (req, res) => {
-    const resultPerPage = 5;
+    const resultPerPage = 4;
+    const apiFeature = new ApiFeatures(Product.find(), req.query).search().filter().category().pagination(resultPerPage);
+    const products = await apiFeature.query; 
     const productCount = await Product.countDocuments();
-    const apiFeature = new ApiFeatures(Product.find(), req.query).search().filter().pagination(resultPerPage);
-    const products = await apiFeature.query;
 
     res.status(200).json({
         success: true,
@@ -121,7 +121,7 @@ exports.getProductReviews = catchAsyncErrors(async (req, res, next) => {
 
     if (!product) {
         return next(new ErrorHandler('Product not found', 404));
-    } 
+    }
 
     res.status(200).json({
         success: true,
@@ -136,7 +136,7 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
     if (!product) {
         return next(new ErrorHandler('Product not found', 404));
     }
-    
+
     const reviews = product.reviews.filter((rev) => rev._id.toString() !== req.query.id.toString());
 
     let avg = 0;
