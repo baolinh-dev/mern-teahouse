@@ -7,9 +7,11 @@ import Menu from '~/pages/Home/Menu';
 import Footer from '~/components/Footer';
 import TimeOpening from '~/pages/Home/TimeOpening';
 import News from './News';
-import Gallery from './Gallery';
+import Gallery from './Gallery'; 
+import Cookies from 'js-cookie';
 
-function Home() {
+function Home() { 
+    console.log('Token', Cookies.get('token'));
     return (
         <>
             <Header />

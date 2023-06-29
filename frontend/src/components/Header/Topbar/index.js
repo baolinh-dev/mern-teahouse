@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faPhoneAlt, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import styles from './Topbar.module.scss';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
@@ -21,9 +22,9 @@ function Topbar() {
                             <span>Tìm kiếm</span>
                             <div className={cx('search-box')}>
                                 <form>
-                                    <input type="text" placeholder="Nhập từ khóa tìm kiếm" /> 
-                                    <button> 
-                                        <FontAwesomeIcon icon={faSearch}/>
+                                    <input type="text" placeholder="Nhập từ khóa tìm kiếm" />
+                                    <button>
+                                        <FontAwesomeIcon icon={faSearch} />
                                     </button>
                                 </form>
                             </div>
@@ -32,8 +33,9 @@ function Topbar() {
                             <FontAwesomeIcon icon={faUser} />
                             <span>Tài khoản</span>
                             <div className={cx('login-dropdown')}>
-                                <a href="/">Đăng nhập</a>
-                                <a href="/">Đăng ký</a>
+                                <Link to="/login">Đăng nhập</Link>
+                                <Link to="/register">Đăng ký</Link> 
+                                <Link to="/register">Đăng xuất</Link>
                             </div>
                         </li>
                         <li>
