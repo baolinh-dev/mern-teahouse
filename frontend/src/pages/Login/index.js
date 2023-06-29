@@ -14,7 +14,7 @@ const cx = classNames.bind(styles);
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-   const [error, setError] = useState(null);
+    const [error, setError] = useState(null);
     const [redirect, setRedirect] = useState(false);
     const [lastRegisteredEmail, setLastRegisteredEmail] = useState(''); // Thêm state để lưu email được lấy từ localStorage
 
@@ -32,9 +32,10 @@ function Login() {
         axios
             .post('http://localhost:4000/api/v1/login', { email, password })
             .then((response) => {
-                const { user } = response.data;
+                const { user, token } = response.data;
                 Cookies.set('userId', user._id);
                 Cookies.set('userName', user.name);
+                Cookies.set('token', token);
                 setEmail('');
                 setPassword('');
                 setRedirect(true);
@@ -62,16 +63,25 @@ function Login() {
         <div className={cx('login')}>
             <form onSubmit={handleSubmit}>
                 <ContainerHeading center>
-                    <Heading content={"Đăng nhập"}/>
+                    <Heading content={'Đăng nhập'} />
                 </ContainerHeading>
-                {lastRegisteredEmail && <p>Bạn đã đăng ký với email: {lastRegisteredEmail}</p>} {/* Hiển thị thông báo với email được lấy từ localStorage */}
+                {lastRegisteredEmail && <p>Bạn đã đăng ký với email: {lastRegisteredEmail}</p>}{' '}
+                {/* Hiển thị thông báo với email được lấy từ localStorage */}
                 <div className={cx('form-group')}>
                     <label htmlFor="email">Email:</label>
-                    <input type="email" id="email" name="email" value={email} onChange={handleInputChange} />
+                    <input
+                        placeholder="Nhập email"
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={email}
+                        onChange={handleInputChange}
+                    />
                 </div>
                 <div className={cx('form-group')}>
                     <label htmlFor="password">Password:</label>
                     <input
+                        placeholder="Nhập mật khẩu"
                         type="password"
                         id="password"
                         name="password"

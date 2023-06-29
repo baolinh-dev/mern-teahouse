@@ -56,7 +56,7 @@ function Register() {
                 toast.error(error.response.data.message);
             });
     };
-    
+
     if (redirect) {
         return <Navigate to="/login" />;
     }
@@ -69,15 +69,30 @@ function Register() {
                 </ContainerHeading>
                 <div className={cx('form-group')}>
                     <label htmlFor="name">Tên đăng nhập:</label>
-                    <input type="text" id="name" name="name" value={name} onChange={handleInputChange} />
+                    <input
+                        placeholder="Nhập tên đăng nhập"
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={name}
+                        onChange={handleInputChange}
+                    />
                 </div>
                 <div className={cx('form-group')}>
                     <label htmlFor="email">Email:</label>
-                    <input type="email" id="email" name="email" value={email} onChange={handleInputChange} />
+                    <input
+                        placeholder="Nhập email"
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={email}
+                        onChange={handleInputChange}
+                    />
                 </div>
                 <div className={cx('form-group')}>
                     <label htmlFor="password">Mật khẩu:</label>
                     <input
+                        placeholder="Nhập mật khẩu"
                         type="password"
                         id="password"
                         name="password"
@@ -88,6 +103,7 @@ function Register() {
                 <div className={cx('form-group')}>
                     <label htmlFor="confirmPassword">Xác nhận mật khẩu:</label>
                     <input
+                        placeholder="Xác nhận mật khẩu"
                         type="password"
                         id="confirmPassword"
                         name="confirmPassword"

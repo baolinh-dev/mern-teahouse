@@ -2,11 +2,57 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faPhoneAlt, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import styles from './Topbar.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function Topbar() {
+    const [isLoginDropdownOpen, setIsLoginDropdownOpen] = useState(false);
+    const [shouldRedirect, setShouldRedirect] = useState(false);
+
+    const handleLogout = async () => {
+        try {
+            const response = await axios.get('http://localhost:4000/api/v1/logout');
+            if (response.status === 200) {
+                // Xóa các cookies và localStorage liên quan đến phiên đăng nhập của người dùng.
+                localStorage.removeItem('lastRegisteredEmail');
+                Cookies.remove('userName');
+                Cookies.remove('userId');
+                Cookies.remove('token');
+                // Chuyển hướng người dùng đến trang đăng nhập.
+                setShouldRedirect(true);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        // Đóng dropdown đăng nhập khi người dùng click bên ngoài dropdown.
+        const handleClickOutside = (event) => {
+            const loginDropdown = document.querySelector('#login-dropdown');
+            if (loginDropdown && !loginDropdown.contains(event.target)) {
+                setIsLoginDropdownOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    function renderAccountContent() {
+        const userName = Cookies.get('userName');
+        if (userName) {
+            return userName;
+        } else {
+            return 'Tài khoản';
+        }
+    }
+
     return (
         <div className={cx('topbar-container')}>
             <div className={cx('topbar', 'container')}>
@@ -31,11 +77,11 @@ function Topbar() {
                         </li>
                         <li className={cx('account')}>
                             <FontAwesomeIcon icon={faUser} />
-                            <span>Tài khoản</span>
-                            <div className={cx('login-dropdown')}>
+                            <span>{renderAccountContent()}</span>
+                            <div id="login-dropdown" className={cx('login-dropdown', { open: isLoginDropdownOpen })}>
                                 <Link to="/login">Đăng nhập</Link>
-                                <Link to="/register">Đăng ký</Link> 
-                                <Link to="/register">Đăng xuất</Link>
+                                <Link to="/register">Đăng ký</Link>
+                                <button onClick={handleLogout}>Đăng xuất</button>
                             </div>
                         </li>
                         <li>
@@ -45,6 +91,7 @@ function Topbar() {
                     </ul>
                 </div>
             </div>
+            {shouldRedirect && <Navigate to="/login" />}
         </div>
     );
 }
