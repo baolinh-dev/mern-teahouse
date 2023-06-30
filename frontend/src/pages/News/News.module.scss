@@ -1,0 +1,10 @@
+.news { 
+    margin-top: 200px; 
+    .new-item-bigs, .new-item-smalls {
+        display: flex; 
+        margin: 0 -15px;
+    } 
+    .new-item-bigs { 
+        margin-bottom: 40px;
+    }
+}
