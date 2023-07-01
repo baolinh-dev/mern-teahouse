@@ -63,18 +63,6 @@ function Topbar() {
                 </div>
                 <div className={cx('right-topbar')}>
                     <ul>
-                        <li className={cx('search')}>
-                            <FontAwesomeIcon icon={faSearch} />
-                            <span>Tìm kiếm</span>
-                            <div className={cx('search-box')}>
-                                <form>
-                                    <input type="text" placeholder="Nhập từ khóa tìm kiếm" />
-                                    <button>
-                                        <FontAwesomeIcon icon={faSearch} />
-                                    </button>
-                                </form>
-                            </div>
-                        </li>
                         <li className={cx('account')}>
                             <FontAwesomeIcon icon={faUser} />
                             <span>{renderAccountContent()}</span>
