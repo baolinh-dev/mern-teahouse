@@ -32,7 +32,7 @@ const Products = () => {
             .get(`http://localhost:4000/api/v1/products?page=${currentPage}&keyword=${searchKeyword}`)
             .then((response) => {
                 setProducts(response.data.products);
-                setTotalPages(Math.ceil(response.data.productCount / 4));
+                setTotalPages(Math.ceil(response.data.productCount / 8));
                 setSearchStatus(response.data.products.length > 0); // cập nhật trạng thái tìm kiếm
             })
             .catch((error) => {
