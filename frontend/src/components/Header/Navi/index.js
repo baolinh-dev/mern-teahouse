@@ -33,6 +33,7 @@ function Navigation() {
                             <Link to="/productCategory?category=Bánh ngọt">Bánh ngọt</Link>
                             <Link to="/productCategory?category=Smoothies">Smoothies</Link>
                             <Link to="/productCategory?category=Trà hoa quả">Trà hoa quả</Link>
+                            <Link to="/productCategory?category=Trà sữa">Trà sữa</Link>
                         </div>
                     </li>
                 </ul>

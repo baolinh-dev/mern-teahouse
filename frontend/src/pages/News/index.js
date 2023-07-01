@@ -1,13 +1,17 @@
-import classNames from 'classnames/bind';
-import styles from './News.module.scss';
 import Header from '~/components/Header';
 import Breadcrumb from '~/components/Breadcrumb';
 import Footer from '~/components/Footer';
 import NewsItemBig from './NewsItemBig';
 import NewsItemSmall from './NewsItemSmall';
 import NewsTitle from './NewsTitle';
-// col-lg-6 col-md-6 col-sm-12 col-12
-// blog_left_base col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
+
+import classNames from 'classnames/bind';
+import styles from './News.module.scss';
+import { useState } from 'react';
+
 const cx = classNames.bind({
     ...styles,
     container: 'container',
@@ -15,6 +19,11 @@ const cx = classNames.bind({
 });
 
 function News() {
+    const [showMenu, setShowMenu] = useState(false); // Khởi tạo state cho menu
+
+    const toggleMenu = () => {
+        setShowMenu(!showMenu); // Cập nhật trạng thái của menu khi click vào icon
+    };
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
         {
@@ -121,40 +130,62 @@ function News() {
                                 <nav className={cx('nav-category')}>
                                     <ul className={cx('nav', 'navbar-pills')}>
                                         <li className={cx('nav-item')}>
-                                            <a className={cx('nav-link')} href="/">
+                                            <Link className={cx('nav-link')} to="/">
                                                 Trang chủ
-                                            </a>
+                                            </Link>
                                         </li>
 
                                         <li className={cx('nav-item')}>
-                                            <a className={cx('nav-link')} href="/gioi-thieu">
-                                                Giới thiệu
-                                            </a>
-                                        </li>
-
-                                        <li className={cx('nav-item', 'active')}>
-                                            <a href="/collections/all" className={cx('nav-link')}>
-                                                Sản phẩm
-                                            </a>
-                                            <i className={cx('fa', 'fa-caret-down', 'fa-caret-right')}></i>
-                                        </li>
-
-                                        <li className={cx('nav-item')}>
-                                            <a className={cx('nav-link')} href="/tin-tuc">
-                                                Tin tức
-                                            </a>
-                                        </li>
-
-                                        <li className={cx('nav-item')}>
-                                            <a className={cx('nav-link')} href="/thuc-don">
+                                            <Link className={cx('nav-link')} to="/menu">
                                                 Thực đơn
-                                            </a>
+                                            </Link>
+                                        </li>
+
+                                        <li className={cx(['nav-item', 'active', 'products'])}>
+                                            <div className={cx('product-title')}>
+                                                <Link to="/products" className={cx('nav-link')}>
+                                                    Sản phẩm
+                                                </Link>
+                                                <FontAwesomeIcon
+                                                    icon={showMenu ? faCaretDown : faCaretRight}
+                                                    onClick={toggleMenu}
+                                                />
+                                            </div>
+                                        </li>
+                                        <ul className={cx('dropdown-menu', { 'd-block': showMenu })}>
+                                            <li className={cx('nav-item-dropdown')}>
+                                                <Link to="/productCategory?category=Cà phê">Cà phê</Link>
+                                            </li>
+
+                                            <li className={cx('nav-item-dropdown')}>
+                                                <Link to="/productCategory?category=Bánh ngọt">Bánh ngọt</Link>
+                                            </li>
+
+                                            <li className={cx('nav-item-dropdown')}>
+                                                <Link to="/productCategory?category=Smoothies">Smoothies</Link>
+                                            </li>
+
+                                            <li className={cx('nav-item-dropdown')}>
+                                                <Link to="/productCategory?category=Trà hoa quả">Trà hoa quả</Link>
+                                            </li>
+                                        </ul>
+
+                                        <li className={cx('nav-item')}>
+                                            <Link className={cx('nav-link')} to="/news">
+                                                Tin tức
+                                            </Link>
                                         </li>
 
                                         <li className={cx('nav-item')}>
-                                            <a className={cx('nav-link')} href="/lien-he">
+                                            <Link className={cx('nav-link')} to="/introduce">
+                                                Giới thiệu
+                                            </Link>
+                                        </li>
+
+                                        <li className={cx('nav-item')}>
+                                            <Link className={cx('nav-link')} to="/contact">
                                                 Liên hệ
-                                            </a>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </nav>
@@ -164,7 +195,10 @@ function News() {
                             <NewsTitle title="Về chúng tôi" />
                             <div className={cx('image')}>
                                 <a href="https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/banner_about.jpg?1676274744913">
-                                    <img src="https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/banner_about.jpg?1676274744913" />
+                                    <img
+                                        alt="hinh anh"
+                                        src="https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/banner_about.jpg?1676274744913"
+                                    />
                                 </a>
                             </div>
                             <p>
@@ -176,12 +210,30 @@ function News() {
                         </section>
                         <section className={cx('gallery')}>
                             <NewsTitle title="Hình ảnh Tea House" />
-                            <img src="https://bizweb.dktcdn.net/thumb/large/100/415/010/themes/894852/assets/pictureblog_1.jpg?1676274744913" />
-                            <img src="https://bizweb.dktcdn.net/thumb/large/100/415/010/themes/894852/assets/pictureblog_1.jpg?1676274744913" />
-                            <img src="https://bizweb.dktcdn.net/thumb/large/100/415/010/themes/894852/assets/pictureblog_1.jpg?1676274744913" />
-                            <img src="https://bizweb.dktcdn.net/thumb/large/100/415/010/themes/894852/assets/pictureblog_1.jpg?1676274744913" />
-                            <img src="https://bizweb.dktcdn.net/thumb/large/100/415/010/themes/894852/assets/pictureblog_1.jpg?1676274744913" />
-                            <img src="https://bizweb.dktcdn.net/thumb/large/100/415/010/themes/894852/assets/pictureblog_1.jpg?1676274744913" />
+                            <img
+                                alt="hinh anh"
+                                src="https://bizweb.dktcdn.net/thumb/large/100/415/010/themes/894852/assets/pictureblog_1.jpg?1676274744913"
+                            />
+                            <img
+                                alt="hinh anh"
+                                src="https://bizweb.dktcdn.net/thumb/large/100/415/010/themes/894852/assets/pictureblog_1.jpg?1676274744913"
+                            />
+                            <img
+                                alt="hinh anh"
+                                src="https://bizweb.dktcdn.net/thumb/large/100/415/010/themes/894852/assets/pictureblog_1.jpg?1676274744913"
+                            />
+                            <img
+                                alt="hinh anh"
+                                src="https://bizweb.dktcdn.net/thumb/large/100/415/010/themes/894852/assets/pictureblog_1.jpg?1676274744913"
+                            />
+                            <img
+                                alt="hinh anh"
+                                src="https://bizweb.dktcdn.net/thumb/large/100/415/010/themes/894852/assets/pictureblog_1.jpg?1676274744913"
+                            />
+                            <img
+                                alt="hinh anh"
+                                src="https://bizweb.dktcdn.net/thumb/large/100/415/010/themes/894852/assets/pictureblog_1.jpg?1676274744913"
+                            />
                         </section>
                     </div>
                 </div>

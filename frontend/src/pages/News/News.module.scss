@@ -66,17 +66,41 @@
                 display: inline-block;
                 text-transform: capitalize;
                 border: none;
-                outline: none; 
+                outline: none;
                 margin-bottom: 20px;
             }
-        } 
-        .gallery {  
-
-            img {  
+        }
+        .gallery {
+            img {
                 padding: 8px;
-                width: 100px; 
+                width: 100px;
                 height: 100px;
             }
+        }
+        .products {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            .product-title {
+                svg {
+                    float: right; 
+                    cursor: pointer;
+                }
+            }
+
+        }
+    }
+}
+.dropdown-menu {
+    display: none;
+    .nav-item-dropdown {
+        margin-bottom: 12px;
+        .nav-link {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        &:hover {
+            color: var(--primary);
         }
     }
 }
