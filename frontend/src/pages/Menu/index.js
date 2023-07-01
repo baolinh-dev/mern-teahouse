@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 import Header from '~/components/Header';
@@ -12,83 +12,57 @@ import Pagination from '~/components/Pagination';
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function Menu() {
-    const [traHoaQuaProducts, setTraHoaQuaProducts] = useState([]);
     const [caPheProducts, setCaPheProducts] = useState([]);
-    const [banhNgotProducts, setBanhNgotProducts] = useState([]);
-    const [smoothiesProducts, setSmoothiesProducts] = useState([]);
-    const [traSuaProducts, setTraSuaProducts] = useState([]);
-
-    const [traHoaQuaCurrentPage, setTraHoaQuaCurrentPage] = useState(1);
     const [caPheCurrentPage, setCaPheCurrentPage] = useState(1);
-    const [banhNgotCurrentPage, setBanhNgotCurrentPage] = useState(1);
-    const [smoothiesCurrentPage, setSmoothiesCurrentPage] = useState(1);
-    const [traSuaCurrentPage, setTraSuaCurrentPage] = useState(1);
-
-    const [traHoaQuaTotalPages, setTraHoaQuaTotalPages] = useState(0);
     const [caPheTotalPages, setCaPheTotalPages] = useState(0);
+
+    const [banhNgotProducts, setBanhNgotProducts] = useState([]);
+    const [banhNgotCurrentPage, setBanhNgotCurrentPage] = useState(1);
     const [banhNgotTotalPages, setBanhNgotTotalPages] = useState(0);
+
+    const [smoothiesProducts, setSmoothiesProducts] = useState([]);
+    const [smoothiesCurrentPage, setSmoothiesCurrentPage] = useState(1);
     const [smoothiesTotalPages, setSmoothiesTotalPages] = useState(0);
+
+    const [traHoaQuaProducts, setTraHoaQuaProducts] = useState([]);
+    const [traHoaQuaCurrentPage, setTraHoaQuaCurrentPage] = useState(1);
+    const [traHoaQuaTotalPages, setTraHoaQuaTotalPages] = useState(0);
+
+    const [traSuaProducts, setTraSuaProducts] = useState([]);
+    const [traSuaCurrentPage, setTraSuaCurrentPage] = useState(1);
     const [traSuaTotalPages, setTraSuaTotalPages] = useState(0);
 
-    useEffect(() => {
+    const fetchProducts = useCallback((category, currentPage, setProducts, setTotalPages) => {
         axios
-            .get('http://localhost:4000/api/v1/products?category=Trà hoa quả&page=' + traHoaQuaCurrentPage)
+            .get(`http://localhost:4000/api/v1/products?category=${category}&page=${currentPage}`)
             .then((response) => {
-                setTraHoaQuaProducts(response.data.products);
-                setTraHoaQuaTotalPages(Math.ceil(response.data.productCount / 4));
+                setProducts(response.data.products);
+                setTotalPages(Math.ceil(response.data.productCount / 4));
             })
             .catch((error) => {
                 console.log(error);
             });
-    }, [traHoaQuaCurrentPage]);
+    }, []);
 
     useEffect(() => {
-        axios
-            .get('http://localhost:4000/api/v1/products?category=Cà phê&page=' + caPheCurrentPage)
-            .then((response) => {
-                setCaPheProducts(response.data.products);
-                setCaPheTotalPages(Math.ceil(response.data.productCount / 4));
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [caPheCurrentPage]);
+        fetchProducts('Cà phê', caPheCurrentPage, setCaPheProducts, setCaPheTotalPages);
+    }, [caPheCurrentPage, fetchProducts]);
 
     useEffect(() => {
-        axios
-            .get('http://localhost:4000/api/v1/products?category=Bánh ngọt&page=' + banhNgotCurrentPage)
-            .then((response) => {
-                setBanhNgotProducts(response.data.products);
-                setBanhNgotTotalPages(Math.ceil(response.data.productCount / 4));
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [banhNgotCurrentPage]);
+        fetchProducts('Bánh ngọt', banhNgotCurrentPage, setBanhNgotProducts, setBanhNgotTotalPages);
+    }, [banhNgotCurrentPage, fetchProducts]);
 
     useEffect(() => {
-        axios
-            .get('http://localhost:4000/api/v1/products?category=Smoothies&page=' + smoothiesCurrentPage)
-            .then((response) => {
-                setSmoothiesProducts(response.data.products);
-                setSmoothiesTotalPages(Math.ceil(response.data.productCount / 4));
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [smoothiesCurrentPage]);
+        fetchProducts('Smoothies', smoothiesCurrentPage, setSmoothiesProducts, setSmoothiesTotalPages);
+    }, [smoothiesCurrentPage, fetchProducts]);
 
     useEffect(() => {
-        axios
-            .get('http://localhost:4000/api/v1/products?category=Trà sữa&page=' + traSuaCurrentPage)
-            .then((response) => {
-                setTraSuaProducts(response.data.products);
-                setTraSuaTotalPages(Math.ceil(response.data.productCount / 4));
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [traSuaCurrentPage]);
+        fetchProducts('Trà hoa quả', traHoaQuaCurrentPage, setTraHoaQuaProducts, setTraHoaQuaTotalPages);
+    }, [traHoaQuaCurrentPage, fetchProducts]);
+
+    useEffect(() => {
+        fetchProducts('Trà sữa', traSuaCurrentPage, setTraSuaProducts, setTraSuaTotalPages);
+    }, [traSuaCurrentPage, fetchProducts]);
 
     const handleTraHoaQuaPageChange = (pageNumber) => {
         setTraHoaQuaCurrentPage(pageNumber);
@@ -128,7 +102,11 @@ function Menu() {
                         }
                         listItem={traHoaQuaProducts}
                     />
-                    <Pagination currentPage={traHoaQuaCurrentPage} totalPages={traHoaQuaTotalPages} onPageChange={handleTraHoaQuaPageChange} />
+                    <Pagination
+                        currentPage={traHoaQuaCurrentPage}
+                        totalPages={traHoaQuaTotalPages}
+                        onPageChange={handleTraHoaQuaPageChange}
+                    />
                 </div>
                 <div className={cx('item')}>
                     <MenuItem
@@ -138,7 +116,11 @@ function Menu() {
                         }
                         listItem={caPheProducts}
                     />
-                    <Pagination currentPage={caPheCurrentPage} totalPages={caPheTotalPages} onPageChange={handleCaPhePageChange} />
+                    <Pagination
+                        currentPage={caPheCurrentPage}
+                        totalPages={caPheTotalPages}
+                        onPageChange={handleCaPhePageChange}
+                    />
                 </div>
                 <div className={cx('item')}>
                     <MenuItem
@@ -148,7 +130,11 @@ function Menu() {
                         }
                         listItem={banhNgotProducts}
                     />
-                    <Pagination currentPage={banhNgotCurrentPage} totalPages={banhNgotTotalPages} onPageChange={handleBanhNgotPageChange} />
+                    <Pagination
+                        currentPage={banhNgotCurrentPage}
+                        totalPages={banhNgotTotalPages}
+                        onPageChange={handleBanhNgotPageChange}
+                    />
                 </div>
                 <div className={cx('item')}>
                     <MenuItem
@@ -158,7 +144,11 @@ function Menu() {
                         }
                         listItem={smoothiesProducts}
                     />
-                    <Pagination currentPage={smoothiesCurrentPage} totalPages={smoothiesTotalPages} onPageChange={handleSmoothiesPageChange} />
+                    <Pagination
+                        currentPage={smoothiesCurrentPage}
+                        totalPages={smoothiesTotalPages}
+                        onPageChange={handleSmoothiesPageChange}
+                    />
                 </div>
                 <div className={cx('item')}>
                     <MenuItem
@@ -168,7 +158,11 @@ function Menu() {
                         }
                         listItem={traSuaProducts}
                     />
-                    <Pagination currentPage={traSuaCurrentPage} totalPages={traSuaTotalPages} onPageChange={handleTraSuaPageChange} />
+                    <Pagination
+                        currentPage={traSuaCurrentPage}
+                        totalPages={traSuaTotalPages}
+                        onPageChange={handleTraSuaPageChange}
+                    />
                 </div>
             </div>
             <Footer />
