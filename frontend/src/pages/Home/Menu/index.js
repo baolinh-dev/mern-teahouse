@@ -66,6 +66,7 @@ function Menu() {
             <div className={cx('products', 'container')}>
                 {products.map((product, index) => (
                     <ProductItem
+                        id={product._id}
                         key={index}
                         imageUrl={product.images[0].url}
                         price={product.price}
