@@ -25,19 +25,19 @@ const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [searchKeyword, setSearchKeyword] = useState('');
-    const [searchStatus, setSearchStatus] = useState(false); // lưu trạng thái tìm kiếm
+    const [searchStatus, setSearchStatus] = useState(false); 
 
     useEffect(() => {
         axios
             .get(`http://localhost:4000/api/v1/products?page=${currentPage}&keyword=${searchKeyword}`)
             .then((response) => {
                 setProducts(response.data.products);
-                setTotalPages(Math.ceil(response.data.productCount / 8));
-                setSearchStatus(response.data.products.length > 0); // cập nhật trạng thái tìm kiếm
+                setTotalPages(Math.ceil(response.data.productCount / 4));
+                setSearchStatus(response.data.products.length > 0); 
             })
             .catch((error) => {
                 console.log(error);
-                setSearchStatus(false); // cập nhật trạng thái tìm kiếm
+                setSearchStatus(false); 
             });
     }, [currentPage, searchKeyword]);
 
