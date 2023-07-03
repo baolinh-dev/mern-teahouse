@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { Navigate } from 'react-router-dom';
+import { Link, NavLink, Navigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
 import Heading from '~/components/Heading';
@@ -17,6 +17,7 @@ function Login() {
     const [error, setError] = useState(null);
     const [redirect, setRedirect] = useState(false);
     const [lastRegisteredEmail, setLastRegisteredEmail] = useState(''); // Thêm state để lưu email được lấy từ localStorage
+    const [lastForgotEmail, setLastForgotEmail] = useState(''); // Thêm state để lưu email được lấy từ localStorage
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -42,7 +43,6 @@ function Login() {
                 localStorage.removeItem('lastRegisteredEmail');
             })
             .catch((error) => {
-                console.log(error);
                 setError(error.response.data.message);
                 toast.error(error.response.data.message);
             });
@@ -89,6 +89,10 @@ function Login() {
                         value={password}
                         onChange={handleInputChange}
                     />
+                </div>
+                <div className={cx('other-options')}>
+                    <NavLink to="/forgotpass">For got password?</NavLink>
+                    <NavLink to="/register">Đăng kí tại đây</NavLink>
                 </div>
                 <button type="submit">Login</button>
             </form>

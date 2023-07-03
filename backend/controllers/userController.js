@@ -70,8 +70,8 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
     // Get ResetPassword Token
     const resetToken = user.getResetPasswordToken();
     await user.save({ validateBeforeSave: false });
-
-    const resetPasswordUrl = `${req.protocol}://${req.get('host')}/api/v1/password/reset/${resetToken}`;
+    // ${req.get('host')}
+    const resetPasswordUrl = `${req.protocol}://localhost:3001/api/v1/password/reset/${resetToken}`;
 
     const message = `Your password reset token id :- \n\n ${resetPasswordUrl} \n\n If you have not requested this email then, please ignore it`;
 

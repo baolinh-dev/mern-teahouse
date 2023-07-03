@@ -53,8 +53,6 @@ userShema.pre('save', async function (next) {
 // Compare Password
 userShema.methods.comparePassword = async function (enteredPassword) {  
     const isPasswordMatched = await bcrypt.compare(enteredPassword, this.password); 
-    console.log("Login", isPasswordMatched);  
-    console.log(typeof isPasswordMatched);
     return isPasswordMatched;
 }; 
 

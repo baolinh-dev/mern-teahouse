@@ -11,9 +11,6 @@ import Gallery from './Gallery';
 import Cookies from 'js-cookie';
 
 function Home() { 
-    console.log('userName', Cookies.get('userName'));
-    console.log('userId', Cookies.get('userId'));
-    console.log('Token', Cookies.get('token'));
     return (
         <>
             <Header />

@@ -9,15 +9,18 @@ import Introduce from '~/pages/Introduce';
 import Menu from '~/pages/Menu';
 import ProductCategory from '~/pages/ProductCategory';
 import News from '~/pages/News';
-
+import ForgotPassword from '~/pages/ForgotPassword';
+import ResetPassword from '~/pages/ResetPassword';
 // Public routes
 const publicRoutes = [
     { path: '/', component: Home },  
+    { path: '/login', component: Login },  
+    { path: '/register', component: Register }, 
+    { path: '/api/v1/password/reset/:token', component: ResetPassword }, 
+    { path: '/forgotpass', component: ForgotPassword }, 
     { path: '/menu', component: Menu},  
     { path: '/news', component: News}, 
-    { path: '/login', component: Login },  
     { path: '/productCategory', component: ProductCategory }, 
-    { path: '/register', component: Register }, 
     { path: '/introduce', component: Introduce },  
     { path: '/contact', component: Contact },
     { path: '/products', component: Products },
