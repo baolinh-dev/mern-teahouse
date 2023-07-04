@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faPhoneAlt, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faPhoneAlt, faUser } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import styles from './Topbar.module.scss';
 import { Link, Navigate } from 'react-router-dom';
@@ -17,12 +17,10 @@ function Topbar() {
         try {
             const response = await axios.get('/api/v1/logout');
             if (response.status === 200) {
-                // Xóa các cookies và localStorage liên quan đến phiên đăng nhập của người dùng.
                 localStorage.removeItem('lastRegisteredEmail');
                 Cookies.remove('userName');
                 Cookies.remove('userId');
                 Cookies.remove('token');
-                // Chuyển hướng người dùng đến trang đăng nhập.
                 setShouldRedirect(true);
             }
         } catch (error) {
@@ -31,7 +29,6 @@ function Topbar() {
     };
 
     useEffect(() => {
-        // Đóng dropdown đăng nhập khi người dùng click bên ngoài dropdown.
         const handleClickOutside = (event) => {
             const loginDropdown = document.querySelector('#login-dropdown');
             if (loginDropdown && !loginDropdown.contains(event.target)) {
@@ -65,7 +62,10 @@ function Topbar() {
                     <ul>
                         <li className={cx('account')}>
                             <FontAwesomeIcon icon={faUser} />
-                            <span>{renderAccountContent()}</span>
+                            <Link to="/user-profile">
+                                <span>{renderAccountContent()}</span>
+                            </Link>
+
                             <div id="login-dropdown" className={cx('login-dropdown', { open: isLoginDropdownOpen })}>
                                 <Link to="/login">Đăng nhập</Link>
                                 <Link to="/register">Đăng ký</Link>

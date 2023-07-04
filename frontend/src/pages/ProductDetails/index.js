@@ -11,7 +11,13 @@ const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const pathname = window.location.pathname;
-    const productId = pathname.substring(pathname.lastIndexOf('/') + 1);
+    const productId = pathname.substring(pathname.lastIndexOf('/') + 1); 
+
+    const breadcrumbItems = [
+        { label: 'Trang chủ', link: '/' },
+        { label: product.category, link: '/caphe' },
+        { label: product.name, active: true },
+    ]; 
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -24,12 +30,6 @@ const ProductDetails = () => {
     if (!product) {
         return <div>Loading...</div>;
     }
-
-    const breadcrumbItems = [
-        { label: 'Trang chủ', link: '/' },
-        { label: product.category, link: '/caphe' },
-        { label: product.name, active: true },
-    ];
 
     const handleIncrement = () => {
         setQuantity(quantity + 1);

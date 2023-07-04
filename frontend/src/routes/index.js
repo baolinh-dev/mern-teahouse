@@ -11,11 +11,11 @@ import ProductCategory from '~/pages/ProductCategory';
 import News from '~/pages/News';
 import ForgotPassword from '~/pages/ForgotPassword';
 import ResetPassword from '~/pages/ResetPassword';
-import Test from '~/pages/Test';
+import UserProfile from '~/pages/UserProfile';
 // Public routes
 const publicRoutes = [
     { path: '/', component: Home },   
-    { path: '/test', component: Test },  
+    { path: '/user-profile', component: UserProfile },  
     { path: '/login', component: Login },  
     { path: '/register', component: Register }, 
     { path: '/api/v1/password/reset/:token', component: ResetPassword }, 
