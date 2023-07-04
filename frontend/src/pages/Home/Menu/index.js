@@ -39,7 +39,7 @@ function Menu() {
     useEffect(() => {
         const category = tabtitles[selectedTab].content;
         axios
-            .get(`http://localhost:4000/api/v1/products?category=${category}`)
+            .get(`/api/v1/products?category=${category}`)
             .then((response) => {
                 setProducts(response.data.products);
             })

@@ -34,7 +34,7 @@ function Menu() {
 
     const fetchProducts = useCallback((category, currentPage, setProducts, setTotalPages) => {
         axios
-            .get(`http://localhost:4000/api/v1/products?category=${category}&page=${currentPage}`)
+            .get(`/api/v1/products?category=${category}&page=${currentPage}`)
             .then((response) => {
                 setProducts(response.data.products);
                 setTotalPages(Math.ceil(response.data.productCount / 4));

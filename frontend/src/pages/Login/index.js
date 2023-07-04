@@ -31,7 +31,7 @@ function Login() {
     const handleSubmit = (event) => {
         event.preventDefault();
         axios
-            .post('http://localhost:4000/api/v1/login', { email, password })
+            .post('/api/v1/login', { email, password })
             .then((response) => {
                 const { user, token } = response.data;
                 Cookies.set('userId', user._id);

@@ -1,6 +1,7 @@
 const userModel = require('../models/userModel');
 const ErrorHandler = require('../utils/errorhandler');
-const catchAsyncErrors = require('./catchAsyncErrors');
+const catchAsyncErrors = require('./catchAsyncErrors'); 
+const Cookies = require('js-cookie');
 const jwt = require('jsonwebtoken');
 
 const getTokenFromCookie = (req) => {
@@ -16,7 +17,7 @@ const findUserById = async (id) => {
 };
 
 exports.isAuthenticatedUser = async (req, res, next) => {
-    const token = getTokenFromCookie(req);
+    const token = getTokenFromCookie(req) || req.cookies.token;     
     if (!token) return next(new ErrorHandler('Please login to access this resource', 401));
 
     try {

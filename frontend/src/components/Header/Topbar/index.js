@@ -15,7 +15,7 @@ function Topbar() {
 
     const handleLogout = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/api/v1/logout');
+            const response = await axios.get('/api/v1/logout');
             if (response.status === 200) {
                 // Xóa các cookies và localStorage liên quan đến phiên đăng nhập của người dùng.
                 localStorage.removeItem('lastRegisteredEmail');

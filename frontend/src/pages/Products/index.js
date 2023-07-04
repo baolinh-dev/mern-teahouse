@@ -29,7 +29,7 @@ const Products = () => {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:4000/api/v1/products?page=${currentPage}&keyword=${searchKeyword}`)
+            .get(`/api/v1/products?page=${currentPage}&keyword=${searchKeyword}`)
             .then((response) => {
                 setProducts(response.data.products);
                 setTotalPages(Math.ceil(response.data.productCount / 4));

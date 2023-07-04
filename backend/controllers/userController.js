@@ -45,6 +45,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     if (!isPasswordMatched) {
         return next(new ErrorHandler('Invalid email or password', 401));
     }
+    // Send the token to the client
     sendToken(user, 200, res);
 });
 // Logout User

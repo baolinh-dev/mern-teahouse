@@ -39,7 +39,7 @@ function Register() {
             return;
         }
         axios
-            .post('http://localhost:4000/api/v1/register', { name, email, password })
+            .post('/api/v1/register', { name, email, password })
             .then((response) => {
                 const { user } = response.data;
                 Cookies.set('userId', user._id);
