@@ -12,10 +12,14 @@ import News from '~/pages/News';
 import ForgotPassword from '~/pages/ForgotPassword';
 import ResetPassword from '~/pages/ResetPassword';
 import UserProfile from '~/pages/UserProfile';
+import EditProfile from '~/pages/EditProfile'; 
+import ChangePassword from '~/pages/ChangePassword';
 // Public routes
 const publicRoutes = [
     { path: '/', component: Home },   
     { path: '/user-profile', component: UserProfile },  
+    { path: '/edit-profile', component: EditProfile },   
+    { path: '/change-password', component: ChangePassword },  
     { path: '/login', component: Login },  
     { path: '/register', component: Register }, 
     { path: '/api/v1/password/reset/:token', component: ResetPassword }, 

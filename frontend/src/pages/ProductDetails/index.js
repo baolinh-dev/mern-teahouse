@@ -11,21 +11,16 @@ const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const pathname = window.location.pathname;
-    const productId = pathname.substring(pathname.lastIndexOf('/') + 1); 
-
-    const breadcrumbItems = [
-        { label: 'Trang chủ', link: '/' },
-        { label: product.category, link: '/caphe' },
-        { label: product.name, active: true },
-    ]; 
+    const productId = pathname.substring(pathname.lastIndexOf('/') + 1);
 
     useEffect(() => {
         const fetchProduct = async () => {
             const res = await axios.get(`/api/v1/product/${productId}`);
             setProduct(res.data.product);
+            console.log('Product:', res.data.product);
         };
         fetchProduct();
-    }, [productId]);
+    }, [productId]); 
 
     if (!product) {
         return <div>Loading...</div>;
@@ -46,7 +41,13 @@ const ProductDetails = () => {
         if (!isNaN(value) && value >= 1) {
             setQuantity(value);
         }
-    };
+    }; 
+
+    const breadcrumbItems = [
+        { label: 'Trang chủ', link: '/' },
+        { label: product.category, link: '/caphe' },
+        { label: product.name, active: true },
+    ];
 
     return (
         <>
@@ -96,19 +97,19 @@ const ProductDetails = () => {
                                     </div>
                                     <div className={cx('buttons')}>
                                         <button>
-                                            <a href='/'>Thêm vào giỏ hàng</a>
+                                            <a href="/">Thêm vào giỏ hàng</a>
                                         </button>
                                         <button className={cx('highlight')}>
-                                            <a href='/'>Mua ngay</a>
+                                            <a href="/">Mua ngay</a>
                                         </button>
-                                    </div> 
-                                    <div className={cx('shipping-infor')}> 
-                                        <p> 
-                                            <b>Giao hàng miễn phí: </b> 
+                                    </div>
+                                    <div className={cx('shipping-infor')}>
+                                        <p>
+                                            <b>Giao hàng miễn phí: </b>
                                             Áp dụng đơn hàng &gt;200.000đ
                                         </p>
-                                        <p> 
-                                            <b>Thanh toán tại nhà: </b> 
+                                        <p>
+                                            <b>Thanh toán tại nhà: </b>
                                             Nhanh chóng và an toàn
                                         </p>
                                     </div>

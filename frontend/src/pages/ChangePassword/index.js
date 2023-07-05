@@ -10,6 +10,7 @@ import Footer from '~/components/Footer';
 import Breadcrumb from '~/components/Breadcrumb';
 import avatar from '~/assets/images/avatar.jpg';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const cx = classNames.bind({
     ...styles,
@@ -21,59 +22,71 @@ const cx = classNames.bind({
     row: 'row',
 });
 
-function UserProfile() {
-    const [userData, setUserData] = useState(null);
+function ChangePassword() {
     const [error, setError] = useState(null);
+    const [oldPassword, setOldPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
-        { label: 'User Profile', link: '/caphe', active: true },
+        { label: 'Change Password', link: '/caphe', active: true },
     ];
 
-    useEffect(() => {
+    const handlePasswordChange = () => {
+        setIsProcessing(true);
+        setError(null);
         axios
-            .get('/api/v1/me')
+            .put('/api/v1/password/update', {
+                oldPassword,
+                newPassword,
+                confirmPassword,
+            })
             .then((response) => {
-                setUserData(response.data.user);
+                console.log(response.data);
+                setIsProcessing(false);
             })
             .catch((error) => {
-                setError(error.response.data.message);  
+                console.log(error);
+                setError(error);
+                setIsProcessing(false);
             });
-    }, []);
+    };
 
     if (error) {
-        return <div>Error: {error}</div>; 
-        
-    } else if (!userData) {
-        return <div>Loading...</div>;
-    } else {
+        return <div>Error: Bạn chưa đăng nhập</div>;
+    }  else {
         return (
             <>
                 <Header />
                 <div className={cx('user-profile', 'container')}>
                     <Breadcrumb items={breadcrumbItems} />
                     <ContainerHeading center>
-                        <Heading content={'User Profile'} />
+                        <Heading content={'Change password'} />
                     </ContainerHeading>
                     <div className={cx('user-profile-content')}>
                         <div className={cx('left-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
                             <div className={cx('image')}>
-                                <img src={userData.avatar.url} />
+                                <img src={Cookies.get('userAvatar')} />
                             </div>
                         </div>
                         <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
                             <div className={cx('group-infor')}>
-                                <b>Name: </b>
-                                <p>{userData.name}</p>
+                                <b>Old password: </b>
+                                <input value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
                             </div>
                             <div className={cx('group-infor')}>
-                                <b>Email: </b>
-                                <p>{userData.email}</p>
+                                <b>New password: </b>
+                                <input value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
                             </div>
                             <div className={cx('group-infor')}>
-                                <b>Role: </b>
-                                <p>{userData.role}</p>
+                                <b>Confirm password: </b>
+                                <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                             </div>
+                            {error && <div className={cx('error')}>{error}</div>}
+                            {!isProcessing && <button onClick={handlePasswordChange}>Change password</button>}
+                            {isProcessing && <div>Loading...</div>}
                             <div className={cx('buttons')}>
                                 <div className={cx('button')}>
                                     <Link to={'/edit-profile'}>Edit profile</Link>
@@ -85,7 +98,7 @@ function UserProfile() {
                                     <Link to={'/my-orders'}>My orders</Link>
                                 </div>
                                 <div className={cx('button')}>
-                                    <Link to={'/change-password'}>Change password</Link>
+                                    <Link to={'/my-orders'}>My orders</Link>
                                 </div>
                             </div>
                         </div>
@@ -97,4 +110,4 @@ function UserProfile() {
     }
 }
 
-export default UserProfile;
+export default ChangePassword;
