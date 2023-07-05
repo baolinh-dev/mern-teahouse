@@ -5,7 +5,7 @@ import ContainerHeading from '~/components/ContainerHeading';
 
 import classNames from 'classnames/bind';
 import styles from './UserProfile.module.scss';
-import Header from '~/components/Header'; 
+import Header from '~/components/Header';
 import Footer from '~/components/Footer';
 import Breadcrumb from '~/components/Breadcrumb';
 import avatar from '~/assets/images/avatar.jpg';
@@ -51,44 +51,45 @@ function Test() {
                 <Header />
                 <div className={cx('user-profile', 'container')}>
                     <Breadcrumb items={breadcrumbItems} />
-
-                    <div className={cx('user-profile-content')}> 
-                    <div className={cx('left-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
-                        <div className={cx('image')}>
-                            <img src={avatar} />
-                        </div>
-                        <div className={cx('button')}>
-                            <Link to={'/edit-profile'}>Edit profile</Link>
-                        </div>
-                    </div>
-                    <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
-                        <ContainerHeading center>
-                            <Heading content={'User Profile'} />
-                        </ContainerHeading>
-                        <div className={cx('group-infor')}>
-                            <b>Name: </b>
-                            <p>{userData.name}</p>
-                        </div>
-                        <div className={cx('group-infor')}>
-                            <b>Email: </b>
-                            <p>{userData.email}</p>
-                        </div>
-                        <div className={cx('group-infor')}>
-                            <b>Role: </b>
-                            <p>{userData.role}</p>
-                        </div>
-                        <div className={cx('buttons')}>
-                            <div className={cx('button')}>
-                                <Link to={'/my-orders'}>Edit profile</Link>
-                            </div>
-                            <div className={cx('button')}>
-                                <Link to={'/change-password'}>Change password</Link>
+                    <ContainerHeading center>
+                        <Heading content={'User Profile'} />
+                    </ContainerHeading>
+                    <div className={cx('user-profile-content')}>
+                        <div className={cx('left-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
+                            <div className={cx('image')}>
+                                <img src={userData.avatar.url} />
                             </div>
                         </div>
+                        <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
+                            <div className={cx('group-infor')}>
+                                <b>Name: </b>
+                                <p>{userData.name}</p>
+                            </div>
+                            <div className={cx('group-infor')}>
+                                <b>Email: </b>
+                                <p>{userData.email}</p>
+                            </div>
+                            <div className={cx('group-infor')}>
+                                <b>Role: </b>
+                                <p>{userData.role}</p>
+                            </div>
+                            <div className={cx('buttons')}>
+                                <div className={cx('button')}>
+                                    <Link to={'/edit-profile'}>Edit profile</Link>
+                                </div>
+                                <div className={cx('button')}>
+                                    <Link to={'/my-orders'}>My orders</Link>
+                                </div>
+                                <div className={cx('button')}>
+                                    <Link to={'/change-password'}>Change password</Link>
+                                </div>
+                                <div className={cx('button')}>
+                                    <Link to={'/change-password'}>Favorite products</Link>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    </div>
-
-                </div> 
+                </div>
                 <Footer />
             </>
         );

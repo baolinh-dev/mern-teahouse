@@ -108,7 +108,13 @@
                 }
                 .account {
                     cursor: pointer;
-                    position: relative;
+                    position: relative; 
+                    img { 
+                        width: 32px; 
+                        height: 32px; 
+                        margin-right: 8px; 
+                        border-radius: 50%; 
+                    }
                     .login-dropdown {
                         background-color: #fff;
                         border: 1px solid #ddd;

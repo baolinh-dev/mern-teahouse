@@ -36,7 +36,7 @@ function Login() {
                 const { user, token } = response.data;
                 Cookies.set('userId', user._id);
                 Cookies.set('userName', user.name);
-                Cookies.set('token', token);
+                Cookies.set('userAvatar', user.avatar.url);
                 setEmail('');
                 setPassword('');
                 setRedirect(true);

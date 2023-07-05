@@ -18,9 +18,9 @@ function Topbar() {
             const response = await axios.get('/api/v1/logout');
             if (response.status === 200) {
                 localStorage.removeItem('lastRegisteredEmail');
-                Cookies.remove('userName');
+                Cookies.remove('userName'); 
+                Cookies.remove('userAvatar');
                 Cookies.remove('userId');
-                Cookies.remove('token');
                 setShouldRedirect(true);
             }
         } catch (error) {
@@ -43,11 +43,25 @@ function Topbar() {
 
     function renderAccountContent() {
         const userName = Cookies.get('userName');
-        if (userName) {
-            return userName;
-        } else {
-            return 'Tài khoản';
+        const userAvatar = Cookies.get('userAvatar');
+
+        let content = (
+            <>
+                <FontAwesomeIcon icon={faUser} />
+                <span>{userName || 'Tài khoản'}</span>
+            </>
+        );
+
+        if (userAvatar) {
+            content = (
+                <>
+                    <img src={userAvatar} alt={userName} />
+                    <span>{userName || 'Tài khoản'}</span>
+                </>
+            );
         }
+
+        return content;
     }
 
     return (
@@ -61,10 +75,7 @@ function Topbar() {
                 <div className={cx('right-topbar')}>
                     <ul>
                         <li className={cx('account')}>
-                            <FontAwesomeIcon icon={faUser} />
-                            <Link to="/user-profile">
-                                <span>{renderAccountContent()}</span>
-                            </Link>
+                            <Link to="/user-profile">{renderAccountContent()}</Link>
 
                             <div id="login-dropdown" className={cx('login-dropdown', { open: isLoginDropdownOpen })}>
                                 <Link to="/login">Đăng nhập</Link>
