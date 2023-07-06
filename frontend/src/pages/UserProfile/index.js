@@ -8,7 +8,8 @@ import styles from './UserProfile.module.scss';
 import Header from '~/components/Header';
 import Footer from '~/components/Footer';
 import Breadcrumb from '~/components/Breadcrumb';
-import avatar from '~/assets/images/avatar.jpg';
+import { ToastContainer, toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 
 const cx = classNames.bind({
@@ -24,7 +25,6 @@ const cx = classNames.bind({
 function UserProfile() {
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState(null);
-
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
         { label: 'User Profile', link: '/caphe', active: true },
@@ -36,25 +36,21 @@ function UserProfile() {
             .then((response) => {
                 setUserData(response.data.user);
             })
-            .catch((error) => {
-                setError(error.response.data.message);  
+            .catch((error) => { 
+                const errorMessage = error.response.data.message;
+                setError(errorMessage);
             });
-    }, []);
+    }, [error]);
 
-    if (error) {
-        return <div>Error: {error}</div>; 
-        
-    } else if (!userData) {
-        return <div>Loading...</div>;
-    } else {
-        return (
-            <>
-                <Header />
-                <div className={cx('user-profile', 'container')}>
-                    <Breadcrumb items={breadcrumbItems} />
-                    <ContainerHeading center>
-                        <Heading content={'User Profile'} />
-                    </ContainerHeading>
+    return ( 
+        <>
+            <Header />
+            <div className={cx('user-profile', 'container')}>
+                <Breadcrumb items={breadcrumbItems} />
+                <ContainerHeading center>
+                    <Heading content={'User Profile'} />
+                </ContainerHeading>
+                {userData ? (
                     <div className={cx('user-profile-content')}>
                         <div className={cx('left-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
                             <div className={cx('image')}>
@@ -90,11 +86,14 @@ function UserProfile() {
                             </div>
                         </div>
                     </div>
-                </div>
-                <Footer />
-            </>
-        );
-    }
+                ) : (  
+                    <div>Error: {error}</div>
+                )}
+            </div>
+            <Footer />
+            <ToastContainer />
+        </>
+    );
 }
 
 export default UserProfile;

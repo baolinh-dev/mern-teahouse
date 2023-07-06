@@ -42,11 +42,12 @@ function Login() {
                 setRedirect(true);
                 localStorage.removeItem('lastRegisteredEmail');
             })
-            .catch((error) => {
-                setError(error.response.data.message);
-                toast.error(error.response.data.message);
+            .catch((error) => { 
+                const errorMessage = error.response.data.message
+                setError(errorMessage); 
+                toast.error(errorMessage)
             });
-    };
+    }; 
 
     useEffect(() => {
         const lastEmail = localStorage.getItem('lastRegisteredEmail'); // Lấy email đã lưu từ localStorage
@@ -96,7 +97,6 @@ function Login() {
                 </div>
                 <button type="submit">Login</button>
             </form>
-            <ToastContainer />
         </div>
     );
 }

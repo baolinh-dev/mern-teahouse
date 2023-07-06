@@ -4,6 +4,7 @@ import Header from '~/components/Header';
 import classNames from 'classnames/bind';
 import styles from './ProductDetails.module.scss';
 import Breadcrumb from '~/components/Breadcrumb';
+import Footer from '~/components/Footer';
 
 const cx = classNames.bind({ ...styles, container: 'container', row: 'row' });
 
@@ -20,7 +21,7 @@ const ProductDetails = () => {
             console.log('Product:', res.data.product);
         };
         fetchProduct();
-    }, [productId]); 
+    }, [productId]);
 
     if (!product) {
         return <div>Loading...</div>;
@@ -41,7 +42,7 @@ const ProductDetails = () => {
         if (!isNaN(value) && value >= 1) {
             setQuantity(value);
         }
-    }; 
+    };
 
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
@@ -74,7 +75,13 @@ const ProductDetails = () => {
                                     </div>
                                     <div className={cx('price-calculator')}>
                                         <div className={cx('price')}>
-                                            <span>Giá: </span> <p>{product.price}</p>
+                                            <span>Giá: </span>{' '}
+                                            <p>
+                                                {product.price.toLocaleString('vi-VN', {
+                                                    style: 'currency',
+                                                    currency: 'VND',
+                                                })}
+                                            </p>
                                         </div>
                                         <div className={cx('quantity')}>
                                             <span>Số lượng: </span>
@@ -93,7 +100,10 @@ const ProductDetails = () => {
                                         </div>
                                     </div>
                                     <div className={cx('total')}>
-                                        <span>Tổng: </span> <p>{product.price * quantity}</p>
+                                        <span>Tổng: </span> <p>{(product.price * quantity).toLocaleString('vi-VN', {
+                                                    style: 'currency',
+                                                    currency: 'VND',
+                                                })}</p>
                                     </div>
                                     <div className={cx('buttons')}>
                                         <button>
@@ -119,6 +129,7 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     );
 };

@@ -20,7 +20,8 @@ function Topbar() {
                 localStorage.removeItem('lastRegisteredEmail');
                 Cookies.remove('userName'); 
                 Cookies.remove('userAvatar');
-                Cookies.remove('userId');
+                Cookies.remove('userId'); 
+                Cookies.remove('token');
                 setShouldRedirect(true);
             }
         } catch (error) {

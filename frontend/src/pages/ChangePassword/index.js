@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Heading from '~/components/Heading';
 import ContainerHeading from '~/components/ContainerHeading';
-
 import classNames from 'classnames/bind';
-import styles from './UserProfile.module.scss';
+import styles from './ChangePassword.module.scss';
 import Header from '~/components/Header';
 import Footer from '~/components/Footer';
 import Breadcrumb from '~/components/Breadcrumb';
-import avatar from '~/assets/images/avatar.jpg';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
@@ -23,48 +23,80 @@ const cx = classNames.bind({
 });
 
 function ChangePassword() {
-    const [error, setError] = useState(null);
+    const [userData, setUserData] = useState(null);
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [isProcessing, setIsProcessing] = useState(false);
+    const [passwordError, setPasswordError] = useState('');
+    const [error, setError] = useState(null);
 
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
         { label: 'Change Password', link: '/caphe', active: true },
     ];
 
-    const handlePasswordChange = () => {
-        setIsProcessing(true);
-        setError(null);
+    useEffect(() => {
+        axios
+            .get('/api/v1/me')
+            .then((response) => {
+                setUserData(response.data.user);
+            })
+            .catch((error) => {
+                const errorMessage = error.response.data.message;
+                setError(errorMessage);
+            });
+    }, []);
+
+    useEffect(() => {
+        if (passwordError) {
+            toast.error(passwordError);
+        }
+    }, [passwordError]);
+
+    const handleChangePassword = () => {
+        setPasswordError('');
+
+        if (!oldPassword || !newPassword || !confirmPassword) {
+            setPasswordError('Please fill in all fields.');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            setPasswordError('New password and confirm password do not match.');
+            return;
+        }
+
         axios
             .put('/api/v1/password/update', {
                 oldPassword,
                 newPassword,
                 confirmPassword,
             })
-            .then((response) => {
-                console.log(response.data);
-                setIsProcessing(false);
+            .then(() => {
+                setOldPassword('');
+                setNewPassword('');
+                setConfirmPassword('');
+                toast.success('Password updated successfully.');
             })
             .catch((error) => {
-                console.log(error);
-                setError(error);
-                setIsProcessing(false);
+                const errorMessage = error.response.data.message;
+                setOldPassword('');
+                setNewPassword('');
+                setConfirmPassword('');
+                setPasswordError(errorMessage);
             });
     };
 
-    if (error) {
-        return <div>Error: Bạn chưa đăng nhập</div>;
-    }  else {
-        return (
-            <>
-                <Header />
-                <div className={cx('user-profile', 'container')}>
-                    <Breadcrumb items={breadcrumbItems} />
-                    <ContainerHeading center>
-                        <Heading content={'Change password'} />
-                    </ContainerHeading>
+    return (
+        <>
+            <Header />
+            <div className={cx('user-profile', 'container')}>
+                <Breadcrumb items={breadcrumbItems} />
+                <ContainerHeading center>
+                    <Heading content={'Change Password'} />
+                </ContainerHeading>
+                {/* If you have userData, then you are already logged in */}
+                {userData ? (
                     <div className={cx('user-profile-content')}>
                         <div className={cx('left-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
                             <div className={cx('image')}>
@@ -74,19 +106,17 @@ function ChangePassword() {
                         <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
                             <div className={cx('group-infor')}>
                                 <b>Old password: </b>
-                                <input value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
+                                <input placeholder='Vui lòng nhập mật khẩu cũ' value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
                             </div>
                             <div className={cx('group-infor')}>
                                 <b>New password: </b>
-                                <input value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                                <input placeholder='Vui lòng nhập mật khẩu mới' value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
                             </div>
                             <div className={cx('group-infor')}>
                                 <b>Confirm password: </b>
-                                <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                                <input placeholder='Vui lòng xác nhận lại mật khẩu mới' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                             </div>
-                            {error && <div className={cx('error')}>{error}</div>}
-                            {!isProcessing && <button onClick={handlePasswordChange}>Change password</button>}
-                            {isProcessing && <div>Loading...</div>}
+                            <button onClick={handleChangePassword}>Change Password</button>
                             <div className={cx('buttons')}>
                                 <div className={cx('button')}>
                                     <Link to={'/edit-profile'}>Edit profile</Link>
@@ -98,16 +128,20 @@ function ChangePassword() {
                                     <Link to={'/my-orders'}>My orders</Link>
                                 </div>
                                 <div className={cx('button')}>
-                                    <Link to={'/my-orders'}>My orders</Link>
+                                    <Link to={'/change-password'}>Change Password</Link>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <Footer />
-            </>
-        );
-    }
+                ) : (
+                    // If you are not logged in, show error message
+                    <div className={cx('error-message')}>{error}</div>
+                )}
+            </div>
+            <Footer />
+            <ToastContainer />
+        </>
+    );
 }
 
 export default ChangePassword;
