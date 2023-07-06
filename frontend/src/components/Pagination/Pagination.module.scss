@@ -27,7 +27,8 @@
         text-decoration: none;
 
         &:hover {
-            background-color: var(--primary);
+            background-color: var(--primary); 
+            color: #fff;
         }
     }
     .active {

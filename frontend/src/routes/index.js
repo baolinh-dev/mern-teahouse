@@ -13,12 +13,14 @@ import ForgotPassword from '~/pages/ForgotPassword';
 import ResetPassword from '~/pages/ResetPassword';
 import UserProfile from '~/pages/UserProfile';
 import EditProfile from '~/pages/EditProfile'; 
-import ChangePassword from '~/pages/ChangePassword';
+import ChangePassword from '~/pages/ChangePassword'; 
+import MyOrders from '~/pages/MyOrders';
 // Public routes
 const publicRoutes = [
     { path: '/', component: Home },   
     { path: '/user-profile', component: UserProfile },  
     { path: '/edit-profile', component: EditProfile },   
+    { path: '/my-orders', component: MyOrders },   
     { path: '/change-password', component: ChangePassword },  
     { path: '/login', component: Login },  
     { path: '/register', component: Register }, 
