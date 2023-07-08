@@ -3,8 +3,12 @@ import Heading from '~/components/Heading';
 import ProductItem from '~/components/ProductItem';
 import classNames from 'classnames/bind';
 import styles from './MenuItem.module.scss';
+import { useState, useEffect } from 'react';
+
 const cx = classNames.bind({ ...styles, container: 'container' });
+
 function MenuItem({ contentHeading, desc, listItem }) {
+    
     return (
         <div className={cx('menu-item')}>
             <div className={cx('title')}>
@@ -22,7 +26,8 @@ function MenuItem({ contentHeading, desc, listItem }) {
                         imageUrl={product.images[0].url}
                         price={product.price}
                         nameProduct={product.name}
-                        id={product._id}
+                        id={product._id} 
+                        product={product}
                     />
                 ))}
             </div>

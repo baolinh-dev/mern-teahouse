@@ -5,12 +5,14 @@ import classNames from 'classnames/bind';
 import styles from './ProductDetails.module.scss';
 import Breadcrumb from '~/components/Breadcrumb';
 import Footer from '~/components/Footer';
+import { Button } from 'bootstrap';
 
 const cx = classNames.bind({ ...styles, container: 'container', row: 'row' });
 
 const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
+    const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
     const pathname = window.location.pathname;
     const productId = pathname.substring(pathname.lastIndexOf('/') + 1);
 
@@ -42,6 +44,27 @@ const ProductDetails = () => {
         if (!isNaN(value) && value >= 1) {
             setQuantity(value);
         }
+    };
+
+    const handleAddToCart = () => {
+        const newItem = {
+            id: product._id,
+            name: product.name,
+            image: product.images[0].url,
+            price: product.price,
+            quantity: quantity,
+        }; 
+        const itemIndex = cart.findIndex((item) => item.id === product._id);
+        if (itemIndex !== -1) {
+            const updatedCart = [...cart];
+            updatedCart[itemIndex].quantity += quantity;
+            setCart(updatedCart);
+            localStorage.setItem('cart', JSON.stringify(updatedCart));
+        } else {
+            setCart([...cart, newItem]);
+            localStorage.setItem('cart', JSON.stringify([...cart, newItem]));
+        } 
+        window.location.reload()
     };
 
     const breadcrumbItems = [
@@ -100,14 +123,17 @@ const ProductDetails = () => {
                                         </div>
                                     </div>
                                     <div className={cx('total')}>
-                                        <span>Tổng: </span> <p>{(product.price * quantity).toLocaleString('vi-VN', {
-                                                    style: 'currency',
-                                                    currency: 'VND',
-                                                })}</p>
+                                        <span>Tổng: </span>{' '}
+                                        <p>
+                                            {(product.price * quantity).toLocaleString('vi-VN', {
+                                                style: 'currency',
+                                                currency: 'VND',
+                                            })}
+                                        </p>
                                     </div>
                                     <div className={cx('buttons')}>
-                                        <button>
-                                            <a href="/">Thêm vào giỏ hàng</a>
+                                        <button onClick={handleAddToCart} target="_self">
+                                            Thêm vào giỏ hàng
                                         </button>
                                         <button className={cx('highlight')}>
                                             <a href="/">Mua ngay</a>
