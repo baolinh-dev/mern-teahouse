@@ -10,10 +10,12 @@ const cx = classNames.bind({ ...styles, container: 'container' });
 const active = cx('active');
 
 function Navigation() {
-    const location = useLocation(); 
+    const location = useLocation();
     const isActive = (path) => {
         if (location.pathname.startsWith('/productCategory')) {
             return path === '/products' ? active : '';
+        } else if (location.pathname === path || location.pathname.includes(path + '/')) {
+            return active;
         } else {
             return location.pathname === path ? active : '';
         }
@@ -39,19 +41,34 @@ function Navigation() {
                             <FontAwesomeIcon icon={faCaretDown} />
                         </Link>
                         <div className={cx('dropdown')}>
-                            <Link className={isActive('/productCategory?category=Cà phê')} to="/productCategory?category=Cà phê">
+                            <Link
+                                className={isActive('/productCategory?category=Cà phê')}
+                                to="/productCategory?category=Cà phê"
+                            >
                                 Cà phê
                             </Link>
-                            <Link className={isActive('/productCategory?category=Bánh ngọt')} to="/productCategory?category=Bánh ngọt">
+                            <Link
+                                className={isActive('/productCategory?category=Bánh ngọt')}
+                                to="/productCategory?category=Bánh ngọt"
+                            >
                                 Bánh ngọt
                             </Link>
-                            <Link className={isActive('/productCategory?category=Smoothies')} to="/productCategory?category=Smoothies">
+                            <Link
+                                className={isActive('/productCategory?category=Smoothies')}
+                                to="/productCategory?category=Smoothies"
+                            >
                                 Smoothies
                             </Link>
-                            <Link className={isActive('/productCategory?category=Trà hoa quả')} to="/productCategory?category=Trà hoa quả">
+                            <Link
+                                className={isActive('/productCategory?category=Trà hoa quả')}
+                                to="/productCategory?category=Trà hoa quả"
+                            >
                                 Trà hoa quả
                             </Link>
-                            <Link className={isActive('/productCategory?category=Trà sữa')} to="/productCategory?category=Trà sữa">
+                            <Link
+                                className={isActive('/productCategory?category=Trà sữa')}
+                                to="/productCategory?category=Trà sữa"
+                            >
                                 Trà sữa
                             </Link>
                         </div>

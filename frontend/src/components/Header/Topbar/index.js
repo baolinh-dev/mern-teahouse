@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import ContainerHeading from '~/components/ContainerHeading';
 import Heading from '~/components/Heading';
+import AuthLink from '~/components/AuthLink';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
@@ -119,7 +120,7 @@ function Topbar() {
 
                                 {cart.length === 0 ? (
                                     <div className={cx('cart-empty')}>
-                                        <FontAwesomeIcon icon={faCartShopping} /> 
+                                        <FontAwesomeIcon icon={faCartShopping} />
                                         <p>Giỏ hàng trống</p>
                                     </div>
                                 ) : (
@@ -192,7 +193,7 @@ function Topbar() {
                                                 </p>
                                             </div>
                                             <li className={cx('payment')}>
-                                                <Link to="/payment">Thanh toán</Link>
+                                                <AuthLink linkTo={'/paymet'}>Thanh toán</AuthLink>
                                             </li>
                                         </div>
                                     </>

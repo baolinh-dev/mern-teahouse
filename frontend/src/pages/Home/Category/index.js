@@ -12,41 +12,27 @@ const cx = classNames.bind({ ...styles, container: 'container' });
 function Category() {
     const categories = [
         {
-            content: 'Trà nóng',
-            imageUrl: 'https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/sec_category_1.jpg?1676274744913',
-        },
+            content: 'Cà phê',
+            imageUrl:
+                'https://th.bing.com/th/id/R.8168016502ce3fb8d5df112fa1845c68?rik=HhdO2q9tNGO%2fQA&pid=ImgRaw&r=0',
+        }, 
         {
-            content: 'Trà hoa quả',
-            imageUrl: 'https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/sec_category_2.jpg?1676274744913',
-        },
+            content: 'Bánh ngọt',
+            imageUrl: 'https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/sec_category_4.jpg?1676274744913',
+        }, 
         {
             content: 'Smoothies',
             imageUrl: 'https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/sec_category_3.jpg?1676274744913',
         },
         {
-            content: 'Bánh ngọt',
-            imageUrl: 'https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/sec_category_4.jpg?1676274744913',
+            content: 'Trà hoa quả',
+            imageUrl: 'https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/sec_category_2.jpg?1676274744913',
         },
+
         {
-            content: 'Bánh ngọt',
-            imageUrl: 'https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/sec_category_4.jpg?1676274744913',
-        },
-        {
-            content: 'Bánh ngọt',
-            imageUrl: 'https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/sec_category_4.jpg?1676274744913',
-        },
-        {
-            content: 'Bánh ngọt',
-            imageUrl: 'https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/sec_category_4.jpg?1676274744913',
-        },
-        {
-            content: 'Bánh ngọt',
-            imageUrl: 'https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/sec_category_4.jpg?1676274744913',
-        },
-        {
-            content: 'Bánh ngọt',
-            imageUrl: 'https://bizweb.dktcdn.net/100/415/010/themes/894852/assets/sec_category_4.jpg?1676274744913',
-        },
+            content: 'Trà sữa',
+            imageUrl: 'https://thehangoversg.com/wp-content/uploads/2020/10/Oolong-Milk-Tea-19-600x600.png',
+        }
     ];
 
     return (

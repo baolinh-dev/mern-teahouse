@@ -50,6 +50,11 @@ function Menu() {
 
     return (
         <div className={cx('menu')}>
+            <div className={cx('menu-header')}>
+                <ContainerHeading center>
+                    <Heading content={'Thực đơn'} />
+                </ContainerHeading>
+            </div>
             <div className={cx('tabs-title')}>
                 <ul>
                     {tabtitles.map((tabtitle, index) => (

@@ -112,7 +112,7 @@ const ProductDetails = () => {
                                                 -
                                             </button>
                                             <input
-                                                type="number"
+                                                type="text"
                                                 value={quantity}
                                                 min="1"
                                                 onChange={handleQuantityChange}

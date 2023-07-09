@@ -10,7 +10,7 @@ import News from './News';
 import Gallery from './Gallery'; 
 import Cookies from 'js-cookie';
 
-function Home() { 
+function Home() {  
     return (
         <>
             <Header />
