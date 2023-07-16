@@ -15,9 +15,11 @@ import UserProfile from '~/pages/UserProfile';
 import EditProfile from '~/pages/EditProfile'; 
 import ChangePassword from '~/pages/ChangePassword'; 
 import MyOrders from '~/pages/MyOrders';
+import Cart from '~/pages/Cart';
 // Public routes
 const publicRoutes = [
-    { path: '/', component: Home },   
+    { path: '/', component: Home },     
+    { path: '/cart', component: Cart },  
     { path: '/user-profile', component: UserProfile },  
     { path: '/edit-profile', component: EditProfile },   
     { path: '/my-orders', component: MyOrders },   

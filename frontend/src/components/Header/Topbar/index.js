@@ -112,7 +112,7 @@ function Topbar() {
                         </li>
                         <li className={cx('cart')}>
                             <FontAwesomeIcon icon={faCartShopping} />
-                            <span>Giỏ hàng ({cart.length})</span>
+                            <Link to={"/cart"}>Giỏ hàng ({cart.length})</Link>
                             <div className={cx('cart-dropdown', { open: isLoginDropdownOpen })}>
                                 <ContainerHeading center>
                                     <Heading content={'Giỏ hàng'} />

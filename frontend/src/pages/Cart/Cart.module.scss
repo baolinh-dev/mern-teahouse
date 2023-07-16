@@ -1,0 +1,119 @@
+.cart {
+    margin-top: 200px;
+    .cart-content {
+        .cart-list {
+            .cart-content-item {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 4px dashed #ddd;
+                margin-bottom: 40px;
+
+                .cart-content-item-infor-wrapper {
+                    display: flex;
+                    align-items: center;
+                    width: 50%;
+                    img {
+                        width: 200px;
+                        height: 200px;
+                        margin-right: 60px;
+                    }
+                    .cart-content-item-infor {
+                        h3 {
+                            color: var(--text-black);
+                            font-weight: 700;
+                            font-size: 2rem;
+                        }
+                        p {
+                            color: var(--primary);
+                            font-weight: 700;
+                            font-size: 2rem;
+                        }
+                    }
+                }
+                .cart-content-item-calcu {
+                    display: flex;
+                    width: 50%;
+                    align-items: center;
+                    justify-content: space-between;
+                    .cart-content-item-quantity {
+                        button {
+                            width: 40px;
+                            height: 40px;
+                            outline: none;
+                            border: none;
+                            border-radius: 4px;
+                        }
+                        input {
+                            width: 60px;
+                            height: 40px;
+                            text-align: center;
+                            margin: 0 8px;
+                            outline: none;
+                            border-radius: 4px;
+                            border: 1px solid #ddd;
+                        }
+                    }
+                    .cart-item-total {
+                        font-size: 2rem;
+                        label {
+                            color: var(--text-black);
+                        }
+
+                        color: var(--primary);
+                        font-weight: 700;
+                    }
+                    .remove-btn {
+                        background-color: transparent;
+                        outline: none;
+                        border: none;
+                        svg {
+                            font-size: 2.8rem;
+                            color: #dc3545;
+                        }
+                    }
+                }
+            }
+        }
+        .cart-footer {
+            display: flex;
+            justify-content: space-between; 
+            margin-bottom: 40px;
+            .cart-total {
+                width: 50%;
+                padding: 0 20px;
+                .cart-total-item {
+                    font-weight: 700;
+                    font-size: 2rem;
+                    display: flex;
+
+                    justify-content: space-between;
+                    label {
+                    }
+                    p {
+                        color: var(--primary);
+                    }
+                }
+            }
+            .links {
+                display: flex;
+                align-items: center;
+                a {
+                    color: #fff;
+                    text-decoration: none;
+                    border: none;
+                    background: var(--primary);
+                    margin-left: 40px;
+                    padding: 12px 20px;
+                    border-radius: 20px; 
+                    min-width: 240px; 
+                    text-align: center;
+                    font-weight: 700; 
+                    svg {
+                        margin-right: 12px;
+                    }
+                }
+            }
+        }
+    }
+}
