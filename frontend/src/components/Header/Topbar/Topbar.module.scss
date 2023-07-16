@@ -125,15 +125,16 @@
                     }
 
                     .cart-dropdown {
-                        position: absolute;
+                        position: absolute; 
+                        display: none;
                         top: 100%;
                         right: 0;
                         width: 520px;
                         padding-top: 80px;
                         background-color: #fff;
                         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-                        display: none;
-                        z-index: 1;
+                        z-index: 1; 
+                        
                         .cart-empty {
                             padding: 40px 10px;
                             text-align: center;
@@ -286,7 +287,8 @@
                                     width: 100%;
                                     text-align: center;
                                     font-weight: 700;
-                                    color: #fff;
+                                    color: #fff; 
+                                    font-size: 1.6rem;
                                 }
                             }
                         }

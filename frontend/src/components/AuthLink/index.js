@@ -9,7 +9,7 @@ function AuthLink({ linkTo }) {
   // Chuyển hướng người dùng đến trang Payment hoặc trang đăng nhập
   const redirectLink = isLoggedIn ? linkTo : '/login';
 
-  return <Link to={redirectLink}>Go to Payment</Link>;
+  return <Link to={redirectLink}>Thanh toán</Link>;
 }
 
 export default AuthLink;

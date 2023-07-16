@@ -144,7 +144,7 @@ function Topbar() {
                                                                 <button
                                                                     type="button"
                                                                     onClick={() =>
-                                                                        handleQuantityChange(item.id, item.quantity - 1)
+                                                                        handleQuantityChange(item.id, Number(item.quantity) - 1)
                                                                     }
                                                                     disabled={item.quantity === 1}
                                                                 >
@@ -193,7 +193,7 @@ function Topbar() {
                                                 </p>
                                             </div>
                                             <li className={cx('payment')}>
-                                                <AuthLink linkTo={'/paymet'}>Thanh toán</AuthLink>
+                                                <AuthLink linkTo={'/paymet'} />
                                             </li>
                                         </div>
                                     </>

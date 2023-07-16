@@ -72,7 +72,7 @@ function Cart() {
                                 <div className={cx('cart-content-item-calcu')}>
                                     <div className={cx('cart-content-item-quantity')}>
                                         <div className={cx('cart-content-item-quantity-input')}>
-                                            <button onClick={() => updateQuantity(index, item.quantity - 1)}>-</button>
+                                            <button onClick={() => updateQuantity(index, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
                                             <input
                                                 type="text"
                                                 id={`quantity-${index}`}
