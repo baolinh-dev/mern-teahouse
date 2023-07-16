@@ -76,7 +76,9 @@ function Navigation() {
                 </ul>
             </div>
             <div className={cx('logo-center')}>
-                <img src={logo} alt="Logo" />
+                <Link to="/">
+                    <img src={logo} alt="Logo" />
+                </Link>
             </div>
             <div className={cx('navi-right')}>
                 <ul>
