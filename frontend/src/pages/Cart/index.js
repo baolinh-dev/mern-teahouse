@@ -19,6 +19,9 @@ function Cart() {
     // Tính tổng giá trị của các sản phẩm trong giỏ hàng
     const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+    // Tính tổng số lượng sản phẩm trong giỏ hàng
+    const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+
     // Hàm để cập nhật số lượng sản phẩm
     const updateQuantity = (index, newQuantity) => {
         const newCartItems = [...cartItems];
@@ -72,7 +75,12 @@ function Cart() {
                                 <div className={cx('cart-content-item-calcu')}>
                                     <div className={cx('cart-content-item-quantity')}>
                                         <div className={cx('cart-content-item-quantity-input')}>
-                                            <button onClick={() => updateQuantity(index, item.quantity - 1)} disabled={item.quantity === 1}>-</button>
+                                            <button
+                                                onClick={() => updateQuantity(index, item.quantity - 1)}
+                                                disabled={item.quantity === 1}
+                                            >
+                                                -
+                                            </button>
                                             <input
                                                 type="text"
                                                 id={`quantity-${index}`}
@@ -99,7 +107,7 @@ function Cart() {
                         <div className={cx('cart-total')}>
                             <div className={cx('cart-total-item')}>
                                 <label>Số lượng sản phẩm: </label>
-                                <p> {` ${cartItems.length}`} </p>
+                                <p> {` ${totalQuantity}`} </p>
                             </div>
                             <div className={cx('cart-total-item')}>
                                 <label>Tổng giá trị của giỏ hàng: </label>

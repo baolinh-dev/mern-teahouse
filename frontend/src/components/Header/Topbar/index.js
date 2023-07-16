@@ -15,7 +15,10 @@ const cx = classNames.bind({ ...styles, container: 'container' });
 function Topbar() {
     const [isLoginDropdownOpen, setIsLoginDropdownOpen] = useState(false);
     const [shouldRedirect, setShouldRedirect] = useState(false);
-    const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
+    const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []); 
+
+    // Tính tổng số lượng sản phẩm trong giỏ hàng
+    const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
 
     const handleLogout = async () => {
         try {
@@ -112,7 +115,7 @@ function Topbar() {
                         </li>
                         <li className={cx('cart')}>
                             <FontAwesomeIcon icon={faCartShopping} />
-                            <Link to={"/cart"}>Giỏ hàng ({cart.length})</Link>
+                            <Link to={"/cart"}>Giỏ hàng ({totalQuantity})</Link>
                             <div className={cx('cart-dropdown', { open: isLoginDropdownOpen })}>
                                 <ContainerHeading center>
                                     <Heading content={'Giỏ hàng'} />
