@@ -16,10 +16,12 @@ import EditProfile from '~/pages/EditProfile';
 import ChangePassword from '~/pages/ChangePassword'; 
 import MyOrders from '~/pages/MyOrders';
 import Cart from '~/pages/Cart';
+import Payment from '~/pages/Payment';
 // Public routes
 const publicRoutes = [
     { path: '/', component: Home },     
-    { path: '/cart', component: Cart },  
+    { path: '/cart', component: Cart },   
+    { path: '/payment', component: Payment },  
     { path: '/user-profile', component: UserProfile },  
     { path: '/edit-profile', component: EditProfile },   
     { path: '/my-orders', component: MyOrders },   

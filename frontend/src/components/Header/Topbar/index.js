@@ -196,7 +196,7 @@ function Topbar() {
                                                 </p>
                                             </div>
                                             <li className={cx('payment')}>
-                                                <AuthLink linkTo={'/paymet'} />
+                                                <AuthLink linkTo={'/cart'} />
                                             </li>
                                         </div>
                                     </>
