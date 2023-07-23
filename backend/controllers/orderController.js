@@ -5,17 +5,12 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 
 // Create new Order
 exports.newOrder = catchAsyncErrors(async (req, res, next) => {
-    const { shippingInfo, orderItems, paymentInfo, itemsPrice, taxPrice, shippingPrice, totalPrice } = req.body;
+    const { cart, totalProductPrice, customerInfo, orderInfo } = req.body;
     const order = await Order.create({
-        shippingInfo,
-        orderItems,
-        paymentInfo,
-        itemsPrice,
-        taxPrice,
-        shippingPrice,
-        totalPrice,
-        paidAt: Date.now(),
-        user: req.user._id,
+        cart,
+        totalProductPrice,
+        customerInfo,
+        orderInfo,
     });
 
     res.status(201).json({

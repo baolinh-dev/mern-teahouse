@@ -6,7 +6,7 @@ import Breadcrumb from '~/components/Breadcrumb';
 import ContainerHeading from '~/components/ContainerHeading';
 import Heading from '~/components/Heading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faShare, faShareAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faShare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import Footer from '~/components/Footer';
 
@@ -123,7 +123,7 @@ function Cart() {
                             <Link to="/products">
                                 <FontAwesomeIcon icon={faShare} /> Tiếp tục mua hàng
                             </Link>
-                            <Link to="/payment">
+                            <Link to="/paymentform">
                                 <FontAwesomeIcon icon={faCheck} />
                                 Tiến hành thanh toán
                             </Link>

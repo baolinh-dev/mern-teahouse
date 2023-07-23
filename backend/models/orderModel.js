@@ -1,57 +1,74 @@
 const mongoose = require('mongoose');
 
-const orderShema = new mongoose.Schema({
-    shippingInfo: {
-        address: { type: String, required: true },
-        city: { type: String, required: true },
-        state: { type: String, required: true },
-        country: { type: String, required: true },
-        pinCode: { type: Number, required: true },
-        phoneNo: { type: Number, required: true },
-    },
-    orderItems: [
+const orderSchema = new mongoose.Schema({
+    cart: [
         {
-            name: { type: String, required: true },
-            price: { type: Number, required: true },
-            image: { type: String, required: true },
-            product: {
-                type: mongoose.Schema.ObjectId,
-                ref: 'Product',
+            image: {
+                type: String,
+                required: true,
+            },
+            name: {
+                type: String,
+                required: true,
+            }, 
+            quantity: {
+                type: String,
+                required: true,
+            },
+            price: {
+                type: Number,
                 required: true,
             },
         },
     ],
-    user: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
-        required: true,
+    totalProductPrice: {
+        type: Number,
     },
-    paymentInfo: {
-        id: {
+    customerInfo: {
+        email: {
             type: String,
             required: true,
+        },
+        name: {
+            type: String,
+            required: true,
+        },
+        phoneNumber: {
+            type: String,
+            required: true,
+        },
+        address: {
+            type: String,
+            required: true,
+        }, 
+    },
+    orderInfo: {
+        transport: {
+            type: String,
+            required: true,
+            default: 'Delivery',
+        },
+        payment: {
+            type: String,
+            required: true,
+            default: 'COD',
         },
         status: {
             type: String,
             required: true,
+            default: 'Processing',
         },
-    },     
-    dateInfor: {
-        deliveredAt: Date, 
-        paidAt: {
-            type: Date,
-            required: true,
-        },
-        createAt: {
-            type: Date,
-            default: Date.now,
-        },
-    }, 
-    orderStatus: {
-        type: String,
-        required: true,
-        default: 'Processing',
     },
 });
 
-module.exports = mongoose.model('Order', orderShema);
+// Middleware để tính toán trường totalProductPrice
+orderSchema.pre('save', function (next) {
+    let totalCartPrice = 0;
+    this.cart.forEach((product) => {
+      totalCartPrice += product.quantity * product.price;
+    });
+    this.totalProductPrice = totalCartPrice;
+    next();
+  });
+
+module.exports = mongoose.model('Order', orderSchema);

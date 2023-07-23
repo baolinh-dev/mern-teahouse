@@ -3,7 +3,10 @@ import axios from 'axios';
 import classNames from 'classnames/bind';
 import styles from './Payment.module.scss';
 import Cart from './CartPayment';
-import Footer from '~/components/Footer';
+import Footer from '~/components/Footer'; 
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
@@ -18,10 +21,13 @@ function Payment() {
     const [houseNumber, setHouseNumber] = useState('');
     const [address, setAddress] = useState('');
     const [userData, setUserData] = useState(null);
-    const [error, setError] = useState(null);
+    
     const [deliveryMethod, setDeliveryMethod] = useState('home_delivery');
     const [paymentMethod, setPaymentMethod] = useState('cod');
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState([]);  
+
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         const cartData = localStorage.getItem('cart');
@@ -40,7 +46,20 @@ function Payment() {
                 const errorMessage = error.response.data.message;
                 setError(errorMessage);
             });
-    }, [error]);
+    }, [error]); 
+
+    const handlePayment = (event) => { 
+        axios
+            .post('/api/v1/order/new', cart) 
+            .then((response) => {
+                setSuccess(true);
+                localStorage.removeItem('cart');
+            }) 
+            .catch((error) => {
+                const errorMessage = error.response.data.message;
+                setError(errorMessage);
+            });
+    }
 
     // Hàm để gọi API và render dữ liệu
     const callAPI = async (api, renderCallback) => {
@@ -209,6 +228,15 @@ function Payment() {
                         <div className="col-6">
                             <div className={cx('form-wrapper')}>
                                 <Cart cartItems={cart} />
+                                <div className={cx('cart-buttons')}>
+                                    <Link to="/products">
+                                        {' '}
+                                        <FontAwesomeIcon icon={faCartShopping} /> Tiếp tục mua hàng
+                                    </Link>
+                                    <button onClick={handlePayment}>
+                                        <FontAwesomeIcon icon={faClipboardList} /> Đặt hàng
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

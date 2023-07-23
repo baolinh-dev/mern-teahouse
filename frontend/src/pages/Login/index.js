@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { Link, NavLink, Navigate } from 'react-router-dom';
+import { NavLink, Navigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
 import Heading from '~/components/Heading';
 import ContainerHeading from '~/components/ContainerHeading';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const cx = classNames.bind(styles);
