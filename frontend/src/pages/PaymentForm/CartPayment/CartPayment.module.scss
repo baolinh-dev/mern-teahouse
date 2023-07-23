@@ -3,11 +3,11 @@ h2 {
     font-size: 2.4rem;
     font-weight: 700;
 }
-.cart-items {  
+.cart-items {
     padding-bottom: 32px;
-    border-bottom: 4px dashed #ddd; 
-    overflow: auto;    
-    height: calc(100vh - 230px);
+    border-bottom: 4px dashed #ddd;
+    overflow: auto;
+    height: calc(100vh - 276px);
     .cart-item {
         display: flex;
         align-items: center;
@@ -17,13 +17,13 @@ h2 {
         .cart-item-img {
             position: relative;
             width: 160px;
-            height: 160px; 
+            height: 160px;
             padding: 4px;
             img {
                 width: 160px;
                 height: 160px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-                border-radius: 20px; 
+                border-radius: 20px;
             }
             span {
                 position: absolute;
@@ -63,6 +63,4 @@ h2 {
         font-size: 2.4rem;
         color: var(--primary);
     }
-} 
-
-
+}

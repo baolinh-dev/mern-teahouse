@@ -8,7 +8,7 @@ import styles from './PaymentForm.module.scss';
 import Cart from './CartPayment';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faClipboardList } from '@fortawesome/free-solid-svg-icons';
+import { faCartFlatbed, faCartShopping, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import Footer from '~/components/Footer';
 const cx = classNames.bind(styles);
 
@@ -78,6 +78,8 @@ const PaymentForm = () => {
         axios
             .post('/api/v1/order/new', formData)
             .then((response) => {
+                localStorage.removeItem('cart');
+                window.location.reload();
                 toast.success('Đặt hàng thành công');
             })
             .catch((error) => {
@@ -169,7 +171,15 @@ const PaymentForm = () => {
                         </div>
                     </div>
                     <div className={cx('cart')}>
-                        <Cart cartItems={cart} />
+                        {cart.length > 0 ? (
+                            <Cart cartItems={cart} />
+                        ) : (
+                            <div className={cx('empty-cart')}> 
+                                <FontAwesomeIcon icon={faCartShopping}/> 
+                                <p>Chưa có sản phẩm nào trong giỏ hàng</p>
+                            </div>
+                        )}
+
                         <div className={cx('cart-buttons')}>
                             <Link to="/products">
                                 {' '}
