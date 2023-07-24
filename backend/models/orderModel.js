@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
     cart: [
         {
             image: {
@@ -10,7 +15,7 @@ const orderSchema = new mongoose.Schema({
             name: {
                 type: String,
                 required: true,
-            }, 
+            },
             quantity: {
                 type: String,
                 required: true,
@@ -40,7 +45,7 @@ const orderSchema = new mongoose.Schema({
         address: {
             type: String,
             required: true,
-        }, 
+        },
     },
     orderInfo: {
         transport: {
@@ -65,10 +70,10 @@ const orderSchema = new mongoose.Schema({
 orderSchema.pre('save', function (next) {
     let totalCartPrice = 0;
     this.cart.forEach((product) => {
-      totalCartPrice += product.quantity * product.price;
+        totalCartPrice += product.quantity * product.price;
     });
     this.totalProductPrice = totalCartPrice;
     next();
-  });
+});
 
 module.exports = mongoose.model('Order', orderSchema);

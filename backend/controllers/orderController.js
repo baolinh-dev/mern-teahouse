@@ -5,19 +5,33 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 
 // Create new Order
 exports.newOrder = catchAsyncErrors(async (req, res, next) => {
+    // Kiểm tra xem người dùng đã đăng nhập hay chưa
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Bạn cần đăng nhập để đặt hàng'
+      });
+    }
+  
+    // Lấy thông tin người dùng từ request
     const { cart, totalProductPrice, customerInfo, orderInfo } = req.body;
+    const userId = req.user._id;
+  
+    // Tạo đơn hàng mới
     const order = await Order.create({
-        cart,
-        totalProductPrice,
-        customerInfo,
-        orderInfo,
+      user: userId,
+      cart,
+      totalProductPrice,
+      customerInfo,
+      orderInfo
     });
-
+  
+    // Trả về đơn hàng vừa tạo
     res.status(201).json({
-        success: true,
-        order,
+      success: true,
+      order
     });
-});
+  });
 // Get Single Order
 exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
     const order = await Order.findById(req.params.id).populate('user', 'name email');
