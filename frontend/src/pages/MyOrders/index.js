@@ -102,12 +102,12 @@ function MyOrders() {
                     {expandedOrders[order._id] ? (
                       <>
                         <FontAwesomeIcon icon={faCaretUp} />
-                        <p>Hide details</p>
+                        <p>Show less</p>
                       </>
                     ) : (
                       <>
                         <FontAwesomeIcon icon={faCaretDown} />
-                        <p>Details</p>
+                        <p>Show more</p>
                       </>
                     )}
                   </button>

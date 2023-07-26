@@ -15,7 +15,7 @@ const cx = classNames.bind({ ...styles, container: 'container' });
 function Topbar() {
     const [isLoginDropdownOpen, setIsLoginDropdownOpen] = useState(false);
     const [shouldRedirect, setShouldRedirect] = useState(false);
-    const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []); 
+    const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
 
     // Tính tổng số lượng sản phẩm trong giỏ hàng
     const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
@@ -52,14 +52,20 @@ function Topbar() {
         const userName = Cookies.get('userName');
         const userAvatar = Cookies.get('userAvatar');
 
-        let content = (
-            <>
-                <FontAwesomeIcon icon={faUser} />
-                <span>{userName || 'Tài khoản'}</span>
-            </>
-        );
+        let content;
+        const imgRegex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
 
-        if (userAvatar) {
+        if (!userAvatar || !imgRegex.test(userAvatar)) {
+            content = (
+                <>
+                    <img
+                        src="https://th.bing.com/th/id/R.b9838bf721d3dff150c954530b3856f3?rik=Uulm6lnhid2Giw&riu=http%3a%2f%2fshackmanlab.org%2fwp-content%2fuploads%2f2013%2f07%2fperson-placeholder.jpg&ehk=GGILj1W77t4L5TSfJq0peMYJY8na6RvFj0vx3uPQHkI%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1"
+                        alt={userName}
+                    />
+                    <span>{userName || 'Tài khoản'}</span>
+                </>
+            );
+        } else {
             content = (
                 <>
                     <img src={userAvatar} alt={userName} />
@@ -115,7 +121,7 @@ function Topbar() {
                         </li>
                         <li className={cx('cart')}>
                             <FontAwesomeIcon icon={faCartShopping} />
-                            <Link to={"/cart"}>Giỏ hàng ({totalQuantity})</Link>
+                            <Link to={'/cart'}>Giỏ hàng ({totalQuantity})</Link>
                             <div className={cx('cart-dropdown', { open: isLoginDropdownOpen })}>
                                 <ContainerHeading center>
                                     <Heading content={'Giỏ hàng'} />
@@ -147,7 +153,10 @@ function Topbar() {
                                                                 <button
                                                                     type="button"
                                                                     onClick={() =>
-                                                                        handleQuantityChange(item.id, Number(item.quantity) - 1)
+                                                                        handleQuantityChange(
+                                                                            item.id,
+                                                                            Number(item.quantity) - 1,
+                                                                        )
                                                                     }
                                                                     disabled={item.quantity === 1}
                                                                 >

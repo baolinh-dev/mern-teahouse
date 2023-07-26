@@ -11,7 +11,7 @@ const userShema = new mongoose.Schema({
         required: [true, 'PLease Enter Your Name'],
         maxLength: [30, 'Name cannot exceed 30 characters'],
         minLength: [4, 'Name should have more than 4 characters'],
-    },
+    }, 
     email: {
         type: String,
         required: [true, 'Please Enter Your Email'],
@@ -37,6 +37,14 @@ const userShema = new mongoose.Schema({
     role: {
         type: String,
         default: 'user',
+    }, 
+    phoneNumber: {
+        type: Number,   
+        default: null,
+    }, 
+    address: {
+        type: String, 
+        default: null,
     },
     resetPasswordToken: String,
     resetPasswordExpire: Date,

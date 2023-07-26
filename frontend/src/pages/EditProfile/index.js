@@ -37,7 +37,8 @@ function EditProfile() {
         axios
             .get('/api/v1/me')
             .then((response) => {
-                setUserData(response.data.user);
+                setUserData(response.data.user); 
+                console.log(response.data.user);
             })
             .catch((error) => {
                 setError(error.response.data.message);
@@ -90,7 +91,7 @@ function EditProfile() {
                 </div>
             </div>
             <Footer />
-            <ToastContainer /> // add the ToastContainer component to display the toasts
+            <ToastContainer /> 
         </>
     );
 }

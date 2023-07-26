@@ -34,13 +34,13 @@ function UserProfile() {
             .then((response) => {
                 setUserData(response.data.user);
             })
-            .catch((error) => { 
+            .catch((error) => {
                 const errorMessage = error.response.data.message;
                 setError(errorMessage);
             });
     }, [error]);
 
-    return ( 
+    return (
         <>
             <Header />
             <div className={cx('user-profile', 'container')}>
@@ -68,6 +68,14 @@ function UserProfile() {
                                 <b>Role: </b>
                                 <p>{userData.role}</p>
                             </div>
+                            <div className={cx('group-infor')}>
+                                <b>Phone Number: </b>
+                                <p>{userData.phoneNumber ? userData.phoneNumber : 'Chưa có số điện thoại'}</p>
+                            </div>
+                            <div className={cx('group-infor')}>
+                                <b>Address: </b>
+                                <p>{userData.address ? userData.address : 'Chưa có địa chỉ'}</p>
+                            </div>
                             <div className={cx('buttons')}>
                                 <div className={cx('button')}>
                                     <Link to={'/edit-profile'}>Edit profile</Link>
@@ -84,7 +92,7 @@ function UserProfile() {
                             </div>
                         </div>
                     </div>
-                ) : (  
+                ) : (
                     <div>Error: {error}</div>
                 )}
             </div>
