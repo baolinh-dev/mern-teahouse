@@ -42,13 +42,34 @@
                 }
 
                 .desc {
-                    margin-bottom: 16px;
-
                     p {
                         font-size: 16px;
                         color: #282828;
                         font-weight: 700;
                         line-height: 22px;
+                    }
+                } 
+                .ratings { 
+                    display: flex; 
+                    align-items: center;  
+                    margin-bottom: 16px;
+                    .stars {
+                        margin-right: 20px;
+                    }
+                    .ratings-number {  
+                        display: flex;   
+                        align-items: center;  
+                        h4 { 
+                            font-weight: 700; 
+                            
+                            margin-bottom: 0; 
+                            margin-right: 4px;
+                        }
+                        p { 
+                            font-weight: 700;  
+                       
+                            margin-bottom: 0;
+                        }
                     }
                 }
 

@@ -109,6 +109,29 @@ const ProductDetails = () => {
                                             <span>Mô tả: </span> {product.description}
                                         </p>
                                     </div>
+                                    <div className={cx('ratings')}>
+                                        {reviews.length > 0 ? (
+                                            <Rating
+                                                className={cx('stars')}
+                                                initialRating={product.ratings}
+                                                emptySymbol={<FontAwesomeIcon icon={faStar} />}
+                                                fullSymbol={<FontAwesomeIcon icon={faStar} color="#ffc107" />}
+                                                readonly
+                                            />
+                                        ) : (
+                                            <Rating
+                                                className={cx('stars')}
+                                                initialRating={product.ratings}
+                                                emptySymbol={<FontAwesomeIcon icon={faStar} />}
+                                                fullSymbol={<FontAwesomeIcon icon={faStar} />}
+                                                readonly
+                                            />
+                                        )}
+                                        <div className={cx('ratings-number')}>
+                                            <h4>Số lượng đánh giá: </h4>
+                                            <p>{product.numOfReviews}</p>
+                                        </div>
+                                    </div>
                                     <div className={cx('price-calculator')}>
                                         <div className={cx('price')}>
                                             <span>Giá: </span>{' '}
@@ -170,34 +193,38 @@ const ProductDetails = () => {
                 <div className={cx('comments', 'container')}>
                     <h3 className={cx('comments-title')}>Bình luận</h3>
                     <div className={cx('comments-container')}>
-                        {reviews.length > 0 ? reviews.map((review) => (
-                            <div key={review._id} className={cx('comment-item')}>
-                                <div className={cx('comment-info')}>
-                                    <div className={cx('comment-avatar')}>
-                                        <img
-                                            src="https://th.bing.com/th/id/R.b9838bf721d3dff150c954530b3856f3?rik=Uulm6lnhid2Giw&riu=http%3a%2f%2fshackmanlab.org%2fwp-content%2fuploads%2f2013%2f07%2fperson-placeholder.jpg&ehk=GGILj1W77t4L5TSfJq0peMYJY8na6RvFj0vx3uPQHkI%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1"
-                                            alt="User Avatar"
-                                        />
+                        {reviews.length > 0 ? (
+                            reviews.map((review) => (
+                                <div key={review._id} className={cx('comment-item')}>
+                                    <div className={cx('comment-info')}>
+                                        <div className={cx('comment-avatar')}>
+                                            <img
+                                                src="https://th.bing.com/th/id/R.b9838bf721d3dff150c954530b3856f3?rik=Uulm6lnhid2Giw&riu=http%3a%2f%2fshackmanlab.org%2fwp-content%2fuploads%2f2013%2f07%2fperson-placeholder.jpg&ehk=GGILj1W77t4L5TSfJq0peMYJY8na6RvFj0vx3uPQHkI%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1"
+                                                alt="User Avatar"
+                                            />
+                                        </div>
+                                        <div className={cx('comment-name')}>
+                                            <p>{review.name}</p>
+                                        </div>
                                     </div>
-                                    <div className={cx('comment-name')}>
-                                        <p>{review.name}</p>
+                                    <div className={cx('comment-content')}>
+                                        <div className={cx('comment-rating')}>
+                                            <Rating
+                                                initialRating={review.rating}
+                                                emptySymbol={<FontAwesomeIcon icon={faStar} />}
+                                                fullSymbol={<FontAwesomeIcon icon={faStar} color="#ffc107" />}
+                                                readonly
+                                            />
+                                        </div>
+                                        <div className={cx('comment-text')}>
+                                            <p>{review.comment}</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className={cx('comment-content')}>
-                                    <div className={cx('comment-rating')}>
-                                        <Rating
-                                            initialRating={review.rating}
-                                            emptySymbol={<FontAwesomeIcon icon={faStar}/>}
-                                            fullSymbol={<FontAwesomeIcon icon={faStar} color="#ffc107"/>}
-                                            readonly
-                                        />
-                                    </div>
-                                    <div className={cx('comment-text')}>
-                                        <p>{review.comment}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )) : <p>Chưa có bình luận nào</p>}
+                            ))
+                        ) : (
+                            <p>Chưa có bình luận nào</p>
+                        )}
                     </div>
                 </div>
             </div>
