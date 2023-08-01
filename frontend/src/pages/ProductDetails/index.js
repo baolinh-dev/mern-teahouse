@@ -170,7 +170,7 @@ const ProductDetails = () => {
                 <div className={cx('comments', 'container')}>
                     <h3 className={cx('comments-title')}>Bình luận</h3>
                     <div className={cx('comments-container')}>
-                        {reviews.map((review) => (
+                        {reviews.length > 0 ? reviews.map((review) => (
                             <div key={review._id} className={cx('comment-item')}>
                                 <div className={cx('comment-info')}>
                                     <div className={cx('comment-avatar')}>
@@ -197,7 +197,7 @@ const ProductDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                        )) : <p>Chưa có bình luận nào</p>}
                     </div>
                 </div>
             </div>
