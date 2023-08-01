@@ -43,16 +43,20 @@
             .order-info-wrapper { 
                 border: 1px solid #ccc; 
                 border-radius: 8px; 
-                margin-bottom: 20px;
+                margin-bottom: 20px; 
+                display: flex; 
+                justify-content: space-between;  
+                display: flex; 
+                flex-direction: column;
                 .order-info-item {
-                    display: flex; 
-                    justify-content: space-between;   
+                    display: flex;   
                     align-items: center;
                     border-radius: 4px; 
                     padding: 8px 12px;
-                    font-weight: 700;
-                    label { 
-                        width: 30%;
+                    font-weight: 700; 
+                    width: 100%;
+                    label {  
+                        width: 400px;
                     }  
                     input {
                         margin-bottom: 0;
