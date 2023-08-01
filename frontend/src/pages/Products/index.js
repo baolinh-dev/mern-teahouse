@@ -87,8 +87,18 @@ const Products = () => {
                                     renderThumb={({ props }) => <div className={cx('range-dot')} {...props} />}
                                 />
                                 <div className={cx('range-value')}>
-                                    <span>{values[0]}</span>
-                                    <span>{values[1]}</span>
+                                    <span>
+                                        {values[0].toLocaleString('vi-VN', {
+                                            style: 'currency',
+                                            currency: 'VND',
+                                        })}
+                                    </span>
+                                    <span>
+                                        {values[1].toLocaleString('vi-VN', {
+                                            style: 'currency',
+                                            currency: 'VND',
+                                        })}
+                                    </span>
                                 </div>
                             </div>
                             <div className={cx('search')}>
