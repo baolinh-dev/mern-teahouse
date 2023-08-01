@@ -5,7 +5,9 @@ import classNames from 'classnames/bind';
 import styles from './ProductDetails.module.scss';
 import Breadcrumb from '~/components/Breadcrumb';
 import Footer from '~/components/Footer';
-import { Button } from 'bootstrap';
+import Rating from 'react-rating';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCake, faStar, faStarAndCrescent, faStarHalfStroke } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind({ ...styles, container: 'container', row: 'row' });
 
@@ -13,6 +15,7 @@ const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
+    const [reviews, setReviews] = useState([]);
     const pathname = window.location.pathname;
     const productId = pathname.substring(pathname.lastIndexOf('/') + 1);
 
@@ -23,6 +26,16 @@ const ProductDetails = () => {
             console.log('Product:', res.data.product);
         };
         fetchProduct();
+        console.log('Đây là id: ', productId);
+    }, [productId]);
+
+    useEffect(() => {
+        const fetchReviews = async () => {
+            const res = await axios.get(`/api/v1/reviews?productId=${productId}`);
+            setReviews(res.data.reviews);
+            console.log('Reviews:', res.data.reviews);
+        };
+        fetchReviews();
     }, [productId]);
 
     if (!product) {
@@ -53,7 +66,7 @@ const ProductDetails = () => {
             image: product.images[0].url,
             price: product.price,
             quantity: quantity,
-        }; 
+        };
         const itemIndex = cart.findIndex((item) => item.id === product._id);
         if (itemIndex !== -1) {
             const updatedCart = [...cart];
@@ -63,8 +76,8 @@ const ProductDetails = () => {
         } else {
             setCart([...cart, newItem]);
             localStorage.setItem('cart', JSON.stringify([...cart, newItem]));
-        } 
-        window.location.reload()
+        }
+        window.location.reload();
     };
 
     const breadcrumbItems = [
@@ -152,6 +165,39 @@ const ProductDetails = () => {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div className={cx('comments', 'container')}>
+                    <h3 className={cx('comments-title')}>Bình luận</h3>
+                    <div className={cx('comments-container')}>
+                        {reviews.map((review) => (
+                            <div key={review._id} className={cx('comment-item')}>
+                                <div className={cx('comment-info')}>
+                                    <div className={cx('comment-avatar')}>
+                                        <img
+                                            src="https://th.bing.com/th/id/R.b9838bf721d3dff150c954530b3856f3?rik=Uulm6lnhid2Giw&riu=http%3a%2f%2fshackmanlab.org%2fwp-content%2fuploads%2f2013%2f07%2fperson-placeholder.jpg&ehk=GGILj1W77t4L5TSfJq0peMYJY8na6RvFj0vx3uPQHkI%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1"
+                                            alt="User Avatar"
+                                        />
+                                    </div>
+                                    <div className={cx('comment-name')}>
+                                        <p>{review.name}</p>
+                                    </div>
+                                </div>
+                                <div className={cx('comment-content')}>
+                                    <div className={cx('comment-rating')}>
+                                        <Rating
+                                            initialRating={review.rating}
+                                            emptySymbol={<FontAwesomeIcon icon={faStar}/>}
+                                            fullSymbol={<FontAwesomeIcon icon={faStar} color="#ffc107"/>}
+                                            readonly
+                                        />
+                                    </div>
+                                    <div className={cx('comment-text')}>
+                                        <p>{review.comment}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
