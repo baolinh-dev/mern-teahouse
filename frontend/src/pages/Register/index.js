@@ -68,7 +68,7 @@ function Register() {
                     <Heading content={'Đăng kí'} />
                 </ContainerHeading>
                 <div className={cx('form-group')}>
-                    <label htmlFor="name">Tên đăng nhập:</label>
+                    <label htmlFor="name">Họ và tên:</label>
                     <input
                         placeholder="Nhập tên đăng nhập"
                         type="text"
