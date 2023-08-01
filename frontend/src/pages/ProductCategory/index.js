@@ -11,6 +11,7 @@ import ProductItem from '~/components/ProductItem';
 import Pagination from '~/components/Pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Range } from 'react-range';
 import Footer from '~/components/Footer';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
@@ -29,6 +30,13 @@ function ProductCategory() {
     const [totalPages, setTotalPages] = useState(0);
     const [searchKeyword, setSearchKeyword] = useState('');
     const [searchStatus, setSearchStatus] = useState(false); // Thêm state searchStatus để lưu trạng thái tìm kiếm
+    const [values, setValues] = useState([20000, 80000]); // giá trị mặc định
+    const min = 20000;
+    const max = 80000;
+
+    function handleChange(newValues) {
+        setValues(newValues);
+    }
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -37,6 +45,8 @@ function ProductCategory() {
                     page: currentPage,
                     category: category,
                     keyword: searchKeyword,
+                    'price[gte]': values[0],
+                    'price[lte]': values[1],
                 },
             });
             setProducts(response.data.products);
@@ -45,7 +55,7 @@ function ProductCategory() {
         };
 
         fetchProducts();
-    }, [category, currentPage, searchKeyword]);
+    }, [category, currentPage, searchKeyword, values]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -67,19 +77,41 @@ function ProductCategory() {
                 <div className={cx('product-category')}>
                     <div className={cx('sub')}>
                         <Breadcrumb items={breadcrumbItems} />
-                        <div className={cx('search')}>
-                            <div className={cx('search-box')}>
-                                <form onSubmit={handleSubmit}>
-                                    <input
-                                        type="text"
-                                        placeholder="Nhập từ khóa tìm kiếm"
-                                        value={searchKeyword}
-                                        onChange={handleInputChange}
-                                    />
-                                    <button>
-                                        <FontAwesomeIcon icon={faSearch} />
-                                    </button>
-                                </form>
+                        <div className={cx('options')}>
+                            <div className={cx('filter')}>
+                                <Range
+                                    className={cx('range')}
+                                    values={values}
+                                    step={5000}
+                                    min={min}
+                                    max={max}
+                                    onChange={handleChange}
+                                    renderTrack={({ props, children }) => (
+                                        <div className={cx('range-line')} {...props}>
+                                            {children}
+                                        </div>
+                                    )}
+                                    renderThumb={({ props }) => <div className={cx('range-dot')} {...props} />}
+                                />
+                                <div className={cx('range-value')}>
+                                    <span>{values[0]}</span>
+                                    <span>{values[1]}</span>
+                                </div>
+                            </div>
+                            <div className={cx('search')}>
+                                <div className={cx('search-box')}>
+                                    <form onSubmit={handleSubmit}>
+                                        <input
+                                            type="text"
+                                            placeholder="Nhập từ khóa tìm kiếm"
+                                            value={searchKeyword}
+                                            onChange={handleInputChange}
+                                        />
+                                        <button>
+                                            <FontAwesomeIcon icon={faSearch} />
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -99,13 +131,18 @@ function ProductCategory() {
                                     />
                                 ))}
                             </ul>
-                            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                            <Pagination
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                onPageChange={handlePageChange}
+                            />
                         </>
-                    ) : ( // Hiển thị thông báo nếu không tìm thấy sản phẩm
+                    ) : (
+                        // Hiển thị thông báo nếu không tìm thấy sản phẩm
                         <h1>Không tìm thấy sản phẩm</h1>
                     )}
                 </div>
-            </div> 
+            </div>
             <Footer />
         </>
     );

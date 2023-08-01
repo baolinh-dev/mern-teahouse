@@ -2,15 +2,17 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 20px; 
+    padding: 8px;
     .product-thumbnail-container {
         display: flex;
         align-items: center;
         justify-content: center;
         width: 100%;
         overflow: hidden;
-        border: 1px solid #ebebeb;
-        position: relative;
+        box-shadow: 0 0 10px rgba($color: #000000, $alpha: .2);
+        border-radius: 10px;
+        position: relative; 
         &:hover .add-to-cart {
             transform: translateY(0);
         }
