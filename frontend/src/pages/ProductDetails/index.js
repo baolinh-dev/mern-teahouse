@@ -16,6 +16,7 @@ const ProductDetails = () => {
     const [quantity, setQuantity] = useState(1);
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
     const [reviews, setReviews] = useState([]);
+    const [commentForm, setCommentForm] = useState({ rating: '', comment: '' });
     const pathname = window.location.pathname;
     const productId = pathname.substring(pathname.lastIndexOf('/') + 1);
 
@@ -80,6 +81,31 @@ const ProductDetails = () => {
         window.location.reload();
     };
 
+    const handleRatingChange = (value) => {
+        setCommentForm({ ...commentForm, rating: value });
+    };
+
+    const handleCommentChange = (event) => {
+        setCommentForm({ ...commentForm, comment: event.target.value });
+    };
+    const handleSubmitComment = async () => {
+        try {
+            const response = await axios.put('/api/v1/review', {
+                rating: commentForm.rating,
+                comment: commentForm.comment,
+                productId: productId,
+            });
+            // Handle the response, e.g., display a success message
+            console.log('Comment submitted:', response.data);
+
+            // Clear the comment form
+            setCommentForm({ rating: '', comment: '' });
+            window.location.reload();
+        } catch (error) {
+            // Handle the error, e.g., display an error message
+            console.error('Error submitting comment:', error);
+        }
+    };
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
         { label: product.category, link: '/caphe' },
@@ -191,7 +217,7 @@ const ProductDetails = () => {
                     </div>
                 </div>
                 <div className={cx('comments', 'container')}>
-                    <h3 className={cx('comments-title')}>Bình luận</h3>
+                    <h3 className={cx('comments-title')}>bình luận</h3>
                     <div className={cx('comments-container')}>
                         {reviews.length > 0 ? (
                             reviews.map((review) => (
@@ -225,6 +251,28 @@ const ProductDetails = () => {
                         ) : (
                             <p>Chưa có bình luận nào</p>
                         )}
+                        <h3 className={cx('comments-title')}>Đánh giá</h3>
+                        <div className={cx('comment-form')}>
+                            <div className={cx('comment-rating')}>
+                                <label>Rating : </label>
+                                <Rating
+                                    initialRating={commentForm.rating}
+                                    emptySymbol={<FontAwesomeIcon icon={faStar} />}
+                                    fullSymbol={<FontAwesomeIcon icon={faStar} color="#ffc107" />}
+                                    onChange={handleRatingChange}
+                                />
+                            </div>
+                            <div className={cx('comment-text')}>
+                                <textarea
+                                    placeholder="Nhập bình luận của bạn..."
+                                    value={commentForm.comment}
+                                    onChange={handleCommentChange}
+                                ></textarea>
+                            </div>
+                            <button onClick={handleSubmitComment}>
+                                <span>Gửi bình luận</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

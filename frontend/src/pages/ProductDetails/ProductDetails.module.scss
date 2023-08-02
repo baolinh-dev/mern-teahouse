@@ -48,26 +48,26 @@
                         font-weight: 700;
                         line-height: 22px;
                     }
-                } 
-                .ratings { 
-                    display: flex; 
-                    align-items: center;  
+                }
+                .ratings {
+                    display: flex;
+                    align-items: center;
                     margin-bottom: 16px;
                     .stars {
                         margin-right: 20px;
                     }
-                    .ratings-number {  
-                        display: flex;   
-                        align-items: center;  
-                        h4 { 
-                            font-weight: 700; 
-                            
-                            margin-bottom: 0; 
+                    .ratings-number {
+                        display: flex;
+                        align-items: center;
+                        h4 {
+                            font-weight: 700;
+
+                            margin-bottom: 0;
                             margin-right: 4px;
                         }
-                        p { 
-                            font-weight: 700;  
-                       
+                        p {
+                            font-weight: 700;
+
                             margin-bottom: 0;
                         }
                     }
@@ -205,8 +205,8 @@
             margin-top: 20px;
             .comment-item {
                 box-shadow: 0 0 8px rgba($color: #000000, $alpha: 0.2);
-                padding: 12px; 
-                margin-bottom: 20px; 
+                padding: 12px;
+                margin-bottom: 20px;
                 border-radius: 12px;
                 .comment-info {
                     display: flex;
@@ -214,28 +214,73 @@
                     .comment-avatar {
                         margin-right: 20px;
                         img {
-                            width: 60px;
-                            height: 60px;
+                            width: 52px;
+                            height: 52px;
+                            padding: 2px;
+                            border: 1px solid #ddd;
                             border-radius: 50%;
                         }
                     }
-                    .comment-name { 
-                        p { 
-                            font-weight: 700; 
+                    .comment-name {
+                        p {
+                            font-weight: 700;
                             font-size: 1.6rem;
                         }
                     }
                 }
-                .comment-content { 
+                .comment-content {
                     margin-top: 8px;
                     .comment-rating {
                     }
-                    .comment-text { 
-                        margin-top: 4px; 
+                    .comment-text {
+                        margin-top: 4px;
                         font-size: 1.6rem;
                     }
                 }
             }
         }
+    }
+}
+.comment-form {
+    margin-top: 20px;
+    .comment-text {
+        margin-bottom: 20px;
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 8px;
+            border: 1px solid var(--primary);
+            border-radius: 12px;
+        }
+        &:focus {
+            border-color: var(--primary);
+        }
+    }
+
+    .comment-rating {
+        margin-bottom: 20px; 
+        label { 
+            font-size: 1.6rem; 
+            margin-right: 12px; 
+            font-weight: 700;
+        }
+    }
+    button {
+        font-family: 'Quicksand', sans-serif;
+        background-color: var(--primary);
+        font-weight: 700;
+        text-decoration: none;
+        color: #fff;
+        display: flex;
+        font-size: 18px;
+        border-radius: 30px;
+        border: none;
+        float: left;
+        padding: 12px 20px;
+        margin-right: 20px;
+        min-width: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
