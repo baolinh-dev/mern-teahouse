@@ -1,37 +1,37 @@
 const Order = require('../models/orderModel');
 const Product = require('../models/productModel');
-const ErrorHandler = require('../utils/errorhandler');
+const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 
 // Create new Order
 exports.newOrder = catchAsyncErrors(async (req, res, next) => {
     // Kiểm tra xem người dùng đã đăng nhập hay chưa
     if (!req.user) {
-      return res.status(401).json({
-        success: false,
-        message: 'Bạn cần đăng nhập để đặt hàng'
-      });
+        return res.status(401).json({
+            success: false,
+            message: 'Bạn cần đăng nhập để đặt hàng',
+        });
     }
-  
+
     // Lấy thông tin người dùng từ request
     const { cart, totalProductPrice, customerInfo, orderInfo } = req.body;
     const userId = req.user._id;
-  
+
     // Tạo đơn hàng mới
     const order = await Order.create({
-      user: userId,
-      cart,
-      totalProductPrice,
-      customerInfo,
-      orderInfo
+        user: userId,
+        cart,
+        totalProductPrice,
+        customerInfo,
+        orderInfo,
     });
-  
+
     // Trả về đơn hàng vừa tạo
     res.status(201).json({
-      success: true,
-      order
+        success: true,
+        order,
     });
-  });
+});
 // Get Single Order
 exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
     const order = await Order.findById(req.params.id).populate('user', 'name email');
@@ -70,8 +70,8 @@ exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
     });
 });
 // Update Order Status -- Admin
-exports.updateOrder = catchAsyncErrors(async (req, res, next) => { 
-    const order = await Order.findById(req.params.id); 
+exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
+    const order = await Order.findById(req.params.id);
 
     if (!order) {
         return next(new ErrorHandler('Order not found with this Id', 404));
@@ -97,7 +97,7 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
 });
 // Function
 async function updateStock(id, quantity) {
-    const product = await Product.findById(id); 
+    const product = await Product.findById(id);
     product.stock -= quantity;
     await product.save({ validateBeforeSave: false });
 }

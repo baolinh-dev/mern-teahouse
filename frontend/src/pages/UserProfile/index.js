@@ -52,7 +52,7 @@ function UserProfile() {
                     <div className={cx('user-profile-content')}>
                         <div className={cx('left-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
                             <div className={cx('image')}>
-                                <img src={userData.avatar.url} />
+                                <img src={userData.avatar.url} alt='user-profile'/>
                             </div>
                         </div>
                         <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>

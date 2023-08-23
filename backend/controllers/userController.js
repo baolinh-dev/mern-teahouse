@@ -1,4 +1,4 @@
-const ErrorHandler = require('../utils/errorhandler');
+const ErrorHandler = require('../utils/errorHandler');
 const ApiFeatures = require('../utils/apifeatures');
 
 const User = require('../models/userModel');
@@ -15,7 +15,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     const user = await User.create({
         name,
         email,
-        password, 
+        password,
         phoneNumber,
         avatar: {
             public_id: 'this is a simple id',

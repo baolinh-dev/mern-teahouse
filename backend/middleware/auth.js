@@ -1,6 +1,6 @@
 const userModel = require('../models/userModel');
-const ErrorHandler = require('../utils/errorhandler');
-const catchAsyncErrors = require('./catchAsyncErrors'); 
+const ErrorHandler = require('../utils/errorHandler');
+const catchAsyncErrors = require('./catchAsyncErrors');
 const Cookies = require('js-cookie');
 const jwt = require('jsonwebtoken');
 
@@ -17,7 +17,7 @@ const findUserById = async (id) => {
 };
 
 exports.isAuthenticatedUser = async (req, res, next) => {
-    const token = getTokenFromCookie(req) || req.cookies.token;     
+    const token = getTokenFromCookie(req) || req.cookies.token;
     if (!token) return next(new ErrorHandler('Please login to access this resource', 401));
 
     try {
@@ -46,7 +46,7 @@ exports.adminOnly = (req, res, next) => {
         // return res.status(403).json({
         //     success: false,
         //     message: 'Bạn không có quyền truy cập tài nguyên này.',
-        // });  
+        // });
         return next(new ErrorHandler(`Role: ${req.user.role} is not allowed to access this resouce`, 403));
     }
     next();

@@ -1,4 +1,4 @@
-const ErrorHandler = require('../utils/errorhandler');
+const ErrorHandler = require('../utils/errorHandler');
 
 module.exports = (err, req, res, next) => {
     console.log(err.stack);
@@ -19,13 +19,13 @@ module.exports = (err, req, res, next) => {
     if (err.name === 'JsonWebTokenError') {
         const message = 'Json Web Token is invalid, Try again';
         err = new ErrorHandler(message, 400);
-    }  
+    }
 
-    // JWT Expire Error  
+    // JWT Expire Error
     if (err.name === 'TokenExpiredError') {
         const message = 'Json Web Token is expired, Try again';
         err = new ErrorHandler(message, 400);
-    }  
+    }
 
     res.status(500).json({
         success: false,

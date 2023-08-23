@@ -2,10 +2,7 @@ import './Footer.module.scss';
 import TitleFooter from './TitleFooter';
 import logo from '~/assets/images/logo.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faLocationDot,
-    faPhoneAlt,
-} from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faGoogle, faPinterest, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import classNames from 'classnames/bind';
 import styles from './Footer.module.scss';
@@ -29,7 +26,7 @@ function Footer() {
                 <div className={cx('row')}>
                     <div className={cx('col-4', 'col-lg-4', 'col-md-12', 'col-12', 'right-footer')}>
                         <div className={cx('logo-footer')}>
-                            <img src={logo} />
+                            <img src={logo} alt="logo-footer" />
                         </div>
                         <p>
                             Chúng tôi mong muốn Tea House sẽ trở thành “Nhà Trà", nơi mọi người xích lại gần nhau và tìm

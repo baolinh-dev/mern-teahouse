@@ -7,10 +7,9 @@ import Menu from '~/pages/Home/Menu';
 import Footer from '~/components/Footer';
 import TimeOpening from '~/pages/Home/TimeOpening';
 import News from './News';
-import Gallery from './Gallery'; 
-import Cookies from 'js-cookie';
+import Gallery from './Gallery';
 
-function Home() {  
+function Home() {
     return (
         <>
             <Header />
@@ -19,7 +18,7 @@ function Home() {
             <AboutMe />
             <Menu />
             <TimeOpening />
-            <News /> 
+            <News />
             <Gallery />
             <Footer />
         </>

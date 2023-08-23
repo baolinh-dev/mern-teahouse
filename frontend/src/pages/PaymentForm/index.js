@@ -8,7 +8,7 @@ import styles from './PaymentForm.module.scss';
 import Cart from './CartPayment';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartFlatbed, faCartShopping, faClipboardList } from '@fortawesome/free-solid-svg-icons';
+import {faCartShopping, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import Footer from '~/components/Footer';
 const cx = classNames.bind(styles);
 

@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faPhoneAlt, faUser, faTrash, faCartFlatbedSuitcase } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faPhoneAlt, faTrash, faCartFlatbedSuitcase } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import styles from './Topbar.module.scss';
 import { Link, Navigate } from 'react-router-dom';

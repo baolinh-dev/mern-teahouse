@@ -7,7 +7,7 @@ import Breadcrumb from '~/components/Breadcrumb';
 import Footer from '~/components/Footer';
 import Rating from 'react-rating';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCake, faStar, faStarAndCrescent, faStarHalfStroke } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind({ ...styles, container: 'container', row: 'row' });
 
