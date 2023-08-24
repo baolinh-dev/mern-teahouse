@@ -16,7 +16,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
-const Products = () => {
+const ProductAll = () => {
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
         { label: 'Tất cả sản phẩm', active: true },
@@ -144,4 +144,4 @@ const Products = () => {
     );
 };
 
-export default Products;
+export default ProductAll;

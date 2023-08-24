@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import classNames from 'classnames/bind';
-import styles from './UserProfile.module.scss';
+import styles from './EditProfile.module.scss';
 import Header from '~/components/Header';
 import Footer from '~/components/Footer';
 import Breadcrumb from '~/components/Breadcrumb';
@@ -45,7 +45,6 @@ function EditProfile() {
                 console.log(error);
             });
     }, [error]);
-
     return (
         <>
             <Header />
@@ -59,35 +58,42 @@ function EditProfile() {
                         <div className={cx('image')}>
                             <img src={Cookies.get('userAvatar')} alt='avatar'/>
                         </div>
-                    </div>
-                    <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
-                        <div className={cx('group-infor')}>
-                            <b>Name: </b>
-                            <input value={userData.email} />
-                        </div>
-                        <div className={cx('group-infor')}>
-                            <b>Email: </b>
-                            <input value={userData.email} />
-                        </div>
-                        <div className={cx('group-infor')}>
-                            <b>Role: </b>
-                            <input value={userData.role} />
-                        </div>
-                        <div className={cx('buttons')}>
-                            <div className={cx('button')}>
-                                <Link to={'/edit-profile'}>Edit profile</Link>
+                    </div> 
+                    {
+                        userData ? (
+                            <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
+                            <div className={cx('group-infor')}>
+                                <b>Name: </b>
+                                <input value={userData.email} />
                             </div>
-                            <div className={cx('button')}>
-                                <Link to={'/user-profile'}>User Profile</Link>
+                            <div className={cx('group-infor')}>
+                                <b>Email: </b>
+                                <input value={userData.email} />
                             </div>
-                            <div className={cx('button')}>
-                                <Link to={'/my-orders'}>My orders</Link>
+                            <div className={cx('group-infor')}>
+                                <b>Role: </b>
+                                <input value={userData.role} />
                             </div>
-                            <div className={cx('button')}>
-                                <Link to={'/change-password'}>Change password</Link>
+                            <div className={cx('buttons')}>
+                                <div className={cx('button')}>
+                                    <Link to={'/edit-profile'}>Edit profile</Link>
+                                </div>
+                                <div className={cx('button')}>
+                                    <Link to={'/user-profile'}>User Profile</Link>
+                                </div>
+                                <div className={cx('button')}>
+                                    <Link to={'/my-orders'}>My orders</Link>
+                                </div>
+                                <div className={cx('button')}>
+                                    <Link to={'/change-password'}>Change password</Link>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        ): (
+                            <div>Error: {error}</div>
+                        )
+                    }
+
                 </div>
             </div>
             <Footer />

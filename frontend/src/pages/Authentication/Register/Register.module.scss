@@ -1,5 +1,5 @@
-.login { 
-    background-image: url('../../assets/images/login.webp'); 
+.register { 
+    background-image: url('../../../assets/images/login.webp'); 
     width: 100vw; 
     height: 100vh; 
     background-size: cover; 
@@ -29,15 +29,6 @@
                 border-radius: 8px; 
                 padding: 0 20px;
             } 
-        } 
-        .other-options { 
-            display: flex; 
-            justify-content: space-between; 
-            margin-bottom: 20px; 
-            a { 
-                font-size: 1.4rem; 
-                font-style: italic;
-            }
         }
         button { 
             padding: 10px 20px; 
@@ -47,8 +38,7 @@
             outline: none; 
             border-radius: 20px; 
             color: #fff; 
-            width: 100%; 
-            font-weight: 700;
+            width: 100%;
         }
     }
  }

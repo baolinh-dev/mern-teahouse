@@ -1,20 +1,20 @@
 // Pages
 import Home from '~/pages/Home'; 
-import Login from '~/pages/Login'; 
-import Register from '~/pages/Register';
+import Login from '~/pages/Authentication/Login'; 
+import Register from '~/pages/Authentication/Register';
 import Contact from '~/pages/Contact';
-import Products from '~/pages/Products';
+import ProductAll from '~/pages/Product/ProductAll';
 import ProductDetails from '~/pages/ProductDetails';
 import Introduce from '~/pages/Introduce';
 import Menu from '~/pages/Menu';
-import ProductCategory from '~/pages/ProductCategory';
+import ProductCategory from '~/pages/Product/ProductCategory';
 import News from '~/pages/News';
-import ForgotPassword from '~/pages/ForgotPassword';
-import ResetPassword from '~/pages/ResetPassword';
-import UserProfile from '~/pages/UserProfile';
-import EditProfile from '~/pages/EditProfile'; 
-import ChangePassword from '~/pages/ChangePassword'; 
-import MyOrders from '~/pages/MyOrders';
+import ForgotPassword from '~/pages/Authentication/ForgotPassword';
+import ResetPassword from '~/pages/Authentication/ResetPassword';
+import UserProfile from '~/pages/Profile/UserProfile';
+import EditProfile from '~/pages/Profile/EditProfile'; 
+import ChangePassword from '~/pages/Profile/ChangePassword'; 
+import MyOrders from '~/pages/Profile/MyOrders';
 import Cart from '~/pages/Cart';
 import PaymentForm from '~/pages/PaymentForm';
 // Public routes
@@ -35,7 +35,7 @@ const publicRoutes = [
     { path: '/productCategory', component: ProductCategory }, 
     { path: '/introduce', component: Introduce },  
     { path: '/contact', component: Contact },
-    { path: '/products', component: Products },
+    { path: '/products', component: ProductAll },
     { path: '/products/:id', component: ProductDetails },
 ];
 
