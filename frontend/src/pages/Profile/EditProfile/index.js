@@ -13,6 +13,7 @@ import Breadcrumb from '~/components/Breadcrumb';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import MainLayout from '~/layouts/MainLayout';
+import ProfileLayout from '~/layouts/ProfileLayout';
 
 const cx = classNames.bind({
     ...styles,
@@ -48,51 +49,40 @@ function EditProfile() {
     }, [error]);
     return (
         <>
-            <MainLayout>
-                <Breadcrumb items={breadcrumbItems} />
-                <ContainerHeading center>
-                    <Heading content={'Edit Profile'} />
-                </ContainerHeading>
-                <div className={cx('user-profile-content')}>
-                    <div className={cx('left-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
-                        <div className={cx('image')}>
-                            <img src={Cookies.get('userAvatar')} alt="avatar" />
+            <ProfileLayout>
+                {userData ? (
+                    <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
+                        <div className={cx('group-infor')}>
+                            <b>Name: </b>
+                            <input value={userData.email} />
+                        </div>
+                        <div className={cx('group-infor')}>
+                            <b>Email: </b>
+                            <input value={userData.email} />
+                        </div>
+                        <div className={cx('group-infor')}>
+                            <b>Role: </b>
+                            <input value={userData.role} />
+                        </div>
+                        <div className={cx('buttons')}>
+                            <div className={cx('button')}>
+                                <Link to={'/edit-profile'}>Edit profile</Link>
+                            </div>
+                            <div className={cx('button')}>
+                                <Link to={'/user-profile'}>User Profile</Link>
+                            </div>
+                            <div className={cx('button')}>
+                                <Link to={'/my-orders'}>My orders</Link>
+                            </div>
+                            <div className={cx('button')}>
+                                <Link to={'/change-password'}>Change password</Link>
+                            </div>
                         </div>
                     </div>
-                    {userData ? (
-                        <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
-                            <div className={cx('group-infor')}>
-                                <b>Name: </b>
-                                <input value={userData.email} />
-                            </div>
-                            <div className={cx('group-infor')}>
-                                <b>Email: </b>
-                                <input value={userData.email} />
-                            </div>
-                            <div className={cx('group-infor')}>
-                                <b>Role: </b>
-                                <input value={userData.role} />
-                            </div>
-                            <div className={cx('buttons')}>
-                                <div className={cx('button')}>
-                                    <Link to={'/edit-profile'}>Edit profile</Link>
-                                </div>
-                                <div className={cx('button')}>
-                                    <Link to={'/user-profile'}>User Profile</Link>
-                                </div>
-                                <div className={cx('button')}>
-                                    <Link to={'/my-orders'}>My orders</Link>
-                                </div>
-                                <div className={cx('button')}>
-                                    <Link to={'/change-password'}>Change password</Link>
-                                </div>
-                            </div>
-                        </div>
-                    ) : (
-                        <div>Error: {error}</div>
-                    )}
-                </div>
-            </MainLayout>
+                ) : (
+                    <div>Error: {error}</div>
+                )}
+            </ProfileLayout>
             <ToastContainer />
         </>
     );
