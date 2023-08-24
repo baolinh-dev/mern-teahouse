@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Range } from 'react-range';
 import Footer from '~/components/Footer';
+import MainLayout from '~/layouts/MainLayout';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
@@ -72,88 +73,88 @@ function ProductCategory() {
 
     return (
         <>
-            <Header />
-            <div className={cx('container')}>
-                <div className={cx('product-category')}>
-                    <div className={cx('sub')}>
-                        <Breadcrumb items={breadcrumbItems} />
-                        <div className={cx('options')}>
-                            <div className={cx('filter')}>
-                                <Range
-                                    className={cx('range')}
-                                    values={values}
-                                    step={5000}
-                                    min={min}
-                                    max={max}
-                                    onChange={handleChange}
-                                    renderTrack={({ props, children }) => (
-                                        <div className={cx('range-line')} {...props}>
-                                            {children}
-                                        </div>
-                                    )}
-                                    renderThumb={({ props }) => <div className={cx('range-dot')} {...props} />}
-                                />
-                                <div className={cx('range-value')}>
-                                <span>
-                                        {values[0].toLocaleString('vi-VN', {
-                                            style: 'currency',
-                                            currency: 'VND',
-                                        })}
-                                    </span>
-                                    <span>
-                                        {values[1].toLocaleString('vi-VN', {
-                                            style: 'currency',
-                                            currency: 'VND',
-                                        })}
-                                    </span>
+            <MainLayout>
+                <div className={cx('container')}>
+                    <div className={cx('product-category')}>
+                        <div className={cx('sub')}>
+                            <Breadcrumb items={breadcrumbItems} />
+                            <div className={cx('options')}>
+                                <div className={cx('filter')}>
+                                    <Range
+                                        className={cx('range')}
+                                        values={values}
+                                        step={5000}
+                                        min={min}
+                                        max={max}
+                                        onChange={handleChange}
+                                        renderTrack={({ props, children }) => (
+                                            <div className={cx('range-line')} {...props}>
+                                                {children}
+                                            </div>
+                                        )}
+                                        renderThumb={({ props }) => <div className={cx('range-dot')} {...props} />}
+                                    />
+                                    <div className={cx('range-value')}>
+                                        <span>
+                                            {values[0].toLocaleString('vi-VN', {
+                                                style: 'currency',
+                                                currency: 'VND',
+                                            })}
+                                        </span>
+                                        <span>
+                                            {values[1].toLocaleString('vi-VN', {
+                                                style: 'currency',
+                                                currency: 'VND',
+                                            })}
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className={cx('search')}>
-                                <div className={cx('search-box')}>
-                                    <form onSubmit={handleSubmit}>
-                                        <input
-                                            type="text"
-                                            placeholder="Nhập từ khóa tìm kiếm"
-                                            value={searchKeyword}
-                                            onChange={handleInputChange}
-                                        />
-                                        <button>
-                                            <FontAwesomeIcon icon={faSearch} />
-                                        </button>
-                                    </form>
+                                <div className={cx('search')}>
+                                    <div className={cx('search-box')}>
+                                        <form onSubmit={handleSubmit}>
+                                            <input
+                                                type="text"
+                                                placeholder="Nhập từ khóa tìm kiếm"
+                                                value={searchKeyword}
+                                                onChange={handleInputChange}
+                                            />
+                                            <button>
+                                                <FontAwesomeIcon icon={faSearch} />
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <ContainerHeading center>
+                            <Heading content={category} />
+                        </ContainerHeading>
+                        {searchStatus ? ( // Hiển thị danh sách sản phẩm nếu tìm thấy sản phẩm
+                            <>
+                                <ul className={cx('list')}>
+                                    {products.map((product) => (
+                                        <ProductItem
+                                            key={product._id}
+                                            imageUrl={product.images[0].url}
+                                            price={product.price}
+                                            nameProduct={product.name}
+                                            id={product._id}
+                                        />
+                                    ))}
+                                </ul>
+                                <Pagination
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                    onPageChange={handlePageChange}
+                                />
+                            </>
+                        ) : (
+                            // Hiển thị thông báo nếu không tìm thấy sản phẩm
+                            <h1>Không tìm thấy sản phẩm</h1>
+                        )}
                     </div>
-                    <ContainerHeading center>
-                        <Heading content={category} />
-                    </ContainerHeading>
-                    {searchStatus ? ( // Hiển thị danh sách sản phẩm nếu tìm thấy sản phẩm
-                        <>
-                            <ul className={cx('list')}>
-                                {products.map((product) => (
-                                    <ProductItem
-                                        key={product._id}
-                                        imageUrl={product.images[0].url}
-                                        price={product.price}
-                                        nameProduct={product.name}
-                                        id={product._id}
-                                    />
-                                ))}
-                            </ul>
-                            <Pagination
-                                currentPage={currentPage}
-                                totalPages={totalPages}
-                                onPageChange={handlePageChange}
-                            />
-                        </>
-                    ) : (
-                        // Hiển thị thông báo nếu không tìm thấy sản phẩm
-                        <h1>Không tìm thấy sản phẩm</h1>
-                    )}
                 </div>
-            </div>
-            <Footer />
+            </MainLayout>
         </>
     );
 }

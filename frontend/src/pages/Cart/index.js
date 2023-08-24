@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faShare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import Footer from '~/components/Footer';
+import MainLayout from '~/layouts/MainLayout';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
@@ -44,8 +45,8 @@ function Cart() {
     };
 
     return (
-        <>
-            <Header />
+        <> 
+            <MainLayout>
             <div className={cx('cart', 'container')}>
                 <Breadcrumb
                     items={[
@@ -131,7 +132,7 @@ function Cart() {
                     </div>
                 </div>
             </div>
-            <Footer />
+            </MainLayout>
         </>
     );
 }

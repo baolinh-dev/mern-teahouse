@@ -8,6 +8,7 @@ import classNames from 'classnames/bind';
 import styles from './Menu.module.scss';
 import Footer from '~/components/Footer';
 import Pagination from '~/components/Pagination';
+import MainLayout from '~/layouts/MainLayout';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
@@ -86,86 +87,86 @@ function Menu() {
 
     return (
         <>
-            <Header />
-            <div className={cx('menu', 'container')}>
-                <Breadcrumb
-                    items={[
-                        { label: 'Trang chủ', link: '/' },
-                        { label: 'Thực đơn', active: true },
-                    ]}
-                />
-                <div className={cx('item')}>
-                    <MenuItem
-                        contentHeading={'TRÀ HOA QUẢ'}
-                        desc={
-                            'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
-                        }
-                        listItem={traHoaQuaProducts}
+            <MainLayout>
+                <div className={cx('menu', 'container')}>
+                    <Breadcrumb
+                        items={[
+                            { label: 'Trang chủ', link: '/' },
+                            { label: 'Thực đơn', active: true },
+                        ]}
                     />
-                    <Pagination
-                        currentPage={traHoaQuaCurrentPage}
-                        totalPages={traHoaQuaTotalPages}
-                        onPageChange={handleTraHoaQuaPageChange}
-                    />
+                    <div className={cx('item')}>
+                        <MenuItem
+                            contentHeading={'TRÀ HOA QUẢ'}
+                            desc={
+                                'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
+                            }
+                            listItem={traHoaQuaProducts}
+                        />
+                        <Pagination
+                            currentPage={traHoaQuaCurrentPage}
+                            totalPages={traHoaQuaTotalPages}
+                            onPageChange={handleTraHoaQuaPageChange}
+                        />
+                    </div>
+                    <div className={cx('item')}>
+                        <MenuItem
+                            contentHeading={'CÀ PHÊ'}
+                            desc={
+                                'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
+                            }
+                            listItem={caPheProducts}
+                        />
+                        <Pagination
+                            currentPage={caPheCurrentPage}
+                            totalPages={caPheTotalPages}
+                            onPageChange={handleCaPhePageChange}
+                        />
+                    </div>
+                    <div className={cx('item')}>
+                        <MenuItem
+                            contentHeading={'BÁNH NGỌT'}
+                            desc={
+                                'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
+                            }
+                            listItem={banhNgotProducts}
+                        />
+                        <Pagination
+                            currentPage={banhNgotCurrentPage}
+                            totalPages={banhNgotTotalPages}
+                            onPageChange={handleBanhNgotPageChange}
+                        />
+                    </div>
+                    <div className={cx('item')}>
+                        <MenuItem
+                            contentHeading={'SMOOTHIES'}
+                            desc={
+                                'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
+                            }
+                            listItem={smoothiesProducts}
+                        />
+                        <Pagination
+                            currentPage={smoothiesCurrentPage}
+                            totalPages={smoothiesTotalPages}
+                            onPageChange={handleSmoothiesPageChange}
+                        />
+                    </div>
+                    <div className={cx('item')}>
+                        <MenuItem
+                            contentHeading={'TRÀ SỮA'}
+                            desc={
+                                'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
+                            }
+                            listItem={traSuaProducts}
+                        />
+                        <Pagination
+                            currentPage={traSuaCurrentPage}
+                            totalPages={traSuaTotalPages}
+                            onPageChange={handleTraSuaPageChange}
+                        />
+                    </div>
                 </div>
-                <div className={cx('item')}>
-                    <MenuItem
-                        contentHeading={'CÀ PHÊ'}
-                        desc={
-                            'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
-                        }
-                        listItem={caPheProducts}
-                    />
-                    <Pagination
-                        currentPage={caPheCurrentPage}
-                        totalPages={caPheTotalPages}
-                        onPageChange={handleCaPhePageChange}
-                    />
-                </div>
-                <div className={cx('item')}>
-                    <MenuItem
-                        contentHeading={'BÁNH NGỌT'}
-                        desc={
-                            'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
-                        }
-                        listItem={banhNgotProducts}
-                    />
-                    <Pagination
-                        currentPage={banhNgotCurrentPage}
-                        totalPages={banhNgotTotalPages}
-                        onPageChange={handleBanhNgotPageChange}
-                    />
-                </div>
-                <div className={cx('item')}>
-                    <MenuItem
-                        contentHeading={'SMOOTHIES'}
-                        desc={
-                            'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
-                        }
-                        listItem={smoothiesProducts}
-                    />
-                    <Pagination
-                        currentPage={smoothiesCurrentPage}
-                        totalPages={smoothiesTotalPages}
-                        onPageChange={handleSmoothiesPageChange}
-                    />
-                </div>
-                <div className={cx('item')}>
-                    <MenuItem
-                        contentHeading={'TRÀ SỮA'}
-                        desc={
-                            'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
-                        }
-                        listItem={traSuaProducts}
-                    />
-                    <Pagination
-                        currentPage={traSuaCurrentPage}
-                        totalPages={traSuaTotalPages}
-                        onPageChange={handleTraSuaPageChange}
-                    />
-                </div>
-            </div>
-            <Footer />
+            </MainLayout>
         </>
     );
 }

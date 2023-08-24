@@ -12,6 +12,7 @@ import Footer from '~/components/Footer';
 import Breadcrumb from '~/components/Breadcrumb';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import MainLayout from '~/layouts/MainLayout';
 
 const cx = classNames.bind({
     ...styles,
@@ -36,19 +37,18 @@ function EditProfile() {
         axios
             .get('/api/v1/me')
             .then((response) => {
-                setUserData(response.data.user); 
+                setUserData(response.data.user);
                 console.log(response.data.user);
             })
             .catch((err) => {
-                setError(err.response.data.message); 
-                toast.error(err.response.data.message); 
+                setError(err.response.data.message);
+                toast.error(err.response.data.message);
                 console.log(error);
             });
     }, [error]);
     return (
         <>
-            <Header />
-            <div className={cx('user-profile', 'container')}>
+            <MainLayout>
                 <Breadcrumb items={breadcrumbItems} />
                 <ContainerHeading center>
                     <Heading content={'Edit Profile'} />
@@ -56,12 +56,11 @@ function EditProfile() {
                 <div className={cx('user-profile-content')}>
                     <div className={cx('left-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
                         <div className={cx('image')}>
-                            <img src={Cookies.get('userAvatar')} alt='avatar'/>
+                            <img src={Cookies.get('userAvatar')} alt="avatar" />
                         </div>
-                    </div> 
-                    {
-                        userData ? (
-                            <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
+                    </div>
+                    {userData ? (
+                        <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
                             <div className={cx('group-infor')}>
                                 <b>Name: </b>
                                 <input value={userData.email} />
@@ -89,15 +88,12 @@ function EditProfile() {
                                 </div>
                             </div>
                         </div>
-                        ): (
-                            <div>Error: {error}</div>
-                        )
-                    }
-
+                    ) : (
+                        <div>Error: {error}</div>
+                    )}
                 </div>
-            </div>
-            <Footer />
-            <ToastContainer /> 
+            </MainLayout>
+            <ToastContainer />
         </>
     );
 }

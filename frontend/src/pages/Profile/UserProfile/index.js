@@ -9,6 +9,7 @@ import Header from '~/components/Header';
 import Footer from '~/components/Footer';
 import Breadcrumb from '~/components/Breadcrumb';
 import { Link } from 'react-router-dom';
+import MainLayout from '~/layouts/MainLayout';
 
 const cx = classNames.bind({
     ...styles,
@@ -42,61 +43,61 @@ function UserProfile() {
 
     return (
         <>
-            <Header />
-            <div className={cx('user-profile', 'container')}>
-                <Breadcrumb items={breadcrumbItems} />
-                <ContainerHeading center>
-                    <Heading content={'User Profile'} />
-                </ContainerHeading>
-                {userData ? (
-                    <div className={cx('user-profile-content')}>
-                        <div className={cx('left-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
-                            <div className={cx('image')}>
-                                <img src={userData.avatar.url} alt='user-profile'/>
+            <MainLayout>
+                <div className={cx('user-profile', 'container')}>
+                    <Breadcrumb items={breadcrumbItems} />
+                    <ContainerHeading center>
+                        <Heading content={'User Profile'} />
+                    </ContainerHeading>
+                    {userData ? (
+                        <div className={cx('user-profile-content')}>
+                            <div className={cx('left-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
+                                <div className={cx('image')}>
+                                    <img src={userData.avatar.url} alt="user-profile" />
+                                </div>
+                            </div>
+                            <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
+                                <div className={cx('group-infor')}>
+                                    <b>Name: </b>
+                                    <p>{userData.name}</p>
+                                </div>
+                                <div className={cx('group-infor')}>
+                                    <b>Email: </b>
+                                    <p>{userData.email}</p>
+                                </div>
+                                <div className={cx('group-infor')}>
+                                    <b>Role: </b>
+                                    <p>{userData.role}</p>
+                                </div>
+                                <div className={cx('group-infor')}>
+                                    <b>Phone Number: </b>
+                                    <p>{userData.phoneNumber ? userData.phoneNumber : 'Chưa có số điện thoại'}</p>
+                                </div>
+                                <div className={cx('group-infor')}>
+                                    <b>Address: </b>
+                                    <p>{userData.address ? userData.address : 'Chưa có địa chỉ'}</p>
+                                </div>
+                                <div className={cx('buttons')}>
+                                    <div className={cx('button')}>
+                                        <Link to={'/edit-profile'}>Edit profile</Link>
+                                    </div>
+                                    <div className={cx('button')}>
+                                        <Link to={'/user-profile'}>User Profile</Link>
+                                    </div>
+                                    <div className={cx('button')}>
+                                        <Link to={'/my-orders'}>My orders</Link>
+                                    </div>
+                                    <div className={cx('button')}>
+                                        <Link to={'/change-password'}>Change password</Link>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
-                            <div className={cx('group-infor')}>
-                                <b>Name: </b>
-                                <p>{userData.name}</p>
-                            </div>
-                            <div className={cx('group-infor')}>
-                                <b>Email: </b>
-                                <p>{userData.email}</p>
-                            </div>
-                            <div className={cx('group-infor')}>
-                                <b>Role: </b>
-                                <p>{userData.role}</p>
-                            </div>
-                            <div className={cx('group-infor')}>
-                                <b>Phone Number: </b>
-                                <p>{userData.phoneNumber ? userData.phoneNumber : 'Chưa có số điện thoại'}</p>
-                            </div>
-                            <div className={cx('group-infor')}>
-                                <b>Address: </b>
-                                <p>{userData.address ? userData.address : 'Chưa có địa chỉ'}</p>
-                            </div>
-                            <div className={cx('buttons')}>
-                                <div className={cx('button')}>
-                                    <Link to={'/edit-profile'}>Edit profile</Link>
-                                </div>
-                                <div className={cx('button')}>
-                                    <Link to={'/user-profile'}>User Profile</Link>
-                                </div>
-                                <div className={cx('button')}>
-                                    <Link to={'/my-orders'}>My orders</Link>
-                                </div>
-                                <div className={cx('button')}>
-                                    <Link to={'/change-password'}>Change password</Link>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <div>Error: {error}</div>
-                )}
-            </div>
-            <Footer />
+                    ) : (
+                        <div>Error: {error}</div>
+                    )}
+                </div>
+            </MainLayout>
         </>
     );
 }
