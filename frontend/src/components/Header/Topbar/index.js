@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faPhoneAlt, faTrash, faCartFlatbedSuitcase } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faPhoneAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import styles from './Topbar.module.scss';
 import { Link, Navigate } from 'react-router-dom';
@@ -13,7 +13,6 @@ import AuthLink from '~/components/AuthLink';
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function Topbar() {
-    const [isLoginDropdownOpen, setIsLoginDropdownOpen] = useState(false);
     const [shouldRedirect, setShouldRedirect] = useState(false);
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
 
@@ -113,7 +112,7 @@ function Topbar() {
                         <li className={cx('account')}>
                             <Link to="/user-profile">{renderAccountContent()}</Link>
 
-                            <div id="login-dropdown" className={cx('login-dropdown', { open: isLoginDropdownOpen })}>
+                            <div id="login-dropdown" className={cx('login-dropdown')}>
                                 <Link to="/login">Đăng nhập</Link>
                                 <Link to="/register">Đăng ký</Link>
                                 <button onClick={handleLogout}>Đăng xuất</button>
@@ -122,7 +121,7 @@ function Topbar() {
                         <li className={cx('cart')}>
                             <FontAwesomeIcon icon={faCartShopping} />
                             <Link to={'/cart'}>Giỏ hàng ({totalQuantity})</Link>
-                            <div className={cx('cart-dropdown', { open: isLoginDropdownOpen })}>
+                            <div className={cx('cart-dropdown')}>
                                 <ContainerHeading center>
                                     <Heading content={'Giỏ hàng'} />
                                 </ContainerHeading>

@@ -6,7 +6,7 @@ function NewsItemBig({ imgUrl, blogUrl, heading }) {
         <div className={cx('new-item-big')}>
             <div className={cx('thumb')}>
                 <a href={blogUrl}>
-                    <img src={imgUrl} />
+                    <img src={imgUrl} alt='thumb'/>
                 </a>
             </div>
             <div className={cx('content-blog')}>

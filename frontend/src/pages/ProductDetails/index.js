@@ -123,7 +123,7 @@ const ProductDetails = () => {
                             <div className={cx('product-item-content')}>
                                 <div className={cx('product-item-left')}>
                                     <div className={cx('product-image')}>
-                                        <img src={product.images[0].url} />
+                                        <img src={product.images[0].url} alt='productImage'/>
                                     </div>
                                 </div>
                                 <div className={cx('product-item-right')}>

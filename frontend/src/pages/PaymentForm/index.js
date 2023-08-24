@@ -8,14 +8,13 @@ import styles from './PaymentForm.module.scss';
 import Cart from './CartPayment';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCartShopping, faClipboardList } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import Footer from '~/components/Footer';
 const cx = classNames.bind(styles);
 
 const PaymentForm = () => {
     // State để lưu trữ thông tin giỏ hàng từ localStorage
     const [cart, setCart] = useState([]);
-    const [userData, setUserData] = useState(null);
     const [userDataLoaded, setUserDataLoaded] = useState(false);
     const [error, setError] = useState(null);
 
@@ -39,9 +38,7 @@ const PaymentForm = () => {
             axios
                 .get('/api/v1/me')
                 .then((response) => {
-                    setUserData(response.data.user);
                     setUserDataLoaded(true);
-
                     // Cập nhật giá trị mặc định cho customerInfo
                     setCustomerInfo({
                         email: response.data.user.email,
@@ -56,7 +53,6 @@ const PaymentForm = () => {
                 });
         }
     }, [userDataLoaded]);
-
     // Lấy thông tin giỏ hàng từ localStorage khi component được render
     useEffect(() => {
         const cartData = localStorage.getItem('cart');
@@ -174,8 +170,8 @@ const PaymentForm = () => {
                         {cart.length > 0 ? (
                             <Cart cartItems={cart} />
                         ) : (
-                            <div className={cx('empty-cart')}> 
-                                <FontAwesomeIcon icon={faCartShopping}/> 
+                            <div className={cx('empty-cart')}>
+                                <FontAwesomeIcon icon={faCartShopping} />
                                 <p>Chưa có sản phẩm nào trong giỏ hàng</p>
                             </div>
                         )}

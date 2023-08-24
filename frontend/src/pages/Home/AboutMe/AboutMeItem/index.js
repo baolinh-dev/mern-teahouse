@@ -8,7 +8,7 @@ function AboutMeItem({ iconUrl, heading, content }) {
     return (
         <div className={cx('about-me-item')}>
             <div className={cx('icon')}>
-                <img src={iconUrl} />
+                <img src={iconUrl} alt='icon'/>
             </div>
             <div className={cx('infor')}>
                 <h3>{heading}</h3>

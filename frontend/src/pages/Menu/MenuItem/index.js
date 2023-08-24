@@ -3,7 +3,6 @@ import Heading from '~/components/Heading';
 import ProductItem from '~/components/ProductItem';
 import classNames from 'classnames/bind';
 import styles from './MenuItem.module.scss';
-import { useState, useEffect } from 'react';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 

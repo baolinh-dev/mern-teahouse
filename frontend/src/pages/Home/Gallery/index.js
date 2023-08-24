@@ -23,7 +23,7 @@ const images = [
 
 function Gallery() {
     const imageElements = images.map((image, index) => (
-        <img key={index} src={image.imgUrl} />
+        <img key={index} src={image.imgUrl} alt='gallary'/>
     ));
 
     return (

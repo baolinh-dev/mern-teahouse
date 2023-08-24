@@ -7,7 +7,7 @@ const cx = classNames.bind({ ...styles, container: 'container' });
 function Slider() {
     return (   
         <div className={cx('slider')}>
-            <img src={slider1} />
+            <img src={slider1} alt='slider'/>
         </div>
     );
 }

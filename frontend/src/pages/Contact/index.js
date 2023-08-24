@@ -38,7 +38,8 @@ function Contact() {
                 <Breadcrumb items={breadcrumbItems} />
                 <div className={cx('content')}>
                     <div className={cx('map')}>
-                        <iframe
+                        <iframe 
+                            title='map'
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3835.7333963918322!2d108.24978007500276!3d15.975293084690664!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142108997dc971f%3A0x1295cb3d313469c9!2sVietnam%20-%20Korea%20University%20of%20Information%20and%20Communication%20Technology.!5e0!3m2!1sen!2s!4v1687972021418!5m2!1sen!2s"
                             width="560"
                             height="700"

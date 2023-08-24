@@ -17,7 +17,6 @@ function Login() {
     const [error, setError] = useState(null);
     const [redirect, setRedirect] = useState(false);
     const [lastRegisteredEmail, setLastRegisteredEmail] = useState(''); // Thêm state để lưu email được lấy từ localStorage
-    const [lastForgotEmail, setLastForgotEmail] = useState(''); // Thêm state để lưu email được lấy từ localStorage
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -33,7 +32,7 @@ function Login() {
         axios
             .post('/api/v1/login', { email, password })
             .then((response) => {
-                const { user, token } = response.data;
+                const { user } = response.data;
                 Cookies.set('userId', user._id);
                 Cookies.set('userName', user.name);
                 Cookies.set('userAvatar', user.avatar.url);
@@ -42,12 +41,13 @@ function Login() {
                 setRedirect(true);
                 localStorage.removeItem('lastRegisteredEmail');
             })
-            .catch((error) => { 
-                const errorMessage = error.response.data.message
-                setError(errorMessage); 
-                toast.error(errorMessage)
+            .catch((err) => {
+                const errorMessage = err.response.data.message;
+                setError(errorMessage);
+                toast.error(errorMessage);
+                console.log(error);
             });
-    }; 
+    };
 
     useEffect(() => {
         const lastEmail = localStorage.getItem('lastRegisteredEmail'); // Lấy email đã lưu từ localStorage

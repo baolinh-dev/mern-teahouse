@@ -8,7 +8,7 @@ function NewsItem({ imgUrl, heading, content }) {
         <div className={cx('news-item')}>
             <div className={cx('news-item-thumb')}>
                 <a href="/">
-                    <img src={imgUrl} />
+                    <img src={imgUrl} alt='news-item-thumb'/>
                 </a>
             </div>
             <div className={cx('news-item-blog')}>

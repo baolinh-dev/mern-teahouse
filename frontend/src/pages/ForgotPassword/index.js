@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './ForgotPassword.module.scss';
 import Heading from '~/components/Heading';
 import ContainerHeading from '~/components/ContainerHeading';
 import { ToastContainer, toast } from 'react-toastify'; 
-import Cookies from 'js-cookie';
 import 'react-toastify/dist/ReactToastify.css';
 
 const cx = classNames.bind(styles);
@@ -28,7 +26,6 @@ function ForgotPassword() {
     axios
       .post('http://localhost:4000/api/v1/password/forgot', { email })
       .then((response) => {
-        const { user, token } = response.data; 
         setEmail('');
         localStorage.removeItem('lastRegisteredEmail');
         toast.success('A password reset link has been sent to your email.');

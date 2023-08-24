@@ -10,7 +10,6 @@ import styles from './UserProfile.module.scss';
 import Header from '~/components/Header';
 import Footer from '~/components/Footer';
 import Breadcrumb from '~/components/Breadcrumb';
-import avatar from '~/assets/images/avatar.jpg';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
@@ -40,11 +39,12 @@ function EditProfile() {
                 setUserData(response.data.user); 
                 console.log(response.data.user);
             })
-            .catch((error) => {
-                setError(error.response.data.message);
-                toast.error(error.response.data.message); // display error message using toast.error
+            .catch((err) => {
+                setError(err.response.data.message); 
+                toast.error(err.response.data.message); 
+                console.log(error);
             });
-    }, []);
+    }, [error]);
 
     return (
         <>
@@ -57,7 +57,7 @@ function EditProfile() {
                 <div className={cx('user-profile-content')}>
                     <div className={cx('left-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
                         <div className={cx('image')}>
-                            <img src={Cookies.get('userAvatar')} />
+                            <img src={Cookies.get('userAvatar')} alt='avatar'/>
                         </div>
                     </div>
                     <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
