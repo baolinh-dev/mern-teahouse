@@ -13,6 +13,15 @@ import Footer from '~/components/Footer';
 const cx = classNames.bind(styles);
 
 const PaymentForm = () => {
+    // address
+    const host = 'https://provinces.open-api.vn/api/';
+    const [provinces, setProvinces] = useState([]);
+    const [districts, setDistricts] = useState([]);
+    const [wards, setWards] = useState([]);
+    const [selectedProvince, setSelectedProvince] = useState('');
+    const [selectedDistrict, setSelectedDistrict] = useState('');
+    const [selectedWard, setSelectedWard] = useState('');
+    const [houseNumber, setHouseNumber] = useState('');
     // State để lưu trữ thông tin giỏ hàng từ localStorage
     const [cart, setCart] = useState([]);
     const [userDataLoaded, setUserDataLoaded] = useState(false);
@@ -27,11 +36,112 @@ const PaymentForm = () => {
     });
 
     // State để lưu trữ thông tin đơn hàng mặc định
-    const [orderInfo, setOrderInfo] = useState({
+    // const [orderInfo, setOrderInfo] = useState({
+    //     transport: 'Delivery',
+    //     payment: 'COD',
+    //     status: 'Processing',
+    // });
+
+    const orderInfo = {
         transport: 'Delivery',
         payment: 'COD',
         status: 'Processing',
-    });
+    };
+
+    // Hàm để gọi API và render dữ liệu
+    const callAPI = async (api, renderCallback) => {
+        try {
+            const response = await axios.get(api);
+            renderCallback(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    const renderData = (array, select) => {
+        const row = array.map((element) => (
+            <option key={element.code} value={element.code}>
+                {element.name}
+            </option>
+        ));
+        select === 'province' ? setProvinces(row) : select === 'district' ? setDistricts(row) : setWards(row);
+    };
+
+    // Hàm để tạo chuỗi kết quả đầy đủ của địa chỉ
+    const createFullAddress = () => {
+        let address = '';
+
+        if (houseNumber !== '') {
+            address += `${houseNumber} | `;
+        }
+
+        if (selectedProvince !== '') {
+            const provinceOption = document.querySelector(`#province option[value="${selectedProvince}"]`);
+            address += provinceOption.textContent;
+        }
+
+        if (selectedDistrict !== '') {
+            const districtOption = document.querySelector(`#district option[value="${selectedDistrict}"]`);
+            address += ` | ${districtOption.textContent}`;
+        }
+
+        if (selectedWard !== '') {
+            const wardOption = document.querySelector(`#ward option[value="${selectedWard}"]`);
+            address += ` | ${wardOption.textContent}`;
+        }
+
+        return address;
+    };
+
+    useEffect(() => {
+        // Lấy danh sách tỉnh/thành phố và render vào select box
+        callAPI(host + '?depth=1', (data) => renderData(data, 'province'));
+    }, []);
+
+    // Xử lý sự kiện thay đổi select box tỉnh/thành phố
+    const handleProvinceChange = (e) => {
+        setSelectedProvince(e.target.value);
+        setSelectedDistrict('');
+        setSelectedWard('');
+        const updatedAddress = createFullAddress();
+        setCustomerInfo((prevCustomerInfo) => ({
+            ...prevCustomerInfo,
+            address: updatedAddress,
+        }));
+        callAPI(host + 'p/' + e.target.value + '?depth=2', (data) => renderData(data.districts, 'district'));
+    };
+
+    // Xử lý sự kiện thay đổi select box quận/huyện
+    const handleDistrictChange = (e) => {
+        setSelectedDistrict(e.target.value);
+        setSelectedWard('');
+        const updatedAddress = createFullAddress();
+        setCustomerInfo((prevCustomerInfo) => ({
+            ...prevCustomerInfo,
+            address: updatedAddress,
+        }));
+        callAPI(host + 'd/' + e.target.value + '?depth=2', (data) => renderData(data.wards, 'ward'));
+    };
+
+    // Xử lý sự kiện thay đổi select box phường/xã
+    const handleWardChange = (e) => {
+        setSelectedWard(e.target.value);
+        const updatedAddress = createFullAddress();
+        setCustomerInfo((prevCustomerInfo) => ({
+            ...prevCustomerInfo,
+            address: updatedAddress,
+        }));
+    };
+
+    // Xử lý sự kiện thay đổi input số nhà
+    const handleHouseNumberChange = (e) => {
+        setHouseNumber(e.target.value);
+        const updatedAddress = createFullAddress();
+        setCustomerInfo((prevCustomerInfo) => ({
+            ...prevCustomerInfo,
+            address: updatedAddress,
+        }));
+    };
 
     useEffect(() => {
         if (!userDataLoaded) {
@@ -47,12 +157,13 @@ const PaymentForm = () => {
                         address: '',
                     });
                 })
-                .catch((error) => {
-                    const errorMessage = error.response.data.message;
+                .catch((err) => {
+                    const errorMessage = err.response.data.message;
                     setError(errorMessage);
+                    console.log(error);
                 });
         }
-    }, [userDataLoaded]);
+    }, [userDataLoaded, error]);
     // Lấy thông tin giỏ hàng từ localStorage khi component được render
     useEffect(() => {
         const cartData = localStorage.getItem('cart');
@@ -80,10 +191,10 @@ const PaymentForm = () => {
             })
             .catch((error) => {
                 toast.error('Đặt hàng thất bại');
-                console.log(error);
+                console.log('Loi o day', error);
             });
     };
-
+    console.log(customerInfo);
     // Render form thanh toán
     return (
         <>
@@ -110,12 +221,45 @@ const PaymentForm = () => {
                                 onChange={(e) => setCustomerInfo({ ...customerInfo, phoneNumber: e.target.value })}
                                 placeholder="Phone Number"
                             />
-                            <input
+                            {/* <input
                                 type="text"
                                 value={customerInfo.address}
                                 onChange={(e) => setCustomerInfo({ ...customerInfo, address: e.target.value })}
                                 placeholder="Address"
-                            />
+                            /> */}
+                            {/* Địa chỉ */}
+                            <div className={cx('form-group')}>
+                                <select id="province" onChange={handleProvinceChange}>
+                                    <option value="">Chọn tỉnh/thành phố</option>
+                                    {provinces}
+                                </select>
+                            </div>
+                            <div className={cx('form-group')}>
+                                <select id="district" onChange={handleDistrictChange}>
+                                    <option value="">Chọn quận/huyện</option>
+                                    {districts}
+                                </select>
+                            </div>
+                            <div className={cx('form-group')}>
+                                <select id="ward" onChange={handleWardChange}>
+                                    <option value="">Chọn phường/xã</option>
+                                    {wards}
+                                </select>
+                            </div>
+                            <div className={cx('form-group')}>
+                                <input
+                                    type="text"
+                                    placeholder="Số nhà"
+                                    value={houseNumber}
+                                    onChange={handleHouseNumberChange}
+                                />
+                            </div>
+                            <div className={cx('form-group')}>
+                                <input
+                                    onChange={(e) => setCustomerInfo({ ...customerInfo, address: e.target.value })}
+                                    value={createFullAddress()}
+                                />
+                            </div>
                         </div>
                         <div className={cx('order-info')}>
                             <h2>Shipping</h2>
