@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Cart.module.scss';
-import Header from '~/components/Header';
 import Breadcrumb from '~/components/Breadcrumb';
 import ContainerHeading from '~/components/ContainerHeading';
 import Heading from '~/components/Heading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faShare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import Footer from '~/components/Footer';
 import MainLayout from '~/layouts/MainLayout';
 
 const cx = classNames.bind({ ...styles, container: 'container' });

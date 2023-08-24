@@ -5,8 +5,6 @@ import ContainerHeading from '~/components/ContainerHeading';
 
 import classNames from 'classnames/bind';
 import styles from './MyOrders.module.scss';
-import Header from '~/components/Header';
-import Footer from '~/components/Footer';
 import Breadcrumb from '~/components/Breadcrumb';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

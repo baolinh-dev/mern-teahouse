@@ -1,7 +1,5 @@
 import classNames from 'classnames/bind';
 import styles from './Contact.module.scss';
-import Header from '~/components/Header';
-import Footer from '~/components/Footer';
 import Breadcrumb from '~/components/Breadcrumb';
 import ContainerHeading from '~/components/ContainerHeading';
 import Heading from '~/components/Heading';

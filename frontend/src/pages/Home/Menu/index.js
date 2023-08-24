@@ -69,15 +69,21 @@ function Menu() {
                 </ul>
             </div>
             <div className={cx('products', 'container')}>
-                {products.map((product, index) => (
-                    <ProductItem
-                        id={product._id}
-                        key={index}
-                        imageUrl={product.images[0].url}
-                        price={product.price}
-                        nameProduct={product.nameProduct}
-                    />
-                ))}
+                <div className={cx('products', 'container')}>
+                    {products !== undefined && products.length > 0 ? (
+                        products.map((product, index) => (
+                            <ProductItem
+                                id={product._id}
+                                key={index}
+                                imageUrl={product.images[0].url}
+                                price={product.price}
+                                nameProduct={product.nameProduct}
+                            />
+                        ))
+                    ) : (
+                        <p>No products available.</p>
+                    )}
+                </div>
             </div>
         </div>
     );

@@ -1,5 +1,6 @@
 // Pages
-import Home from '~/pages/Home'; 
+import Home from '~/pages/Home';  
+import Test from '~/pages/Test'; 
 import Login from '~/pages/Authentication/Login'; 
 import Register from '~/pages/Authentication/Register';
 import Contact from '~/pages/Contact';
@@ -20,7 +21,8 @@ import PaymentForm from '~/pages/PaymentForm';
 // Public routes
 const publicRoutes = [
     { path: '/', component: Home },     
-    { path: '/cart', component: Cart },    
+    { path: '/cart', component: Cart },     
+    { path: '/test', component: Test },    
     { path: '/paymentform', component: PaymentForm }, 
     { path: '/user-profile', component: UserProfile },  
     { path: '/edit-profile', component: EditProfile },   

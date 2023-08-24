@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './ProductCategory.module.scss';
 import axios from 'axios';
-import Header from '~/components/Header';
 import Breadcrumb from '~/components/Breadcrumb';
 import ContainerHeading from '~/components/ContainerHeading';
 import Heading from '~/components/Heading';
@@ -12,7 +11,6 @@ import Pagination from '~/components/Pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Range } from 'react-range';
-import Footer from '~/components/Footer';
 import MainLayout from '~/layouts/MainLayout';
 
 const cx = classNames.bind({ ...styles, container: 'container' });

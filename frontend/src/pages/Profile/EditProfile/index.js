@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Heading from '~/components/Heading';
-import ContainerHeading from '~/components/ContainerHeading';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import classNames from 'classnames/bind';
 import styles from './EditProfile.module.scss';
-import Header from '~/components/Header';
-import Footer from '~/components/Footer';
-import Breadcrumb from '~/components/Breadcrumb';
 import { Link } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import MainLayout from '~/layouts/MainLayout';
 import ProfileLayout from '~/layouts/ProfileLayout';
 
 const cx = classNames.bind({
@@ -28,11 +21,6 @@ const cx = classNames.bind({
 function EditProfile() {
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState(null);
-
-    const breadcrumbItems = [
-        { label: 'Trang chủ', link: '/' },
-        { label: 'Edit Profile', link: '/caphe', active: true },
-    ];
 
     useEffect(() => {
         axios

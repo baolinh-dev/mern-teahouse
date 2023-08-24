@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Header from '~/components/Header';
 import classNames from 'classnames/bind';
 import styles from './ProductDetails.module.scss';
 import Breadcrumb from '~/components/Breadcrumb';
-import Footer from '~/components/Footer';
 import Rating from 'react-rating';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';

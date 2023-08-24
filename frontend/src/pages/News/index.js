@@ -1,6 +1,4 @@
-import Header from '~/components/Header';
 import Breadcrumb from '~/components/Breadcrumb';
-import Footer from '~/components/Footer';
 import NewsItemBig from './NewsItemBig';
 import NewsItemSmall from './NewsItemSmall';
 import NewsTitle from './NewsTitle';

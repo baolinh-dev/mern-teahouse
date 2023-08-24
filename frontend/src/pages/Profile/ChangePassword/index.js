@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Heading from '~/components/Heading';
-import ContainerHeading from '~/components/ContainerHeading';
 import classNames from 'classnames/bind';
 import styles from './ChangePassword.module.scss';
-import Header from '~/components/Header';
-import Footer from '~/components/Footer';
-import Breadcrumb from '~/components/Breadcrumb';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import ProfileLayout from '~/layouts/ProfileLayout';
 
 const cx = classNames.bind({
@@ -31,20 +25,16 @@ function ChangePassword() {
     const [passwordError, setPasswordError] = useState('');
     const [error, setError] = useState(null);
 
-    const breadcrumbItems = [
-        { label: 'Trang chủ', link: '/' },
-        { label: 'Change Password', link: '/caphe', active: true },
-    ];
-
     useEffect(() => {
         axios
             .get('/api/v1/me')
             .then((response) => {
                 setUserData(response.data.user);
             })
-            .catch((error) => {
-                const errorMessage = error.response.data.message;
-                setError(errorMessage);
+            .catch((err) => {
+                const errorMessage = err.response.data.message;
+                setError(errorMessage); 
+                console.log(error);
             });
     }, []);
 
@@ -52,7 +42,7 @@ function ChangePassword() {
         if (passwordError) {
             toast.error(passwordError);
         }
-    }, [passwordError]);
+    }, [passwordError, error]);
 
     const handleChangePassword = () => {
         setPasswordError('');
@@ -91,49 +81,53 @@ function ChangePassword() {
     return (
         <>
             <ProfileLayout>
-                <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
-                    <div className={cx('group-infor')}>
-                        <b>Old password: </b>
-                        <input
-                            placeholder="Vui lòng nhập mật khẩu cũ"
-                            value={oldPassword}
-                            onChange={(e) => setOldPassword(e.target.value)}
-                        />
-                    </div>
-                    <div className={cx('group-infor')}>
-                        <b>New password: </b>
-                        <input
-                            placeholder="Vui lòng nhập mật khẩu mới"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                        />
-                    </div>
-                    <div className={cx('group-infor')}>
-                        <b>Confirm password: </b>
-                        <input
-                            placeholder="Vui lòng xác nhận lại mật khẩu mới"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <button onClick={handleChangePassword}>Change Password</button>
-                    </div>
-                    <div className={cx('buttons')}>
-                        <div className={cx('button')}>
-                            <Link to={'/edit-profile'}>Edit profile</Link>
+                {userData ? (
+                    <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
+                        <div className={cx('group-infor')}>
+                            <b>Old password: </b>
+                            <input
+                                placeholder="Vui lòng nhập mật khẩu cũ"
+                                value={oldPassword}
+                                onChange={(e) => setOldPassword(e.target.value)}
+                            />
                         </div>
-                        <div className={cx('button')}>
-                            <Link to={'/user-profile'}>User Profile</Link>
+                        <div className={cx('group-infor')}>
+                            <b>New password: </b>
+                            <input
+                                placeholder="Vui lòng nhập mật khẩu mới"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                            />
                         </div>
-                        <div className={cx('button')}>
-                            <Link to={'/my-orders'}>My orders</Link>
+                        <div className={cx('group-infor')}>
+                            <b>Confirm password: </b>
+                            <input
+                                placeholder="Vui lòng xác nhận lại mật khẩu mới"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
                         </div>
-                        <div className={cx('button')}>
-                            <Link to={'/change-password'}>Change Password</Link>
+                        <div>
+                            <button onClick={handleChangePassword}>Change Password</button>
+                        </div>
+                        <div className={cx('buttons')}>
+                            <div className={cx('button')}>
+                                <Link to={'/edit-profile'}>Edit profile</Link>
+                            </div>
+                            <div className={cx('button')}>
+                                <Link to={'/user-profile'}>User Profile</Link>
+                            </div>
+                            <div className={cx('button')}>
+                                <Link to={'/my-orders'}>My orders</Link>
+                            </div>
+                            <div className={cx('button')}>
+                                <Link to={'/change-password'}>Change Password</Link>
+                            </div>
                         </div>
                     </div>
-                </div>
+                ) : (
+                    <div>{error}</div>
+                )}
             </ProfileLayout>
             <ToastContainer />
         </>

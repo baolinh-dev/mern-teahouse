@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-
-import Header from '~/components/Header';
 import Breadcrumb from '~/components/Breadcrumb';
 import MenuItem from './MenuItem';
 import classNames from 'classnames/bind';
 import styles from './Menu.module.scss';
-import Footer from '~/components/Footer';
 import Pagination from '~/components/Pagination';
 import MainLayout from '~/layouts/MainLayout';
 

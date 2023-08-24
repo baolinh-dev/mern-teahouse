@@ -1,8 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './Introduce.module.scss';
-import Header from '~/components/Header';
 import Breadcrumb from '~/components/Breadcrumb';
-import Footer from '~/components/Footer';
 import MainLayout from '~/layouts/MainLayout';
 
 const cx = classNames.bind({ ...styles, container: 'container' });

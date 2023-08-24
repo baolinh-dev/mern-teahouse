@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Heading from '~/components/Heading';
-import ContainerHeading from '~/components/ContainerHeading';
 
 import classNames from 'classnames/bind';
 import styles from './UserProfile.module.scss';
-import Header from '~/components/Header';
-import Footer from '~/components/Footer';
-import Breadcrumb from '~/components/Breadcrumb';
 import { Link } from 'react-router-dom';
-import MainLayout from '~/layouts/MainLayout';
 import ProfileLayout from '~/layouts/ProfileLayout';
 
 const cx = classNames.bind({
@@ -25,10 +19,6 @@ const cx = classNames.bind({
 function UserProfile() {
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState(null);
-    const breadcrumbItems = [
-        { label: 'Trang chủ', link: '/' },
-        { label: 'User Profile', link: '/caphe', active: true },
-    ];
 
     useEffect(() => {
         axios

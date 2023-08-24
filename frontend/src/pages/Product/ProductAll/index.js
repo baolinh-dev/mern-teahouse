@@ -3,10 +3,8 @@ import classNames from 'classnames/bind';
 import axios from 'axios';
 
 import styles from './Products.module.scss';
-import Header from '~/components/Header';
 import Breadcrumb from '~/components/Breadcrumb';
 import ProductItem from '~/components/ProductItem';
-import Footer from '~/components/Footer';
 import Pagination from '~/components/Pagination';
 import ContainerHeading from '~/components/ContainerHeading';
 import Heading from '~/components/Heading';

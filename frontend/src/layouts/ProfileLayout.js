@@ -5,11 +5,9 @@ import ContainerHeading from '~/components/ContainerHeading';
 import classNames from 'classnames/bind';
 import styles from './ProfileLayout.module.scss';
 import Breadcrumb from '~/components/Breadcrumb';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import MainLayout from '~/layouts/MainLayout';
 import Header from '~/components/Header';
 import Footer from '~/components/Footer';
 
