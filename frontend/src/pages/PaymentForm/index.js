@@ -94,6 +94,14 @@ const PaymentForm = () => {
     };
 
     useEffect(() => {
+        const updatedAddress = createFullAddress();
+        setCustomerInfo((prevCustomerInfo) => ({
+            ...prevCustomerInfo,
+            address: updatedAddress,
+        }));
+    }, [houseNumber, selectedProvince, selectedDistrict, selectedWard]);
+
+    useEffect(() => {
         // Lấy danh sách tỉnh/thành phố và render vào select box
         callAPI(host + '?depth=1', (data) => renderData(data, 'province'));
     }, []);
@@ -103,13 +111,15 @@ const PaymentForm = () => {
         setSelectedProvince(e.target.value);
         setSelectedDistrict('');
         setSelectedWard('');
-        const updatedAddress = createFullAddress();
+        const updatedAddress = createFullAddress(); // lấy đưuọc province Hà Nội
         setCustomerInfo((prevCustomerInfo) => ({
             ...prevCustomerInfo,
             address: updatedAddress,
-        }));
+        })); // address chưa đưuọc cập nhật thành Hà Nội
         callAPI(host + 'p/' + e.target.value + '?depth=2', (data) => renderData(data.districts, 'district'));
     };
+
+    console.log(createFullAddress());
 
     // Xử lý sự kiện thay đổi select box quận/huyện
     const handleDistrictChange = (e) => {
