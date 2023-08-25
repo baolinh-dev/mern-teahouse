@@ -135,6 +135,21 @@ const PaymentForm = () => {
         const updatedAddress = createFullAddress();
     };
 
+    // Xử lý sự kiện thay đổi Transport
+    const handleTransportChange = (e) => {
+        setOrderInfo({
+            ...orderInfo,
+            transport: e.target.value,
+        });
+    };
+
+    const handlePaymentChange = (e) => {
+        setOrderInfo({
+            ...orderInfo,
+            payment: e.target.value,
+        });
+    };
+
     useEffect(() => {
         if (!userDataLoaded) {
             axios
@@ -178,8 +193,11 @@ const PaymentForm = () => {
             .post('/api/v1/order/new', formData)
             .then((response) => {
                 localStorage.removeItem('cart');
-                window.location.reload();
+
                 toast.success('Đặt hàng thành công');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
             })
             .catch((error) => {
                 toast.error('Đặt hàng thất bại');
@@ -255,15 +273,10 @@ const PaymentForm = () => {
                                     <label>Delivery</label>
                                     <input
                                         type="radio"
-                                        name="transport"  
+                                        name="transport"
                                         value="Delivery"
-                                        checked={orderInfo.transport === 'Delivery'} 
-                                        onChange={(e) => {
-                                            setOrderInfo({
-                                                ...orderInfo,
-                                                transport: e.target.value,
-                                            });
-                                        }}
+                                        checked={orderInfo.transport === 'Delivery'}
+                                        onChange={handleTransportChange}
                                     />
                                 </div>
 
@@ -273,13 +286,8 @@ const PaymentForm = () => {
                                         type="radio"
                                         name="transport"
                                         value="Pickup"
-                                        checked={orderInfo.transport === 'Pickup'} 
-                                        onChange={(e) => {
-                                            setOrderInfo({
-                                                ...orderInfo,
-                                                transport: e.target.value,
-                                            });
-                                        }}
+                                        checked={orderInfo.transport === 'Pickup'}
+                                        onChange={handleTransportChange}
                                     />
                                 </div>
                             </div>
@@ -291,13 +299,8 @@ const PaymentForm = () => {
                                         type="radio"
                                         name="payment"
                                         value="COD"
-                                        checked={orderInfo.payment === 'COD'} 
-                                        onChange={(e) => {
-                                            setOrderInfo({
-                                                ...orderInfo,
-                                                payment: e.target.value,
-                                            });
-                                        }}
+                                        checked={orderInfo.payment === 'COD'}
+                                        onChange={handlePaymentChange}
                                     />
                                 </div>
 
@@ -307,13 +310,8 @@ const PaymentForm = () => {
                                         type="radio"
                                         name="payment"
                                         value="Bank Transfer"
-                                        checked={orderInfo.payment === 'Bank Transfer'} 
-                                        onChange={(e) => {
-                                            setOrderInfo({
-                                                ...orderInfo,
-                                                payment: e.target.value,
-                                            });
-                                        }}
+                                        checked={orderInfo.payment === 'Bank Transfer'}
+                                        onChange={handlePaymentChange}
                                     />
                                 </div>
                             </div>
