@@ -111,11 +111,8 @@ const PaymentForm = () => {
         setSelectedProvince(e.target.value);
         setSelectedDistrict('');
         setSelectedWard('');
-        const updatedAddress = createFullAddress(); // lấy đưuọc province Hà Nội
-        setCustomerInfo((prevCustomerInfo) => ({
-            ...prevCustomerInfo,
-            address: updatedAddress,
-        })); // address chưa đưuọc cập nhật thành Hà Nội
+        const updatedAddress = createFullAddress(); 
+
         callAPI(host + 'p/' + e.target.value + '?depth=2', (data) => renderData(data.districts, 'district'));
     };
 
@@ -126,10 +123,6 @@ const PaymentForm = () => {
         setSelectedDistrict(e.target.value);
         setSelectedWard('');
         const updatedAddress = createFullAddress();
-        setCustomerInfo((prevCustomerInfo) => ({
-            ...prevCustomerInfo,
-            address: updatedAddress,
-        }));
         callAPI(host + 'd/' + e.target.value + '?depth=2', (data) => renderData(data.wards, 'ward'));
     };
 
@@ -137,20 +130,12 @@ const PaymentForm = () => {
     const handleWardChange = (e) => {
         setSelectedWard(e.target.value);
         const updatedAddress = createFullAddress();
-        setCustomerInfo((prevCustomerInfo) => ({
-            ...prevCustomerInfo,
-            address: updatedAddress,
-        }));
     };
 
     // Xử lý sự kiện thay đổi input số nhà
     const handleHouseNumberChange = (e) => {
         setHouseNumber(e.target.value);
         const updatedAddress = createFullAddress();
-        setCustomerInfo((prevCustomerInfo) => ({
-            ...prevCustomerInfo,
-            address: updatedAddress,
-        }));
     };
 
     useEffect(() => {
