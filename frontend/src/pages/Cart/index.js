@@ -43,37 +43,36 @@ function Cart() {
     };
 
     return (
-        <> 
+        <>
             <MainLayout>
-            <div className={cx('cart', 'container')}>
-                <Breadcrumb
-                    items={[
-                        { label: 'Trang chủ', link: '/' },
-                        { label: 'Giỏ hàng', active: true },
-                    ]}
-                />
-                <div className={cx('cart-content')}>
-                    <ContainerHeading center>
-                        <Heading content={'Giỏ hàng của bạn'} />
-                    </ContainerHeading>
-                    <div className={cx('cart-list')}>
-                        {cartItems.map((item, index) => (
-                            <div key={item.id} className={cx('cart-content-item')}>
-                                <div className={cx('cart-content-item-infor-wrapper')}>
-                                    <img src={item.image} alt={item.name} />
-                                    <div className={cx('cart-content-item-infor')}>
-                                        <h3>{item.name}</h3>
-                                        <p>
-                                            {item.price.toLocaleString('vi-VN', {
-                                                style: 'currency',
-                                                currency: 'VND',
-                                            })}
-                                        </p>
+                <div className={cx('cart', 'container')}>
+                    <Breadcrumb
+                        items={[
+                            { label: 'Trang chủ', link: '/' },
+                            { label: 'Giỏ hàng', active: true },
+                        ]}
+                    />
+                    <div className={cx('cart-content')}>
+                        <ContainerHeading center>
+                            <Heading content={'Giỏ hàng của bạn'} />
+                        </ContainerHeading>
+                        <div className={cx('cart-list')}>
+                            {cartItems.map((item, index) => (
+                                <div key={item.id} className={cx('cart-content-item')}>
+                                    <div className={cx('cart-content-item-infor-wrapper')}>
+                                        <img src={item.image} alt={item.name} />
+                                        <div className={cx('cart-content-item-infor')}>
+                                            <h3>{item.name}</h3>
+                                            <p>
+                                                {item.price.toLocaleString('vi-VN', {
+                                                    style: 'currency',
+                                                    currency: 'VND',
+                                                })}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className={cx('cart-content-item-calcu')}>
-                                    <div className={cx('cart-content-item-quantity')}>
-                                        <div className={cx('cart-content-item-quantity-input')}>
+                                    <div className={cx('cart-content-item-calcu')}>
+                                        <div className={cx('cart-content-item-quantity')}>
                                             <button
                                                 onClick={() => updateQuantity(index, item.quantity - 1)}
                                                 disabled={item.quantity === 1}
@@ -88,48 +87,47 @@ function Cart() {
                                             />
                                             <button onClick={() => updateQuantity(index, item.quantity + 1)}>+</button>
                                         </div>
+                                        <p className={cx('cart-item-total')}>
+                                            {`${(item.price * item.quantity).toLocaleString('vi-VN', {
+                                                style: 'currency',
+                                                currency: 'VND',
+                                            })}`}
+                                        </p>
+                                        <button className={cx('remove-btn')} onClick={() => removeItem(index)}>
+                                            <FontAwesomeIcon icon={faTrash} />
+                                        </button>
                                     </div>
-                                    <p className={cx('cart-item-total')}>
-                                        {`${(item.price * item.quantity).toLocaleString('vi-VN', {
+                                </div>
+                            ))}
+                        </div>
+                        <div className={cx('cart-footer')}>
+                            <div className={cx('cart-total')}>
+                                <div className={cx('cart-total-item')}>
+                                    <label>Số lượng sản phẩm: </label>
+                                    <p> {` ${totalQuantity}`} </p>
+                                </div>
+                                <div className={cx('cart-total-item')}>
+                                    <label>Tổng giá trị của giỏ hàng: </label>
+                                    <p>
+                                        {total.toLocaleString('vi-VN', {
                                             style: 'currency',
                                             currency: 'VND',
-                                        })}`}
+                                        })}
                                     </p>
-                                    <button className={cx('remove-btn')} onClick={() => removeItem(index)}>
-                                        <FontAwesomeIcon icon={faTrash} />
-                                    </button>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                    <div className={cx('cart-footer')}>
-                        <div className={cx('cart-total')}>
-                            <div className={cx('cart-total-item')}>
-                                <label>Số lượng sản phẩm: </label>
-                                <p> {` ${totalQuantity}`} </p>
+                            <div className={cx('links')}>
+                                <Link to="/products">
+                                    <FontAwesomeIcon icon={faShare} /> Tiếp tục mua hàng
+                                </Link>
+                                <Link to="/paymentform">
+                                    <FontAwesomeIcon icon={faCheck} />
+                                    Tiến hành thanh toán
+                                </Link>
                             </div>
-                            <div className={cx('cart-total-item')}>
-                                <label>Tổng giá trị của giỏ hàng: </label>
-                                <p>
-                                    {total.toLocaleString('vi-VN', {
-                                        style: 'currency',
-                                        currency: 'VND',
-                                    })}
-                                </p>
-                            </div>
-                        </div>
-                        <div className={cx('links')}>
-                            <Link to="/products">
-                                <FontAwesomeIcon icon={faShare} /> Tiếp tục mua hàng
-                            </Link>
-                            <Link to="/paymentform">
-                                <FontAwesomeIcon icon={faCheck} />
-                                Tiến hành thanh toán
-                            </Link>
                         </div>
                     </div>
                 </div>
-            </div>
             </MainLayout>
         </>
     );

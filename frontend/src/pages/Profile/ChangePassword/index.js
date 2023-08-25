@@ -33,7 +33,7 @@ function ChangePassword() {
             })
             .catch((err) => {
                 const errorMessage = err.response.data.message;
-                setError(errorMessage); 
+                setError(errorMessage);
                 console.log(error);
             });
     }, []);
@@ -108,7 +108,9 @@ function ChangePassword() {
                             />
                         </div>
                         <div>
-                            <button onClick={handleChangePassword}>Change Password</button>
+                            <button className={cx('btn')} onClick={handleChangePassword}>
+                                Change Password
+                            </button>
                         </div>
                         <div className={cx('buttons')}>
                             <div className={cx('button')}>

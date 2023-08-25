@@ -13,11 +13,24 @@ import AuthLink from '~/components/AuthLink';
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function Topbar() {
+    const [userData, setUserData] = useState(null);
     const [shouldRedirect, setShouldRedirect] = useState(false);
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
-
+    const [error, setError] = useState(null);
     // Tính tổng số lượng sản phẩm trong giỏ hàng
     const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
+
+    useEffect(() => {
+        axios
+            .get('/api/v1/me')
+            .then((response) => {
+                setUserData(response.data.user);
+                console.log(response.data.user);
+            })
+            .catch((err) => {
+                setError(err.response.data.message);
+            });
+    }, [error]);
 
     const handleLogout = async () => {
         try {
@@ -48,27 +61,38 @@ function Topbar() {
     }, [cart]);
 
     function renderAccountContent() {
-        const userName = Cookies.get('userName');
-        const userAvatar = Cookies.get('userAvatar');
+        const userName = userData?.name; 
+        const userAvatar = userData?.avatar?.url;
+
+        const isImageFormat = (url) => {
+            return fetch(url, { method: 'HEAD' })
+                .then((res) => {
+                    const contentType = res.headers.get('content-type');
+                    return contentType.startsWith('image/');
+                })
+                .catch((error) => {
+                    console.error(error);
+                    throw error;
+                });
+        };
 
         let content;
-        const imgRegex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
 
-        if (!userAvatar || !imgRegex.test(userAvatar)) {
+        if (!userAvatar || !isImageFormat(userAvatar)) {
             content = (
                 <>
                     <img
                         src="https://th.bing.com/th/id/R.b9838bf721d3dff150c954530b3856f3?rik=Uulm6lnhid2Giw&riu=http%3a%2f%2fshackmanlab.org%2fwp-content%2fuploads%2f2013%2f07%2fperson-placeholder.jpg&ehk=GGILj1W77t4L5TSfJq0peMYJY8na6RvFj0vx3uPQHkI%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1"
                         alt={userName}
                     />
-                    <span>{userName || 'Tài khoản'}</span>
+                    <span>{userName ? userName : 'Tài khoản'}</span>
                 </>
             );
         } else {
             content = (
                 <>
                     <img src={userAvatar} alt={userName} />
-                    <span>{userName || 'Tài khoản'}</span>
+                    <span>{userName ? userName : 'Tài khoản'}</span>
                 </>
             );
         }

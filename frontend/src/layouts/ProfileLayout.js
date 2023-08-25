@@ -40,17 +40,25 @@ function ProfileLayout({ children }) {
                 const errorMessage = error.response.data.message;
                 setError(errorMessage);
             });
-    }, []); 
+    }, []);
 
     // Kiểm tra định dạng hình ảnh
     const isImageFormat = (url) => {
-        const imageRegex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
-        return imageRegex.test(url);
-    };
+        return fetch(url, { method: 'HEAD' })
+          .then((res) => {
+            const contentType = res.headers.get('content-type');
+            return contentType.startsWith('image/');
+          })
+          .catch((error) => {
+            console.error(error);
+            throw error;
+          });
+      };
 
     // Lấy đường dẫn hình ảnh phù hợp
     const getAvatarUrl = () => {
-        const userAvatar = Cookies.get('userAvatar');
+        const userAvatar = userData?.avatar?.url;
+        console.log(userAvatar);
         if (isImageFormat(userAvatar)) {
             return userAvatar;
         } else {

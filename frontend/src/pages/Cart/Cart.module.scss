@@ -1,6 +1,6 @@
 .cart {
     margin-top: 200px;
-    .cart-content {
+    .cart-content { 
         .cart-list {
             .cart-content-item {
                 display: flex;
@@ -36,7 +36,8 @@
                     width: 50%;
                     align-items: center;
                     justify-content: space-between;
-                    .cart-content-item-quantity {
+                    .cart-content-item-quantity { 
+                        display: flex;
                         button {
                             width: 40px;
                             height: 40px;
@@ -59,7 +60,6 @@
                         label {
                             color: var(--text-black);
                         }
-
                         color: var(--primary);
                         font-weight: 700;
                     }

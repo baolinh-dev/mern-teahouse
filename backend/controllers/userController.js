@@ -149,21 +149,24 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 // Update User Profile
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     const newUserData = {
-        name: req.body.name,
-        email: req.body.email,
+      name: req.body.name,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
+      address: req.body.address,
+      'avatar.url': req.body.avatarUrl // Cập nhật trường avatar.url
     };
-
+  
     const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
-        new: true,
-        runValidators: true,
-        useFindAndModify: false,
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
     });
-
+  
     res.status(200).json({
-        success: true,
-        user,
+      success: true,
+      user,
     });
-});
+  });
 
 // Get All Users (admin)
 exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {

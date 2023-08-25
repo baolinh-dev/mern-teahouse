@@ -31,7 +31,7 @@ function UserProfile() {
                 setError(errorMessage);
             });
     }, [error]);
-
+    console.log(userData);
     return (
         <>
             <ProfileLayout>
@@ -44,10 +44,6 @@ function UserProfile() {
                         <div className={cx('group-infor')}>
                             <b>Email: </b>
                             <p>{userData.email}</p>
-                        </div>
-                        <div className={cx('group-infor')}>
-                            <b>Role: </b>
-                            <p>{userData.role}</p>
                         </div>
                         <div className={cx('group-infor')}>
                             <b>Phone Number: </b>
