@@ -35,18 +35,17 @@ const PaymentForm = () => {
         address: '',
     });
 
-    // State để lưu trữ thông tin đơn hàng mặc định
-    // const [orderInfo, setOrderInfo] = useState({
+    // const orderInfo = {
     //     transport: 'Delivery',
     //     payment: 'COD',
     //     status: 'Processing',
-    // });
+    // };
 
-    const orderInfo = {
+    const [orderInfo, setOrderInfo] = useState({
         transport: 'Delivery',
         payment: 'COD',
         status: 'Processing',
-    };
+    });
 
     // Hàm để gọi API và render dữ liệu
     const callAPI = async (api, renderCallback) => {
@@ -111,12 +110,10 @@ const PaymentForm = () => {
         setSelectedProvince(e.target.value);
         setSelectedDistrict('');
         setSelectedWard('');
-        const updatedAddress = createFullAddress(); 
+        const updatedAddress = createFullAddress();
 
         callAPI(host + 'p/' + e.target.value + '?depth=2', (data) => renderData(data.districts, 'district'));
     };
-
-    console.log(createFullAddress());
 
     // Xử lý sự kiện thay đổi select box quận/huyện
     const handleDistrictChange = (e) => {
@@ -189,7 +186,7 @@ const PaymentForm = () => {
                 console.log('Loi o day', error);
             });
     };
-    console.log(customerInfo);
+    console.log(orderInfo);
     // Render form thanh toán
     return (
         <>
@@ -216,12 +213,6 @@ const PaymentForm = () => {
                                 onChange={(e) => setCustomerInfo({ ...customerInfo, phoneNumber: e.target.value })}
                                 placeholder="Phone Number"
                             />
-                            {/* <input
-                                type="text"
-                                value={customerInfo.address}
-                                onChange={(e) => setCustomerInfo({ ...customerInfo, address: e.target.value })}
-                                placeholder="Address"
-                            /> */}
                             {/* Địa chỉ */}
                             <div className={cx('form-group')}>
                                 <select id="province" onChange={handleProvinceChange}>
@@ -253,6 +244,7 @@ const PaymentForm = () => {
                                 <input
                                     onChange={(e) => setCustomerInfo({ ...customerInfo, address: e.target.value })}
                                     value={createFullAddress()}
+                                    placeholder="Địa chỉ"
                                 />
                             </div>
                         </div>
@@ -263,9 +255,15 @@ const PaymentForm = () => {
                                     <label>Delivery</label>
                                     <input
                                         type="radio"
-                                        name="transport"
+                                        name="transport"  
                                         value="Delivery"
-                                        checked={orderInfo.transport === 'Delivery'}
+                                        checked={orderInfo.transport === 'Delivery'} 
+                                        onChange={(e) => {
+                                            setOrderInfo({
+                                                ...orderInfo,
+                                                transport: e.target.value,
+                                            });
+                                        }}
                                     />
                                 </div>
 
@@ -275,7 +273,13 @@ const PaymentForm = () => {
                                         type="radio"
                                         name="transport"
                                         value="Pickup"
-                                        checked={orderInfo.transport === 'Pickup'}
+                                        checked={orderInfo.transport === 'Pickup'} 
+                                        onChange={(e) => {
+                                            setOrderInfo({
+                                                ...orderInfo,
+                                                transport: e.target.value,
+                                            });
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -287,7 +291,13 @@ const PaymentForm = () => {
                                         type="radio"
                                         name="payment"
                                         value="COD"
-                                        checked={orderInfo.payment === 'COD'}
+                                        checked={orderInfo.payment === 'COD'} 
+                                        onChange={(e) => {
+                                            setOrderInfo({
+                                                ...orderInfo,
+                                                payment: e.target.value,
+                                            });
+                                        }}
                                     />
                                 </div>
 
@@ -297,7 +307,13 @@ const PaymentForm = () => {
                                         type="radio"
                                         name="payment"
                                         value="Bank Transfer"
-                                        checked={orderInfo.payment === 'Bank Transfer'}
+                                        checked={orderInfo.payment === 'Bank Transfer'} 
+                                        onChange={(e) => {
+                                            setOrderInfo({
+                                                ...orderInfo,
+                                                payment: e.target.value,
+                                            });
+                                        }}
                                     />
                                 </div>
                             </div>
