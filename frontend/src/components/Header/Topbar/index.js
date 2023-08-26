@@ -25,7 +25,6 @@ function Topbar() {
             .get('/api/v1/me')
             .then((response) => {
                 setUserData(response.data.user);
-                console.log(response.data.user);
             })
             .catch((err) => {
                 setError(err.response.data.message);
@@ -43,6 +42,7 @@ function Topbar() {
                 Cookies.remove('userId');
                 Cookies.remove('token');
                 setShouldRedirect(true);
+                window.location.reload();
             }
         } catch (error) {
             console.log(error);
@@ -59,46 +59,6 @@ function Topbar() {
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
-
-    function renderAccountContent() {
-        const userName = userData?.name; 
-        const userAvatar = userData?.avatar?.url;
-
-        const isImageFormat = (url) => {
-            return fetch(url, { method: 'HEAD' })
-                .then((res) => {
-                    const contentType = res.headers.get('content-type');
-                    return contentType.startsWith('image/');
-                })
-                .catch((error) => {
-                    console.error(error);
-                    throw error;
-                });
-        };
-
-        let content;
-
-        if (!userAvatar || !isImageFormat(userAvatar)) {
-            content = (
-                <>
-                    <img
-                        src="https://th.bing.com/th/id/R.b9838bf721d3dff150c954530b3856f3?rik=Uulm6lnhid2Giw&riu=http%3a%2f%2fshackmanlab.org%2fwp-content%2fuploads%2f2013%2f07%2fperson-placeholder.jpg&ehk=GGILj1W77t4L5TSfJq0peMYJY8na6RvFj0vx3uPQHkI%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1"
-                        alt={userName}
-                    />
-                    <span>{userName ? userName : 'Tài khoản'}</span>
-                </>
-            );
-        } else {
-            content = (
-                <>
-                    <img src={userAvatar} alt={userName} />
-                    <span>{userName ? userName : 'Tài khoản'}</span>
-                </>
-            );
-        }
-
-        return content;
-    }
 
     const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
@@ -134,7 +94,10 @@ function Topbar() {
                 <div className={cx('right-topbar')}>
                     <ul>
                         <li className={cx('account')}>
-                            <Link to="/user-profile">{renderAccountContent()}</Link>
+                            <Link to="/user-profile">
+                                <img src={userData?.avatar?.url} alt={userData?.name} />
+                                <span>{userData?.name ? userData?.name : 'Tài khoản'}</span>
+                            </Link>
 
                             <div id="login-dropdown" className={cx('login-dropdown')}>
                                 <Link to="/login">Đăng nhập</Link>

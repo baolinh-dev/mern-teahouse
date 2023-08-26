@@ -42,30 +42,6 @@ function ProfileLayout({ children }) {
             });
     }, []);
 
-    // Kiểm tra định dạng hình ảnh
-    const isImageFormat = (url) => {
-        return fetch(url, { method: 'HEAD' })
-          .then((res) => {
-            const contentType = res.headers.get('content-type');
-            return contentType.startsWith('image/');
-          })
-          .catch((error) => {
-            console.error(error);
-            throw error;
-          });
-      };
-
-    // Lấy đường dẫn hình ảnh phù hợp
-    const getAvatarUrl = () => {
-        const userAvatar = userData?.avatar?.url;
-        console.log(userAvatar);
-        if (isImageFormat(userAvatar)) {
-            return userAvatar;
-        } else {
-            return 'https://th.bing.com/th/id/R.b9838bf721d3dff150c954530b3856f3?rik=Uulm6lnhid2Giw&riu=http%3a%2f%2fshackmanlab.org%2fwp-content%2fuploads%2f2013%2f07%2fperson-placeholder.jpg&ehk=GGILj1W77t4L5TSfJq0peMYJY8na6RvFj0vx3uPQHkI%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1';
-        }
-    };
-
     return (
         <>
             <Header />
@@ -79,7 +55,7 @@ function ProfileLayout({ children }) {
                     <div className={cx('user-profile-content')}>
                         <div className={cx('left-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
                             <div className={cx('image')}>
-                                <img src={getAvatarUrl()} alt="avatar" />
+                                <img src={userData?.avatar?.url} alt="avatar" />
                             </div>
                         </div>
                         {children}

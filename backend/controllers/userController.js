@@ -19,7 +19,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         phoneNumber,
         avatar: {
             public_id: 'this is a simple id',
-            url: 'profilepicUrl',
+            url: 'https://th.bing.com/th/id/R.b9838bf721d3dff150c954530b3856f3?rik=Uulm6lnhid2Giw&riu=http%3A%2F%2Fshackmanlab.org%2Fwp-content%2Fuploads%2F2013%2F07%2Fperson-placeholder.jpg&ehk=GGILj1W77t4L5TSfJq0peMYJY8na6RvFj0vx3uPQHkI%3D&risl=&pid=ImgRaw&r=0&sres=1&sresct=1',
         },
     });
 
@@ -149,24 +149,25 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 // Update User Profile
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     const newUserData = {
-      name: req.body.name,
-      email: req.body.email,
-      phoneNumber: req.body.phoneNumber,
-      address: req.body.address,
-      'avatar.url': req.body.avatarUrl // Cập nhật trường avatar.url
+        name: req.body.name,
+        email: req.body.email,
+        phoneNumber: req.body.phoneNumber,
+        address: req.body.address,
+        'avatar.public_id': req.body.avatar.public_id,
+        'avatar.url': req.body.avatar.url,
     };
-  
+
     const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
-      new: true,
-      runValidators: true,
-      useFindAndModify: false,
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
     });
-  
+
     res.status(200).json({
-      success: true,
-      user,
+        success: true,
+        user,
     });
-  });
+});
 
 // Get All Users (admin)
 exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
