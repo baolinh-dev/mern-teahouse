@@ -81,6 +81,8 @@ function Topbar() {
             });
             setCart(newCart);
         }
+
+        window.location.reload();
     };
 
     return (
