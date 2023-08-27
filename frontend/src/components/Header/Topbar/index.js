@@ -91,7 +91,7 @@ function Topbar() {
                 <div className={cx('left-topbar')}>
                     <FontAwesomeIcon icon={faPhoneAlt} />
                     <span>Hotline: </span>
-                    <a href="tel:19006750">1900 6750</a>
+                    <a href="tel:0768494121">0768494121</a>
                 </div>
                 <div className={cx('right-topbar')}>
                     <ul>

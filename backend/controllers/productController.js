@@ -86,6 +86,7 @@ exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
         user: req.user._id,
         name: req.user.name,
         rating: Number(rating),
+        avatar: req.user.avatar.url,
         comment,
     };
 
@@ -115,7 +116,8 @@ exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
     await product.save({ validateBeforeSave: false });
 
     res.status(200).json({
-        success: true,
+        success: true, 
+        review: review,
     });
 });
 
