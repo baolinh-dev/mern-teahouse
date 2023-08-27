@@ -26,7 +26,6 @@ const ProductDetails = () => {
             console.log('Product:', res.data.product);
         };
         fetchProduct();
-        console.log('Đây là id: ', productId);
     }, [productId]);
 
     useEffect(() => {
@@ -94,6 +93,8 @@ const ProductDetails = () => {
                 comment: commentForm.comment,
                 productId: productId,
             });
+
+            console.log('response.data', response.data);
             // Handle the response, e.g., display a success message
             console.log('Comment submitted:', response.data);
 
@@ -110,7 +111,7 @@ const ProductDetails = () => {
         { label: product.category, link: '/caphe' },
         { label: product.name, active: true },
     ];
-
+    // console.log(reviews[0].user);
     return (
         <>
             <MainLayout>
@@ -223,10 +224,14 @@ const ProductDetails = () => {
                                     <div key={review._id} className={cx('comment-item')}>
                                         <div className={cx('comment-info')}>
                                             <div className={cx('comment-avatar')}>
-                                                <img
-                                                    src="https://th.bing.com/th/id/R.b9838bf721d3dff150c954530b3856f3?rik=Uulm6lnhid2Giw&riu=http%3a%2f%2fshackmanlab.org%2fwp-content%2fuploads%2f2013%2f07%2fperson-placeholder.jpg&ehk=GGILj1W77t4L5TSfJq0peMYJY8na6RvFj0vx3uPQHkI%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1"
-                                                    alt="User Avatar"
-                                                />
+                                                {review.avatar ? (
+                                                    <img src={review.avatar} alt="User Avatar" />
+                                                ) : (
+                                                    <img
+                                                        src="https://th.bing.com/th/id/R.b9838bf721d3dff150c954530b3856f3?rik=Uulm6lnhid2Giw&riu=http%3a%2f%2fshackmanlab.org%2fwp-content%2fuploads%2f2013%2f07%2fperson-placeholder.jpg&ehk=GGILj1W77t4L5TSfJq0peMYJY8na6RvFj0vx3uPQHkI%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1"
+                                                        alt="User Avatar"
+                                                    />
+                                                )}
                                             </div>
                                             <div className={cx('comment-name')}>
                                                 <p>{review.name}</p>
