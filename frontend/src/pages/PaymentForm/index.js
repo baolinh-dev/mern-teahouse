@@ -35,12 +35,6 @@ const PaymentForm = () => {
         address: '',
     });
 
-    // const orderInfo = {
-    //     transport: 'Delivery',
-    //     payment: 'COD',
-    //     status: 'Processing',
-    // };
-
     const [orderInfo, setOrderInfo] = useState({
         transport: 'Delivery',
         payment: 'COD',

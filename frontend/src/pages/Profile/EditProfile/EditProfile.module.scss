@@ -1,12 +1,18 @@
-.right-module {
+.right-module { 
+    .group-select{ 
+        display: flex; 
+        .group-infor {
+            margin-right: 10px;
+        }
+    }
     .group-infor {
         display: flex;
-        flex-direction: column;
+        flex-direction: column; 
         label {
             font-weight: 700;
             font-size: 1.2rem;
         }
-        input {
+        input, select {
             padding: 8px;
             border-radius: 8px;
             outline: none;

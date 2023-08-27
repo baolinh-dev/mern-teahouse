@@ -22,7 +22,16 @@ const cx = classNames.bind({
 });
 
 function EditProfile() {
-    const [userData, setUserData] = useState(null);
+    // address state
+    const host = 'https://provinces.open-api.vn/api/';
+    const [provinces, setProvinces] = useState([]);
+    const [districts, setDistricts] = useState([]);
+    const [wards, setWards] = useState([]);
+    const [selectedProvince, setSelectedProvince] = useState('');
+    const [selectedDistrict, setSelectedDistrict] = useState('');
+    const [selectedWard, setSelectedWard] = useState('');
+    const [houseNumber, setHouseNumber] = useState('');
+    // state
     const [error, setError] = useState(null);
     const [imageUrl, setImageUrl] = useState('');
     const [updatedProfile, setUpdatedProfile] = useState({
@@ -35,6 +44,94 @@ function EditProfile() {
             url: '', // Update avatar object structure
         },
     });
+
+    // Hàm để gọi API và render dữ liệu
+    const callAPI = async (api, renderCallback) => {
+        try {
+            const response = await axios.get(api);
+            renderCallback(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    const renderData = (array, select) => {
+        const row = array.map((element) => (
+            <option key={element.code} value={element.code}>
+                {element.name}
+            </option>
+        ));
+        select === 'province' ? setProvinces(row) : select === 'district' ? setDistricts(row) : setWards(row);
+    };
+
+    // Hàm để tạo chuỗi kết quả đầy đủ của địa chỉ
+    const createFullAddress = () => {
+        let address = '';
+
+        if (houseNumber !== '') {
+            address += `${houseNumber} | `;
+        }
+
+        if (selectedProvince !== '') {
+            const provinceOption = document.querySelector(`#province option[value="${selectedProvince}"]`);
+            address += provinceOption.textContent;
+        }
+
+        if (selectedDistrict !== '') {
+            const districtOption = document.querySelector(`#district option[value="${selectedDistrict}"]`);
+            address += ` | ${districtOption.textContent}`;
+        }
+
+        if (selectedWard !== '') {
+            const wardOption = document.querySelector(`#ward option[value="${selectedWard}"]`);
+            address += ` | ${wardOption.textContent}`;
+        }
+
+        return address;
+    };
+
+    useEffect(() => {
+        const updatedAddress = createFullAddress();
+        setUpdatedProfile((prevCustomerInfo) => ({
+            ...prevCustomerInfo,
+            address: updatedAddress,
+        }));
+    }, [houseNumber, selectedProvince, selectedDistrict, selectedWard]);
+
+    useEffect(() => {
+        // Lấy danh sách tỉnh/thành phố và render vào select box
+        callAPI(host + '?depth=1', (data) => renderData(data, 'province'));
+    }, []);
+
+    // Xử lý sự kiện thay đổi select box tỉnh/thành phố
+    const handleProvinceChange = (e) => {
+        setSelectedProvince(e.target.value);
+        setSelectedDistrict('');
+        setSelectedWard('');
+        const updatedAddress = createFullAddress();
+
+        callAPI(host + 'p/' + e.target.value + '?depth=2', (data) => renderData(data.districts, 'district'));
+    };
+
+    // Xử lý sự kiện thay đổi select box quận/huyện
+    const handleDistrictChange = (e) => {
+        setSelectedDistrict(e.target.value);
+        setSelectedWard('');
+        const updatedAddress = createFullAddress();
+        callAPI(host + 'd/' + e.target.value + '?depth=2', (data) => renderData(data.wards, 'ward'));
+    };
+
+    // Xử lý sự kiện thay đổi select box phường/xã
+    const handleWardChange = (e) => {
+        setSelectedWard(e.target.value);
+        const updatedAddress = createFullAddress();
+    };
+
+    // Xử lý sự kiện thay đổi input số nhà
+    const handleHouseNumberChange = (e) => {
+        setHouseNumber(e.target.value);
+        const updatedAddress = createFullAddress();
+    };
 
     useEffect(() => {
         console.log('Image URL changed:', imageUrl);
@@ -97,8 +194,8 @@ function EditProfile() {
         axios
             .put('/api/v1/me/update', updatedProfileClone)
             .then((response) => {
-                toast.success('Profile updated successfully'); 
-                window.location.reload()
+                toast.success('Profile updated successfully');
+                window.location.reload();
             })
             .catch((error) => {
                 toast.error('Failed to update profile');
@@ -123,9 +220,45 @@ function EditProfile() {
                             <b>Phone Number: </b>
                             <input name="phoneNumber" value={updatedProfile.phoneNumber} onChange={handleInputChange} />
                         </div>
-                        <div className={cx('group-infor')}>
+                        {/* Địa chỉ */}
+                        <div>
                             <b>Address: </b>
-                            <input name="address" value={updatedProfile.address} onChange={handleInputChange} />
+                            <div className={cx('group-select')}>
+                                <div className={cx('group-infor')}>
+                                    <select id="province" onChange={handleProvinceChange}>
+                                        <option value="">Chọn tỉnh/thành phố</option>
+                                        {provinces}
+                                    </select>
+                                </div>
+                                <div className={cx('group-infor')}>
+                                    <select id="district" onChange={handleDistrictChange}>
+                                        <option value="">Chọn quận/huyện</option>
+                                        {districts}
+                                    </select>
+                                </div>
+                                <div className={cx('group-infor')}>
+                                    <select id="ward" onChange={handleWardChange}>
+                                        <option value="">Chọn phường/xã</option>
+                                        {wards}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className={cx('group-infor')}>
+                                <input
+                                    type="text"
+                                    placeholder="Số nhà"
+                                    value={houseNumber}
+                                    onChange={handleHouseNumberChange}
+                                />
+                            </div>
+                            <div className={cx('group-infor')}>
+                                <input
+                                    onChange={(e) => setUpdatedProfile({ ...updatedProfile, address: e.target.value })}
+                                    value={updatedProfile.address ? updatedProfile.address : createFullAddress()}
+                                    placeholder="Địa chỉ"
+                                />
+                            </div>
                         </div>
 
                         <div className={cx('group-infor')}>
