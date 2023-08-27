@@ -31,7 +31,7 @@ function UserProfile() {
                 setError(errorMessage);
             });
     }, [error]);
-    console.log(userData);
+    console.log("userData", userData);
     return (
         <>
             <ProfileLayout>

@@ -156,12 +156,11 @@ const PaymentForm = () => {
                 .get('/api/v1/me')
                 .then((response) => {
                     setUserDataLoaded(true);
-                    // Cập nhật giá trị mặc định cho customerInfo
                     setCustomerInfo({
                         email: response.data.user.email,
                         name: response.data.user.name,
-                        phoneNumber: '',
-                        address: '',
+                        phoneNumber: response.data.user.phoneNumber,
+                        address: response.data.user.address,
                     });
                 })
                 .catch((err) => {
@@ -170,7 +169,10 @@ const PaymentForm = () => {
                     console.log(error);
                 });
         }
-    }, [userDataLoaded, error]);
+    }, [userDataLoaded, error]); 
+
+    console.log("customerInfo", customerInfo);
+
     // Lấy thông tin giỏ hàng từ localStorage khi component được render
     useEffect(() => {
         const cartData = localStorage.getItem('cart');
@@ -261,7 +263,8 @@ const PaymentForm = () => {
                             <div className={cx('form-group')}>
                                 <input
                                     onChange={(e) => setCustomerInfo({ ...customerInfo, address: e.target.value })}
-                                    value={createFullAddress()}
+                                    // {customerInfo.address ? (customerInfo.address) : createFullAddress() }
+                                    value={customerInfo.address ? (customerInfo.address) : createFullAddress() }
                                     placeholder="Địa chỉ"
                                 />
                             </div>
