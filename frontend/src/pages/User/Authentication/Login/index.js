@@ -12,48 +12,50 @@ import 'react-toastify/dist/ReactToastify.css';
 const cx = classNames.bind(styles);
 
 function Login() {
+    // Xóa dữ liệu trong localStorage
+    localStorage.clear();
+    // Xóa các cookies
+    Cookies.remove('userName');
+    Cookies.remove('userAvatar');
+    Cookies.remove('userId');
+    Cookies.remove('token');
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const [redirect, setRedirect] = useState(false);
     const [userLogin, setUserLogin] = useState(null);
-    const [lastRegisteredEmail, setLastRegisteredEmail] = useState(''); // Thêm state để lưu email được lấy từ localStorage
+    const [lastRegisteredEmail, setLastRegisteredEmail] = useState('');
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        if (name === 'email') {
-            setEmail(value);
-        } else if (name === 'password') {
-            setPassword(value);
+        if (name === 'email') setEmail(value);
+        else if (name === 'password') setPassword(value);
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post('/api/v1/login', { email, password });
+            const { user } = response.data;
+            setUserLogin(user);
+            Cookies.set('userId', user._id);
+            Cookies.set('userName', user.name);
+            Cookies.set('userAvatar', user.avatar.url);
+            localStorage.setItem('userRole', user.role);
+            setEmail('');
+            setPassword('');
+            setRedirect(true);
+            localStorage.removeItem('lastRegisteredEmail');
+        } catch (err) {
+            const errorMessage = err.response.data.message;
+            setError(errorMessage);
+            toast.error(errorMessage);
         }
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        axios
-            .post('/api/v1/login', { email, password })
-            .then((response) => {
-                const { user } = response.data;
-                setUserLogin(user);
-                Cookies.set('userId', user._id);
-                Cookies.set('userName', user.name);
-                Cookies.set('userAvatar', user.avatar.url); 
-                localStorage.setItem('userRole', user.role);
-                setEmail('');
-                setPassword('');
-                setRedirect(true);
-                localStorage.removeItem('lastRegisteredEmail');
-            })
-            .catch((err) => {
-                const errorMessage = err.response.data.message;
-                setError(errorMessage);
-                toast.error(errorMessage);
-                console.log(error);
-            });
-    };
-
     useEffect(() => {
-        const lastEmail = localStorage.getItem('lastRegisteredEmail'); // Lấy email đã lưu từ localStorage
+        const lastEmail = localStorage.getItem('lastRegisteredEmail');
         if (lastEmail) {
             setEmail(lastEmail);
             setLastRegisteredEmail(lastEmail);
@@ -61,11 +63,8 @@ function Login() {
     }, []);
 
     if (redirect) {
-        if (userLogin.role === 'admin') {
-            return <Navigate to="/admin" />;
-        } else {
-            return <Navigate to="/" />;
-        }
+        const redirectPath = userLogin.role === 'admin' ? '/admin' : '/';
+        return <Navigate to={redirectPath} />;
     }
 
     return (
@@ -74,8 +73,7 @@ function Login() {
                 <ContainerHeading center>
                     <Heading content={'Đăng nhập'} />
                 </ContainerHeading>
-                {lastRegisteredEmail && <p>Bạn đã đăng ký với email: {lastRegisteredEmail}</p>}{' '}
-                {/* Hiển thị thông báo với email được lấy từ localStorage */}
+                {lastRegisteredEmail && <p>Bạn đã đăng ký với email: {lastRegisteredEmail}</p>}
                 <div className={cx('form-group')}>
                     <label htmlFor="email">Email:</label>
                     <input

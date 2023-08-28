@@ -35,8 +35,7 @@ function Topbar() {
         try {
             const response = await axios.get('/api/v1/logout');
             if (response.status === 200) {
-                localStorage.removeItem('lastRegisteredEmail');
-                localStorage.removeItem('cart');
+                localStorage.clear(); 
                 Cookies.remove('userName');
                 Cookies.remove('userAvatar');
                 Cookies.remove('userId');
@@ -83,8 +82,7 @@ function Topbar() {
         }
         setTimeout(() => {
             window.location.reload();
-        }, 2000)
-       
+        }, 2000);
     };
 
     return (
@@ -99,7 +97,13 @@ function Topbar() {
                     <ul>
                         <li className={cx('account')}>
                             <Link to="/user-profile">
-                                <img src={userData?.avatar?.url} alt={userData?.name} />
+                                <img
+                                    src={
+                                        userData?.avatar?.url ||
+                                        'https://th.bing.com/th/id/R.b9838bf721d3dff150c954530b3856f3?rik=Uulm6lnhid2Giw&riu=http%3A%2F%2Fshackmanlab.org%2Fwp-content%2Fuploads%2F2013%2F07%2Fperson-placeholder.jpg&ehk=GGILj1W77t4L5TSfJq0peMYJY8na6RvFj0vx3uPQHkI%3D&risl=&pid=ImgRaw&r=0&sres=1&sresct=1'
+                                    }
+                                    alt={userData?.name}
+                                />
                                 <span>{userData?.name ? userData?.name : 'Tài khoản'}</span>
                             </Link>
 
