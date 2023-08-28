@@ -1,0 +1,19 @@
+.not-found {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .not-found__wrapper { 
+        p {
+            margin-bottom: 16px;
+        }
+        a {
+            padding: 8px 20px;
+            background-color: var(--primary);
+            color: #fff;
+            font-weight: bold;
+            border-radius: 20px;
+        }
+    }
+}

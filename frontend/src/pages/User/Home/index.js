@@ -1,11 +1,11 @@
 import './Home.module.scss';
 import Header from '~/components/Header';
-import Slider from '~/pages/Home/Slider';
-import AboutMe from '~/pages/Home/AboutMe';
-import Category from '~/pages/Home/Category';
-import Menu from '~/pages/Home/Menu';
+import Slider from '~/pages/User/Home/Slider';
+import AboutMe from '~/pages/User/Home/AboutMe';
+import Category from '~/pages/User/Home/Category';
+import Menu from '~/pages/User/Home/Menu';
 import Footer from '~/components/Footer';
-import TimeOpening from '~/pages/Home/TimeOpening';
+import TimeOpening from '~/pages/User/Home/TimeOpening';
 import News from './News';
 import Gallery from './Gallery';
 

@@ -43,10 +43,6 @@ exports.authorizerRoles = (...roles) => {
 
 exports.adminOnly = (req, res, next) => {
     if (req.user.role !== 'admin') {
-        // return res.status(403).json({
-        //     success: false,
-        //     message: 'Bạn không có quyền truy cập tài nguyên này.',
-        // });
         return next(new ErrorHandler(`Role: ${req.user.role} is not allowed to access this resouce`, 403));
     }
     next();

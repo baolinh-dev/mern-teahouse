@@ -8,7 +8,7 @@ import styles from './EditProfile.module.scss';
 import { Link } from 'react-router-dom';
 import ProfileLayout from '~/layouts/ProfileLayout';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../../../firebase';
+import { storage } from '../../../../firebase';
 import { v4 } from 'uuid';
 
 const cx = classNames.bind({
@@ -155,8 +155,8 @@ function EditProfile() {
             })
             .catch((err) => {
                 setError(err.response.data.message);
-                toast.error(err.response.data.message);
                 console.log(error);
+                toast.error(err.response.data.message);
             });
     }, []);
 

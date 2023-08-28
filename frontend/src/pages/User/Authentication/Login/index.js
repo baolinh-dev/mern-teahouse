@@ -16,6 +16,7 @@ function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const [redirect, setRedirect] = useState(false);
+    const [userLogin, setUserLogin] = useState(null);
     const [lastRegisteredEmail, setLastRegisteredEmail] = useState(''); // Thêm state để lưu email được lấy từ localStorage
 
     const handleInputChange = (event) => {
@@ -33,9 +34,11 @@ function Login() {
             .post('/api/v1/login', { email, password })
             .then((response) => {
                 const { user } = response.data;
+                setUserLogin(user);
                 Cookies.set('userId', user._id);
                 Cookies.set('userName', user.name);
-                Cookies.set('userAvatar', user.avatar.url);
+                Cookies.set('userAvatar', user.avatar.url); 
+                localStorage.setItem('userRole', user.role);
                 setEmail('');
                 setPassword('');
                 setRedirect(true);
@@ -58,7 +61,11 @@ function Login() {
     }, []);
 
     if (redirect) {
-        return <Navigate to="/" />;
+        if (userLogin.role === 'admin') {
+            return <Navigate to="/admin" />;
+        } else {
+            return <Navigate to="/" />;
+        }
     }
 
     return (
