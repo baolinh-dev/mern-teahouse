@@ -1,0 +1,22 @@
+.category-item {
+    display: flex;
+    align-items: center;
+    padding: 20px; 
+    margin-bottom: 20px;
+    border-radius: 0 40px 40px 0;
+
+    &:hover {
+        background-color: var(--primary);
+        cursor: pointer;
+    }
+
+    .category-icon {
+        margin-right: 20px; 
+    }
+
+    p {
+        margin-bottom: 0;
+        font-size: 2rem; 
+        font-weight: 600;
+    }
+}

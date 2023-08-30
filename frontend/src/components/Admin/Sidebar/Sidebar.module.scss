@@ -1,5 +1,12 @@
 .sidebar {
     width: 20%; 
     height: 100vh; 
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #ddd; 
+    .logo {
+        padding: 20px 0 20px 20px; 
+        border-bottom: 1px solid #ddd;
+    } 
+    .list-category {
+        padding: 20px;
+    }
 }
