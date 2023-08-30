@@ -36,7 +36,7 @@ function ChangePassword() {
                 setError(errorMessage);
                 console.log(error);
             });
-    }, []);
+    }, [error]);
 
     useEffect(() => {
         if (passwordError) {

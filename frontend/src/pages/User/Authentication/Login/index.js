@@ -50,7 +50,8 @@ function Login() {
         } catch (err) {
             const errorMessage = err.response.data.message;
             setError(errorMessage);
-            toast.error(errorMessage);
+            toast.error(errorMessage); 
+            console.log(error);
         }
     };
 

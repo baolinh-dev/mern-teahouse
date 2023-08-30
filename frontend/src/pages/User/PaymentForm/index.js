@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -61,7 +61,7 @@ const PaymentForm = () => {
     };
 
     // Hàm để tạo chuỗi kết quả đầy đủ của địa chỉ
-    const createFullAddress = () => {
+    const createFullAddress = useCallback(() => {
         let address = '';
 
         if (houseNumber !== '') {
@@ -84,7 +84,7 @@ const PaymentForm = () => {
         }
 
         return address;
-    };
+    }, [houseNumber, selectedProvince, selectedDistrict, selectedWard]);
 
     useEffect(() => {
         const updatedAddress = createFullAddress();
@@ -92,7 +92,7 @@ const PaymentForm = () => {
             ...prevCustomerInfo,
             address: updatedAddress,
         }));
-    }, [houseNumber, selectedProvince, selectedDistrict, selectedWard]);
+    }, [houseNumber, selectedProvince, selectedDistrict, selectedWard, createFullAddress]);
 
     useEffect(() => {
         // Lấy danh sách tỉnh/thành phố và render vào select box
@@ -104,8 +104,6 @@ const PaymentForm = () => {
         setSelectedProvince(e.target.value);
         setSelectedDistrict('');
         setSelectedWard('');
-        const updatedAddress = createFullAddress();
-
         callAPI(host + 'p/' + e.target.value + '?depth=2', (data) => renderData(data.districts, 'district'));
     };
 
@@ -113,20 +111,17 @@ const PaymentForm = () => {
     const handleDistrictChange = (e) => {
         setSelectedDistrict(e.target.value);
         setSelectedWard('');
-        const updatedAddress = createFullAddress();
         callAPI(host + 'd/' + e.target.value + '?depth=2', (data) => renderData(data.wards, 'ward'));
     };
 
     // Xử lý sự kiện thay đổi select box phường/xã
     const handleWardChange = (e) => {
         setSelectedWard(e.target.value);
-        const updatedAddress = createFullAddress();
     };
 
     // Xử lý sự kiện thay đổi input số nhà
     const handleHouseNumberChange = (e) => {
         setHouseNumber(e.target.value);
-        const updatedAddress = createFullAddress();
     };
 
     // Xử lý sự kiện thay đổi Transport
@@ -163,9 +158,9 @@ const PaymentForm = () => {
                     console.log(error);
                 });
         }
-    }, [userDataLoaded, error]); 
+    }, [userDataLoaded, error]);
 
-    console.log("customerInfo", customerInfo);
+    console.log('customerInfo', customerInfo);
 
     // Lấy thông tin giỏ hàng từ localStorage khi component được render
     useEffect(() => {
@@ -258,7 +253,7 @@ const PaymentForm = () => {
                                 <input
                                     onChange={(e) => setCustomerInfo({ ...customerInfo, address: e.target.value })}
                                     // {customerInfo.address ? (customerInfo.address) : createFullAddress() }
-                                    value={customerInfo.address ? (customerInfo.address) : createFullAddress() }
+                                    value={customerInfo.address ? customerInfo.address : createFullAddress()}
                                     placeholder="Địa chỉ"
                                 />
                             </div>

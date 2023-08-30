@@ -7,7 +7,6 @@ import styles from './ProfileLayout.module.scss';
 import Breadcrumb from '~/components/Breadcrumb';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Cookies from 'js-cookie';
 import Header from '~/components/Header';
 import Footer from '~/components/Footer';
 

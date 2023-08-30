@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -65,7 +65,7 @@ function EditProfile() {
     };
 
     // Hàm để tạo chuỗi kết quả đầy đủ của địa chỉ
-    const createFullAddress = () => {
+    const createFullAddress = useCallback(() => {
         let address = '';
 
         if (houseNumber !== '') {
@@ -88,7 +88,7 @@ function EditProfile() {
         }
 
         return address;
-    };
+    }, [houseNumber, selectedProvince, selectedDistrict, selectedWard]);
 
     useEffect(() => {
         const updatedAddress = createFullAddress();
@@ -96,7 +96,7 @@ function EditProfile() {
             ...prevCustomerInfo,
             address: updatedAddress,
         }));
-    }, [houseNumber, selectedProvince, selectedDistrict, selectedWard]);
+    }, [houseNumber, selectedProvince, selectedDistrict, selectedWard, createFullAddress]);
 
     useEffect(() => {
         // Lấy danh sách tỉnh/thành phố và render vào select box
@@ -108,8 +108,6 @@ function EditProfile() {
         setSelectedProvince(e.target.value);
         setSelectedDistrict('');
         setSelectedWard('');
-        const updatedAddress = createFullAddress();
-
         callAPI(host + 'p/' + e.target.value + '?depth=2', (data) => renderData(data.districts, 'district'));
     };
 
@@ -117,20 +115,17 @@ function EditProfile() {
     const handleDistrictChange = (e) => {
         setSelectedDistrict(e.target.value);
         setSelectedWard('');
-        const updatedAddress = createFullAddress();
         callAPI(host + 'd/' + e.target.value + '?depth=2', (data) => renderData(data.wards, 'ward'));
     };
 
     // Xử lý sự kiện thay đổi select box phường/xã
     const handleWardChange = (e) => {
         setSelectedWard(e.target.value);
-        const updatedAddress = createFullAddress();
     };
 
     // Xử lý sự kiện thay đổi input số nhà
     const handleHouseNumberChange = (e) => {
         setHouseNumber(e.target.value);
-        const updatedAddress = createFullAddress();
     };
 
     useEffect(() => {
@@ -144,7 +139,7 @@ function EditProfile() {
         }));
     }, [imageUrl]);
 
-    console.log(updatedProfile.avatar.url); // https://firebasestorage.googleapis.com/v0/b/mern-teahouse.appspot.com/o/profile-images%2Fa229aa4f-08c0-4dcd-b6e4-88e927c2a8dd?alt=media&token=070b79c5-4509-4b74-bf86-4c1586f61f2
+    console.log(updatedProfile.avatar.url);
 
     useEffect(() => {
         axios
@@ -158,7 +153,7 @@ function EditProfile() {
                 console.log(error);
                 toast.error(err.response.data.message);
             });
-    }, []);
+    }, [error]);
 
     const handleInputChange = (e) => {
         setUpdatedProfile((prevState) => ({

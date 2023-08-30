@@ -1,7 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes, privateRoutes } from '~/routes';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
 import NotFound from './pages/NotFound';
 
 function App() {
