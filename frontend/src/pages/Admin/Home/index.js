@@ -1,15 +1,15 @@
 import AdminLayout from '~/layouts/AdminLayout';
 
-function Admin() {
+function AdminHome() {
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
         { label: 'Dashboard', active: true },
     ];
     return (
-        <AdminLayout heading={'Dashboard'} breadcrumb={breadcrumbItems}>
-            Đây là content
+        <AdminLayout heading={'Home'}>
+            Đây là Home
         </AdminLayout>
     );
 }
 
-export default Admin;
+export default AdminHome;

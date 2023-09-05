@@ -1,3 +1,7 @@
 .adminlayout {
-    display: flex;
+    display: flex;  
+    .right {
+        padding: 20px;   
+        width: 100%;
+    }
 }

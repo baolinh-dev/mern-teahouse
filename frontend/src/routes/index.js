@@ -17,8 +17,9 @@ import EditProfile from '~/pages/User/Profile/EditProfile';
 import ChangePassword from '~/pages/User/Profile/ChangePassword';
 import MyOrders from '~/pages/User/Profile/MyOrders';
 import Cart from '~/pages/User/Cart';
-import Admin from '~/pages/Admin';
 import PaymentForm from '~/pages/User/PaymentForm';
+import AdminDashBoard from '~/pages/Admin/DashBoard';
+import AdminHome from '~/pages/Admin/Home';
 // Public routes
 export const publicRoutes = [
     { path: '/', component: Home },
@@ -42,6 +43,7 @@ export const publicRoutes = [
     { path: '/products/:id', component: ProductDetails },
 ];
 
-export const privateRoutes = [{ path: '/admin', component: Admin }]; 
-
-
+export const privateRoutes = [
+    { path: '/admin', component: AdminHome },
+    { path: '/admin/dashboard', component: AdminDashBoard },
+];
