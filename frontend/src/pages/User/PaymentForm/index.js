@@ -31,6 +31,7 @@ const PaymentForm = () => {
     const [customerInfo, setCustomerInfo] = useState({
         email: '',
         name: '',
+        avatar: '',
         phoneNumber: '',
         address: '',
     });
@@ -148,6 +149,7 @@ const PaymentForm = () => {
                     setCustomerInfo({
                         email: response.data.user.email,
                         name: response.data.user.name,
+                        avatar: response.data.user.avatar.url,
                         phoneNumber: response.data.user.phoneNumber,
                         address: response.data.user.address,
                     });
@@ -201,25 +203,36 @@ const PaymentForm = () => {
                 <div className={cx('payment')}>
                     <div className={cx('info')}>
                         <div className={cx('customer-info')}>
-                            <h2>Customer Information</h2>
-                            <input
-                                type="text"
-                                value={customerInfo.email}
-                                onChange={(e) => setCustomerInfo({ ...customerInfo, email: e.target.value })}
-                                placeholder="Email"
-                            />
-                            <input
-                                type="text"
-                                value={customerInfo.name}
-                                onChange={(e) => setCustomerInfo({ ...customerInfo, name: e.target.value })}
-                                placeholder="Name"
-                            />
-                            <input
-                                type="text"
-                                value={customerInfo.phoneNumber}
-                                onChange={(e) => setCustomerInfo({ ...customerInfo, phoneNumber: e.target.value })}
-                                placeholder="Phone Number"
-                            />
+                            <h2>Customer Information</h2> 
+                            {/* Infor */}
+                            <div className={cx('info-wrapper')}>
+                                <div className={cx('info-avatar')}>
+                                    <img src={customerInfo.avatar} />
+                                </div>
+                                <div className={cx('info-input')}>
+                                    <input
+                                        type="text"
+                                        value={customerInfo.email}
+                                        onChange={(e) => setCustomerInfo({ ...customerInfo, email: e.target.value })}
+                                        placeholder="Email"
+                                    />
+                                    <input
+                                        type="text"
+                                        value={customerInfo.name}
+                                        onChange={(e) => setCustomerInfo({ ...customerInfo, name: e.target.value })}
+                                        placeholder="Name"
+                                    />
+                                    <input
+                                        type="text"
+                                        value={customerInfo.phoneNumber}
+                                        onChange={(e) =>
+                                            setCustomerInfo({ ...customerInfo, phoneNumber: e.target.value })
+                                        }
+                                        placeholder="Phone Number"
+                                    />
+                                </div>
+                            </div>
+
                             {/* Địa chỉ */}
                             <div className={cx('form-group')}>
                                 <select id="province" onChange={handleProvinceChange}>
