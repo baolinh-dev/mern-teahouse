@@ -12,14 +12,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const cx = classNames.bind(styles);
 
 function Login() {
-    // Xóa dữ liệu trong localStorage
-    localStorage.clear();
-    // Xóa các cookies
-    Cookies.remove('userName');
-    Cookies.remove('userAvatar');
-    Cookies.remove('userId');
-    Cookies.remove('token');
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -38,15 +30,15 @@ function Login() {
         try {
             const response = await axios.post('/api/v1/login', { email, password });
             const { user } = response.data;
-            setUserLogin(user);
             Cookies.set('id', user._id);
             Cookies.set('name', user.name);
             Cookies.set('avatar', user.avatar.url);
             localStorage.setItem('userRole', user.role);
+            localStorage.removeItem('lastRegisteredEmail');
             setEmail('');
             setPassword('');
             setRedirect(true);
-            localStorage.removeItem('lastRegisteredEmail');
+            setUserLogin(user);
         } catch (err) {
             const errorMessage = err.response.data.message;
             setError(errorMessage);

@@ -22,7 +22,7 @@ function OrderAppoval() {
         fetchOrders();
     }, []); 
 
-    console.log(orders);
+    console.log("orders", orders);
 
     return (
         <div className={cx('order-appoval')}>

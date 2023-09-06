@@ -23,7 +23,8 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
         cart,
         totalProductPrice,
         customerInfo,
-        orderInfo,
+        orderInfo, 
+        dateOrder: Date.now(),
     });
 
     // Trả về đơn hàng vừa tạo
