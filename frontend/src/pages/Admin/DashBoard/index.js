@@ -1,4 +1,5 @@
 import AdminLayout from '~/layouts/AdminLayout';
+import Cards from './Cards';
 
 function AdminDashBoard() {
     const breadcrumbItems = [
@@ -7,7 +8,7 @@ function AdminDashBoard() {
     ];
     return (
         <AdminLayout heading={'Dashboard'} breadcrumb={breadcrumbItems}>
-            Đây là Dashboard
+            <Cards />
         </AdminLayout>
     );
 }

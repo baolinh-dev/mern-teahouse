@@ -21,11 +21,13 @@ function AdminLayout({ heading, breadcrumb, children }) {
         <div className={cx('adminlayout')}>
             <Sidebar categories={categories} />
             <div className={cx('right')}>
-                <Topbar/> 
-                <h2>{heading}</h2>
-                <div className={cx('content')}>
-                    {breadcrumb ? <Breadcrumb items={breadcrumb} /> : <></>}
-                    {children}
+                <Topbar />
+                <div className={cx('wrapper')}>
+                    <h2>{heading}</h2>
+                    <div className={cx('content')}>
+                        {breadcrumb ? <Breadcrumb items={breadcrumb} /> : <></>}
+                        {children}
+                    </div>
                 </div>
             </div>
         </div>
