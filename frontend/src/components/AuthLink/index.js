@@ -6,7 +6,9 @@ import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 
 function AuthLink({ linkTo }) {
     // Kiểm tra xem người dùng đã đăng nhập hay chưa
-    const isLoggedIn = Cookies.get('userName') !== undefined;
+    const isLoggedIn = Cookies.get('name') !== undefined; 
+
+    console.log("isLoggedIn", Cookies.get('name') );
 
     // Chuyển hướng người dùng đến trang Payment hoặc trang đăng nhập
     const redirectLink = isLoggedIn ? linkTo : '/login';

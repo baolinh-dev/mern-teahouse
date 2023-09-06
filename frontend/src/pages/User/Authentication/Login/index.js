@@ -39,9 +39,9 @@ function Login() {
             const response = await axios.post('/api/v1/login', { email, password });
             const { user } = response.data;
             setUserLogin(user);
-            Cookies.set('userId', user._id);
-            Cookies.set('userName', user.name);
-            Cookies.set('userAvatar', user.avatar.url);
+            Cookies.set('id', user._id);
+            Cookies.set('name', user.name);
+            Cookies.set('avatar', user.avatar.url);
             localStorage.setItem('userRole', user.role);
             setEmail('');
             setPassword('');

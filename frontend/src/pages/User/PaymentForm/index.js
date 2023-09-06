@@ -160,8 +160,6 @@ const PaymentForm = () => {
         }
     }, [userDataLoaded, error]);
 
-    console.log('customerInfo', customerInfo);
-
     // Lấy thông tin giỏ hàng từ localStorage khi component được render
     useEffect(() => {
         const cartData = localStorage.getItem('cart');

@@ -4,7 +4,6 @@ import classNames from 'classnames/bind';
 import styles from './Topbar.module.scss';
 import { Link, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
 import axios from 'axios';
 import ContainerHeading from '~/components/ContainerHeading';
 import Heading from '~/components/Heading';
@@ -31,15 +30,22 @@ function Topbar() {
             });
     }, [error]);
 
+    function clearAllCookies() {
+        const cookies = document.cookie.split(';');
+
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i];
+            const eqPos = cookie.indexOf('=');
+            const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+        }
+    }
+
     const handleLogout = async () => {
         try {
             const response = await axios.get('/api/v1/logout');
             if (response.status === 200) {
-                localStorage.clear(); 
-                Cookies.remove('userName');
-                Cookies.remove('userAvatar');
-                Cookies.remove('userId');
-                Cookies.remove('token');
+                clearAllCookies(); // Xóa tất cả các cookie
                 setShouldRedirect(true);
                 window.location.reload();
             }
