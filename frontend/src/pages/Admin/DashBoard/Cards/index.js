@@ -56,7 +56,7 @@ function Cards() {
   }, []); 
 
   return (
-    <div className={cx('cards')}>
+    <div className={cx('cards')}> 
       <CardItem icon={faCartShopping} quantity={productCount} heading={"Sản phẩm"} /> 
       <CardItem icon={faFileInvoice} quantity={orderCount} heading={"Orders"} /> 
       <CardItem icon={faUsers} quantity={userCount} heading={"Người dùng"} /> 
