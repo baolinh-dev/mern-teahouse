@@ -23,8 +23,14 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
         cart,
         totalProductPrice,
         customerInfo,
-        orderInfo, 
-        dateOrder: Date.now(),
+        orderInfo,
+        dateOrder: (function () {
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+            const day = String(currentDate.getDate()).padStart(2, '0');
+            return `${year}/${month}/${day}`;
+        })(),
     });
 
     // Trả về đơn hàng vừa tạo
