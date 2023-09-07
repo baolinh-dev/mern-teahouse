@@ -7,7 +7,11 @@ const orderSchema = new mongoose.Schema({
         required: true,
     },
     cart: [
-        {
+        {  
+            id: {
+                type: String,
+                required: true,
+            },
             image: {
                 type: String,
                 required: true,

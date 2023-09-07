@@ -162,7 +162,8 @@ const PaymentForm = () => {
         }
     }, [userDataLoaded, error]);
 
-    // Lấy thông tin giỏ hàng từ localStorage khi component được render
+    // Lấy thông tin giỏ hàng từ localStorage khi component được render 
+    console.log("Day là cart", cart);
     useEffect(() => {
         const cartData = localStorage.getItem('cart');
         if (cartData) {
@@ -178,7 +179,7 @@ const PaymentForm = () => {
             cart,
             customerInfo,
             orderInfo,
-        };
+        }; 
 
         axios
             .post('/api/v1/order/new', formData)
@@ -186,9 +187,9 @@ const PaymentForm = () => {
                 localStorage.removeItem('cart');
 
                 toast.success('Đặt hàng thành công');
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);
+                // setTimeout(() => {
+                //     window.location.reload();
+                // }, 2000);
             })
             .catch((error) => {
                 toast.error('Đặt hàng thất bại');
