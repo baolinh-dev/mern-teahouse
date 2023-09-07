@@ -4,7 +4,7 @@ import OrderAppoval from './OrderAppoval';
 
 function AdminHome() {
     return (
-        <AdminLayout heading={'Home'}>
+        <AdminLayout >
             <Cards />
             <OrderAppoval />
         </AdminLayout>

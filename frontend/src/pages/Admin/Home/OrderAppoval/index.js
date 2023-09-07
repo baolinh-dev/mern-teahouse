@@ -2,6 +2,8 @@ import classNames from 'classnames/bind';
 import styles from './OrderAppoval.module.scss';
 import OrderAppovalItem from './OrderAppovalItem';
 import { useEffect, useState } from 'react';
+import ContainerHeading from '~/components/ContainerHeading';
+import Heading from '~/components/Heading';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
@@ -20,13 +22,18 @@ function OrderAppoval() {
         };
 
         fetchOrders();
-    }, []); 
+    }, []);
 
-    console.log("orders", orders);
+    console.log('orders', orders);
 
     return (
         <div className={cx('order-appoval')}>
-            {orders.map(order => ( 
+            <div className={cx('container-heading')}>
+                <ContainerHeading center>
+                    <Heading content={'Order Approval'} />
+                </ContainerHeading>
+            </div>
+            {orders.map((order) => (
                 <OrderAppovalItem key={order._id} order={order} />
             ))}
         </div>

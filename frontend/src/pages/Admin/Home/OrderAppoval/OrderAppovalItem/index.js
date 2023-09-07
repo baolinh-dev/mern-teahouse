@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './OrderAppovalItem.module.scss';
 
-const cx = classNames.bind(styles);
+const cx = classNames.bind(styles); 
 
 function OrderAppovalItem({ order }) {
     return (
@@ -10,7 +10,8 @@ function OrderAppovalItem({ order }) {
             <h3>{order.customerInfo.name}</h3>
             <img alt={order.customerInfo.name} width={200} src={order.customerInfo.avatar}/>
             <p>{order.orderInfo.status}</p> 
-            <p>{order.dateOrder}</p> 
+            <p>{order.dateOrder}</p>  
+            <p>{order.totalProductPrice}</p>
         </div>
     );
 }
