@@ -44,7 +44,8 @@ function Topbar() {
     const handleLogout = async () => {
         try {
             const response = await axios.get('/api/v1/logout');
-            if (response.status === 200) {
+            if (response.status === 200) { 
+                localStorage.clear();
                 clearAllCookies(); // Xóa tất cả các cookie
                 setShouldRedirect(true);
                 window.location.reload();
