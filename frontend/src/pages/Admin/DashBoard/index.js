@@ -1,5 +1,4 @@
 import AdminLayout from '~/layouts/AdminLayout';
-import Cards from '../Home/Cards';
 
 function AdminDashBoard() {
     const breadcrumbItems = [

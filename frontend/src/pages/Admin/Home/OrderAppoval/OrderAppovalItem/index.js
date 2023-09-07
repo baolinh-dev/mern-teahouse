@@ -8,7 +8,7 @@ function OrderAppovalItem({ order }) {
     return (
         <div className={cx('order-approval-item')}> 
             <h3>{order.customerInfo.name}</h3>
-            <img width={200} src={order.customerInfo.avatar}/>
+            <img alt={order.customerInfo.name} width={200} src={order.customerInfo.avatar}/>
             <p>{order.orderInfo.status}</p> 
             <p>{order.dateOrder}</p> 
         </div>

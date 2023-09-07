@@ -207,7 +207,7 @@ const PaymentForm = () => {
                             {/* Infor */}
                             <div className={cx('info-wrapper')}>
                                 <div className={cx('info-avatar')}>
-                                    <img src={customerInfo.avatar} />
+                                    <img alt={customerInfo.name} src={customerInfo.avatar} />
                                 </div>
                                 <div className={cx('info-input')}>
                                     <input
