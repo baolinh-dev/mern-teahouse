@@ -14,7 +14,8 @@ function OrderAppoval() {
         const fetchOrders = async () => {
             try {
                 const response = await fetch('/api/v1/admin/orders');
-                const data = await response.json();
+                const data = await response.json();  
+                console.log("data", data.orders);
                 setOrders(data.orders);
             } catch (error) {
                 console.error('Error fetching orders:', error);

@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
-function ProductItem({ imageUrl, nameProduct, price, id, product }) {
+function ProductItem({ imageUrl, nameProduct, price, id }) {
     const [cart, setCart] = useState([]);
     const quantity = 1;
 

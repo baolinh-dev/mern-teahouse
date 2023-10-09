@@ -46,7 +46,9 @@ function Menu() {
             .catch((error) => {
                 console.log(error);
             });
-    }, [selectedTab]);
+    }, [selectedTab]); 
+
+    console.log("products", products[0]);
 
     return (
         <div className={cx('menu')}>
@@ -77,7 +79,7 @@ function Menu() {
                                 key={index}
                                 imageUrl={product.images[0].url}
                                 price={product.price}
-                                nameProduct={product.nameProduct}
+                                nameProduct={product.name}
                             />
                         ))
                     ) : (
