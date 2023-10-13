@@ -71,7 +71,6 @@ function Menu() {
                 </ul>
             </div>
             <div className={cx('products', 'container')}>
-                <div className={cx('products', 'container')}>
                     {products !== undefined && products.length > 0 ? (
                         products.map((product, index) => (
                             <ProductItem
@@ -86,7 +85,6 @@ function Menu() {
                         <p>No products available.</p>
                     )}
                 </div>
-            </div>
         </div>
     );
 }

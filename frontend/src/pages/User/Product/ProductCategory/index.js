@@ -28,8 +28,9 @@ function ProductCategory() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [searchKeyword, setSearchKeyword] = useState('');
-    const [searchStatus, setSearchStatus] = useState(false); // Thêm state searchStatus để lưu trạng thái tìm kiếm
-    const [values, setValues] = useState([20000, 80000]); // giá trị mặc định
+    const [searchStatus, setSearchStatus] = useState(false); 
+    const [values, setValues] = useState([20000, 80000]);  
+    
     const min = 20000;
     const max = 80000;
 
@@ -127,7 +128,7 @@ function ProductCategory() {
                         <ContainerHeading center>
                             <Heading content={category} />
                         </ContainerHeading>
-                        {searchStatus ? ( // Hiển thị danh sách sản phẩm nếu tìm thấy sản phẩm
+                        {searchStatus ? ( 
                             <>
                                 <ul className={cx('list')}>
                                     {products.map((product) => (
@@ -147,7 +148,6 @@ function ProductCategory() {
                                 />
                             </>
                         ) : (
-                            // Hiển thị thông báo nếu không tìm thấy sản phẩm
                             <h1>Không tìm thấy sản phẩm</h1>
                         )}
                     </div>

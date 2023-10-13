@@ -21,7 +21,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
 
         for (let i = 1; i <= totalPages; i++) {
             pageNumbers.push(
-                <li key={i} className={currentPage === i ? 'active' : null}>
+                <li key={i} className={currentPage === i ? cx('active') : null}>
                     <button onClick={() => onPageChange(i)}>{i}</button>
                 </li>,
             );
