@@ -63,7 +63,7 @@ function Topbar() {
     return (
         <div className={cx('topbar')}>
             <div className={cx('search')}>
-                <h2>Admin Page</h2>
+                <h2>Admin Page - TeaHouse</h2>
             </div>
             <div
                 className={cx('info-admin')}

@@ -20,6 +20,7 @@ import Cart from '~/pages/User/Cart';
 import PaymentForm from '~/pages/User/PaymentForm';
 import AdminDashBoard from '~/pages/Admin/DashBoard';
 import AdminHome from '~/pages/Admin/Home';
+import ManageUser from '~/pages/Admin/ManageUser';
 // Public routes
 export const publicRoutes = [
     { path: '/', component: Home },
@@ -45,5 +46,6 @@ export const publicRoutes = [
 
 export const privateRoutes = [
     { path: '/admin', component: AdminHome },
-    { path: '/admin/dashboard', component: AdminDashBoard },
+    { path: '/admin/dashboard', component: AdminDashBoard }, 
+    { path: '/admin/users', component: ManageUser },
 ];
