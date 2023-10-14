@@ -30,7 +30,7 @@ function ProductCategory() {
     const [searchKeyword, setSearchKeyword] = useState('');
     const [searchStatus, setSearchStatus] = useState(false); 
     const [values, setValues] = useState([20000, 80000]);  
-    
+
     const min = 20000;
     const max = 80000;
 

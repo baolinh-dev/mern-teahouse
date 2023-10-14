@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PieChart, Pie, Cell } from 'recharts';
+import { PieChart, Pie, Cell, BarChart} from 'recharts';
 import AdminLayout from '~/layouts/AdminLayout';
 
 function AdminDashboard() {
