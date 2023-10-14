@@ -17,7 +17,6 @@ function AdminDashboard() {
       <DailyRevenueStatistics />
       </main> 
       <MonthlyRevenueStatistics />
-
     </AdminLayout>
   );
 }

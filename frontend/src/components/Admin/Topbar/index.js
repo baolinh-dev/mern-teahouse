@@ -2,12 +2,16 @@ import classNames from 'classnames/bind';
 import styles from './Topbar.module.scss';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function Topbar() {
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState(null);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     useEffect(() => {
         axios
@@ -19,12 +23,53 @@ function Topbar() {
                 setError(err.response.data.message);
             });
     }, [error]);
+
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
+
+    const handleMouseEnter = () => {
+        setIsDropdownOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsDropdownOpen(false);
+    };
+
+    function clearAllCookies() {
+        const cookies = document.cookie.split(';');
+
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i];
+            const eqPos = cookie.indexOf('=');
+            const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+        }
+    }
+
+    const handleLogout = async () => {
+        try {
+            const response = await axios.get('/api/v1/logout');
+            if (response.status === 200) {
+                localStorage.clear();
+                clearAllCookies(); // Xóa tất cả các cookie
+                window.location.href = '/login';
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <div className={cx('topbar')}>
             <div className={cx('search')}>
                 <input placeholder="Search ..." />
             </div>
-            <div className={cx('info-admin')}>
+            <div
+                className={cx('info-admin')}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
                 <img
                     src={
                         userData?.avatar?.url ||
@@ -32,8 +77,25 @@ function Topbar() {
                     }
                     alt={userData?.name}
                 />
-
                 <span>{userData?.name}</span>
+                {isDropdownOpen && (
+                    <div className={cx('dropdown')}>
+                        <ul>
+                            <li>
+                                <Link to="/">
+                                    <FontAwesomeIcon icon={faHome} />
+                                    <p>Sales page</p>
+                                </Link>
+                            </li>
+                            <li>
+                                <button onClick={handleLogout}>
+                                    <FontAwesomeIcon icon={faSignOutAlt} />
+                                    <p>Sign out</p>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                )}
             </div>
         </div>
     );
