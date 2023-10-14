@@ -16,14 +16,13 @@ const categories = [
     { categoryName: 'Settings', categoryIcon: faCogs, url: '/admin/settings' },
 ];
 
-function AdminLayout({ heading, breadcrumb, children }) {
+function AdminLayout({ breadcrumb, children }) {
     return (
         <div className={cx('adminlayout')}>
             <Sidebar categories={categories} />
             <div className={cx('right')}>
                 <Topbar />
                 <div className={cx('wrapper')}>
-                    <h2>{heading}</h2>
                     <div className={cx('content')}>
                         {breadcrumb ? <Breadcrumb items={breadcrumb} /> : <></>}
                         {children}

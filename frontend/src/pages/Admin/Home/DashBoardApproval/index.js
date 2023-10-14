@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ContainerHeading from '~/components/ContainerHeading';
 import Heading from '~/components/Heading';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell, ReferenceLine, LabelList } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, ReferenceLine, LabelList } from 'recharts';
 
 import classNames from 'classnames/bind';
 import styles from './DashBoardApproval.module.scss';

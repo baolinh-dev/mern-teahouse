@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import CardItem from './CardItem';
+import { faCartShopping, faFileInvoice, faUsers } from '@fortawesome/free-solid-svg-icons'; 
+
 import classNames from 'classnames/bind';
 import styles from './Cards.module.scss';
-import CardItem from './CardItem';
-import { faCartShopping, faFileInvoice, faUsers } from '@fortawesome/free-solid-svg-icons';
-
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function Cards() {
