@@ -63,11 +63,21 @@ exports.myOrders = catchAsyncErrors(async (req, res, next) => {
 });
 // Get All Orders -- Admin
 exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
+    const keyword = req.query.keyword;
+
     // Kiểm tra xem tham số 'page' có được cung cấp và có giá trị là "all" không
     if (req.query.page && req.query.page.toLowerCase() === "all") {
         // Nếu 'page' là "all", lấy tất cả các đơn hàng
         try {
-            const orders = await Order.find();
+            const searchQuery = keyword ? {
+                $or: [
+                    { "customerInfo.name": { $regex: keyword, $options: "i" } },
+                    { "orderInfo.status": { $regex: keyword, $options: "i" } },
+                    { "orderInfo.payment": { $regex: keyword, $options: "i" } },
+                ]
+            } : {};
+
+            const orders = await Order.find(searchQuery);
 
             res.status(200).json({
                 success: true,
@@ -87,7 +97,15 @@ exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
         const limit = 3; // Số đơn hàng trên mỗi trang
 
         try {
-            const totalOrders = await Order.countDocuments(); // Đếm tổng số đơn hàng
+            const searchQuery = keyword ? {
+                $or: [
+                    { "customerInfo.name": { $regex: keyword, $options: "i" } },
+                    { "orderInfo.status": { $regex: keyword, $options: "i" } },
+                    { "orderInfo.payment": { $regex: keyword, $options: "i" } },
+                ]
+            } : {};
+
+            const totalOrders = await Order.countDocuments(searchQuery); // Đếm tổng số đơn hàng
             const totalPages = Math.ceil(totalOrders / limit); // Tính tổng số trang
 
             let startIndex = 0;
@@ -98,7 +116,7 @@ exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
             }
 
             // Lấy danh sách đơn hàng theo trang
-            const orders = await Order.find()
+            const orders = await Order.find(searchQuery)
                 .skip(startIndex)
                 .limit(limit);
 

@@ -11,15 +11,13 @@ function ManageProducts() {
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const [form] = Form.useForm();
     const [searchKeyword, setSearchKeyword] = useState('');
-    const [filteredProducts, setFilteredProducts] = useState([]);
     const [productCount, setProductCount] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [numberProductsPerPage, setNumberProductsPerPage] = useState(null);
 
-
-    const fetchProducts = (currentPage) => {
+    const fetchProducts = (currentPage, keyword) => {
         axios
-            .get(`/api/v1/products?page=${currentPage}`)
+            .get(`/api/v1/products?page=${currentPage}&keyword=${keyword}`)
             .then((response) => {
                 setProducts(response.data.products);
                 setNumberProductsPerPage(response.data.numberProductsPerPage);
@@ -28,14 +26,13 @@ function ManageProducts() {
             .catch((error) => {
                 console.error('Error fetching products:', error);
             });
-    };  
-
-    const filterProducts = (products, keyword) => {
-        const filteredProducts = products.filter((product) =>
-            product.name.toLowerCase().includes(keyword.toLowerCase()),
-        );
-        setFilteredProducts(filteredProducts);
     }; 
+
+    console.log(products);
+
+    useEffect(() => {
+        fetchProducts(currentPage, searchKeyword);
+    }, [currentPage, searchKeyword]);
 
     const handleEdit = (productId) => {
         axios
@@ -99,14 +96,6 @@ function ManageProducts() {
             });
     };
 
-    useEffect(() => {
-        fetchProducts(currentPage);
-    }, [currentPage]);
-
-    useEffect(() => {
-        filterProducts(products, searchKeyword);
-    }, [products, searchKeyword]);
-
     const columns = [
         { title: 'Name', dataIndex: 'name', key: 'name' },
         { title: 'Price', dataIndex: 'price', key: 'price' },
@@ -154,7 +143,7 @@ function ManageProducts() {
         },
     ];
 
-    const dataSource = filteredProducts.map((product) => ({
+    const dataSource = products.map((product) => ({
         key: product._id,
         name: product.name || 'N/A',
         price:
@@ -177,6 +166,7 @@ function ManageProducts() {
                     enterButton
                     value={searchKeyword}
                     onChange={(e) => setSearchKeyword(e.target.value)}
+                    onSearch={() => fetchProducts(currentPage, searchKeyword)}
                 />
             </div>
             <Table dataSource={dataSource} columns={columns} pagination={false} />
@@ -186,8 +176,9 @@ function ManageProducts() {
                 totalPages={Math.ceil(productCount / numberProductsPerPage)}
                 onPageChange={(pageNumber) => {
                     setCurrentPage(pageNumber);
+                    fetchProducts(pageNumber, searchKeyword);
                 }}
-            />
+            /> 
 
             <Modal
                 title="Edit Product"

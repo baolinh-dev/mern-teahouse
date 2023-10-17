@@ -181,23 +181,36 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
 exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const limit = 4;
+    const keyword = req.query.keyword; // Get the keyword from the query parameter
 
     const skip = (page - 1) * limit;
 
-    // Find all users, skip the appropriate number of documents, and limit the results
-    const users = await User.find({}).skip(skip).limit(limit);
+    let query = {};
 
-    const totalUsers = await User.countDocuments({}); // Count the total number of users
+    if (keyword) {
+        // If a keyword is provided, construct the query to search for users
+        query = {
+            $or: [
+                { name: { $regex: keyword, $options: 'i' } }, // Search by name (case-insensitive)
+                { email: { $regex: keyword, $options: 'i' } }, // Search by email (case-insensitive)
+            ],
+        };
+    }
+
+    // Find users based on the constructed query, skip the appropriate number of documents, and limit the results
+    const users = await User.find(query).skip(skip).limit(limit);
+
+    const totalUsers = await User.countDocuments(query); // Count the total number of users matching the query
 
     const totalPages = Math.ceil(totalUsers / limit);
 
     res.status(200).json({
         success: true,
         users: users,
-        totalPages: totalPages, 
+        totalPages: totalPages,
         totalUsers: totalUsers,
-        currentPage: page, 
-        numberUsersPerPage: limit
+        currentPage: page,
+        numberUsersPerPage: limit,
     });
 });
 

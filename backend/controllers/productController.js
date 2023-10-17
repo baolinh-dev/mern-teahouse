@@ -37,8 +37,20 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
 // Get All Product
 exports.getAllProduct = catchAsyncErrors(async (req, res) => {
     const resultPerPage = 4;
-    const apiFeature = new ApiFeatures(Product.find(), req.query)
-        .search()
+    const { keyword } = req.query; // Lấy từ khóa tìm kiếm từ query params
+
+    const query = Product.find();
+
+    // Thêm điều kiện tìm kiếm nếu có từ khóa
+    if (keyword) {
+        query.or([
+            { name: { $regex: keyword, $options: 'i' } }, // Tìm kiếm theo tên sản phẩm (không phân biệt chữ hoa chữ thường)
+            { description: { $regex: keyword, $options: 'i' } }, // Tìm kiếm theo mô tả sản phẩm (không phân biệt chữ hoa chữ thường)
+            { category: { $regex: keyword, $options: 'i' } }, // Tìm kiếm theo danh mục sản phẩm (không phân biệt chữ hoa chữ thường)
+        ]);
+    }
+
+    const apiFeature = new ApiFeatures(query, req.query)
         .filter()
         .category()
         .pagination(resultPerPage);

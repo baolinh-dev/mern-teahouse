@@ -8,15 +8,13 @@ import Pagination from '~/components/Pagination';
 function ManageOrders() {
     const [orders, setOrders] = useState([]);
     const [searchKeyword, setSearchKeyword] = useState('');
-    const [filteredOrders, setFilteredOrders] = useState([]);
-
     const [orderCount, setOrderCount] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [numberOrdersPerPage, setNumberOrdersPerPage] = useState(null);
 
-    const fetchOrders = (currentPage) => {
+    const fetchOrders = (currentPage, keyword) => {
         axios
-            .get(`/api/v1/admin/orders?page=${currentPage}`)
+            .get(`/api/v1/admin/orders?page=${currentPage}&keyword=${keyword}`)
             .then((response) => {
                 setOrders(response.data.orders);
                 setNumberOrdersPerPage(response.data.numberOrdersPerPage);
@@ -27,12 +25,11 @@ function ManageOrders() {
             });
     };
 
-    const filterOrders = (orders, keyword) => {
-        const filteredOrders = orders.filter((order) =>
-            order.customerInfo.name.toLowerCase().includes(keyword.toLowerCase()),
-        );
-        setFilteredOrders(filteredOrders);
-    };
+    useEffect(() => {
+        fetchOrders(currentPage, searchKeyword);
+    }, [currentPage, searchKeyword]); 
+
+    console.log("orders", orders);
 
     const handleDelete = (orderId) => {
         axios
@@ -47,13 +44,11 @@ function ManageOrders() {
             });
     };
 
-    useEffect(() => {
-        fetchOrders(currentPage);
-    }, [currentPage]);
 
-    useEffect(() => {
-        filterOrders(orders, searchKeyword);
-    }, [orders, searchKeyword]);
+
+    // useEffect(() => {
+    //     filterOrders(orders, searchKeyword);
+    // }, [orders, searchKeyword]);
 
     const columns = [
         { title: 'Avatar', dataIndex: 'avatar', key: 'avatar' },
@@ -100,7 +95,7 @@ function ManageOrders() {
         },
     ];
 
-    const dataSource = filteredOrders.map((order) => ({
+    const dataSource = orders.map((order) => ({
         key: order._id,
         avatar: (
             <img
@@ -126,19 +121,16 @@ function ManageOrders() {
         date: order.dateOrder || 'N/A',
     }));
 
-    console.log('currentPage', currentPage);
-    console.log('orderCount', orderCount);
-    console.log('numberOrdersPerPage', numberOrdersPerPage);
-
     return (
         <AdminLayout>
             <div style={{ marginBottom: '16px' }}>
                 <Input.Search
-                    placeholder="Search by customer name"
+                    placeholder="Search by name"
                     allowClear
                     enterButton
                     value={searchKeyword}
                     onChange={(e) => setSearchKeyword(e.target.value)}
+                    onSearch={() => fetchOrders(currentPage, searchKeyword)}
                 />
             </div>
             <Table dataSource={dataSource} columns={columns} pagination={false} />
@@ -147,9 +139,10 @@ function ManageOrders() {
                 currentPage={currentPage}
                 totalPages={Math.ceil(orderCount / numberOrdersPerPage)}
                 onPageChange={(pageNumber) => {
-                    setCurrentPage(pageNumber);
+                    setCurrentPage(pageNumber); 
+                    fetchOrders(pageNumber, searchKeyword);
                 }}
-            />
+            /> 
         </AdminLayout>
     );
 }
