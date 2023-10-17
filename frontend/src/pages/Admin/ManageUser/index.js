@@ -22,7 +22,7 @@ function ManageUser() {
           .then((response) => {
             setUsers(response.data.users); 
             setTotalUser(response.data.totalUsers);  
-            setNumberUsersPerPage(response.data.users.length);  
+            setNumberUsersPerPage(response.data.numberUsersPerPage);  
         })
         .catch((error) => {
             console.error('Error fetching users:', error);
@@ -159,7 +159,7 @@ function ManageUser() {
         role: user.role || 'N/A',
     }));
 
-    console.log('filteredUsers', filteredUsers); 
+    console.log('numberUsersPerPage', numberUsersPerPage); 
 
     return (
         <AdminLayout>

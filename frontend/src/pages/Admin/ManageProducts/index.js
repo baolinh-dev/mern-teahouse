@@ -14,33 +14,28 @@ function ManageProducts() {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [productCount, setProductCount] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
+    const [numberProductsPerPage, setNumberProductsPerPage] = useState(null);
 
-    useEffect(() => {
-        fetchProducts(currentPage);
-    }, [currentPage]);
 
     const fetchProducts = (currentPage) => {
         axios
             .get(`/api/v1/products?page=${currentPage}`)
             .then((response) => {
                 setProducts(response.data.products);
+                setNumberProductsPerPage(response.data.numberProductsPerPage);
                 setProductCount(response.data.productCount);
             })
             .catch((error) => {
                 console.error('Error fetching products:', error);
             });
-    };
-
-    useEffect(() => {
-        filterProducts(products, searchKeyword);
-    }, [products, searchKeyword]);
+    };  
 
     const filterProducts = (products, keyword) => {
         const filteredProducts = products.filter((product) =>
             product.name.toLowerCase().includes(keyword.toLowerCase()),
         );
         setFilteredProducts(filteredProducts);
-    };
+    }; 
 
     const handleEdit = (productId) => {
         axios
@@ -104,10 +99,18 @@ function ManageProducts() {
             });
     };
 
+    useEffect(() => {
+        fetchProducts(currentPage);
+    }, [currentPage]);
+
+    useEffect(() => {
+        filterProducts(products, searchKeyword);
+    }, [products, searchKeyword]);
+
     const columns = [
         { title: 'Name', dataIndex: 'name', key: 'name' },
         { title: 'Price', dataIndex: 'price', key: 'price' },
-        { title: 'Ratings', dataIndex: 'ratings', key: 'ratings' }, 
+        { title: 'Ratings', dataIndex: 'ratings', key: 'ratings' },
         { title: 'Number of Reviews', dataIndex: 'numOfReviews', key: 'numOfReviews' },
         { title: 'Category', dataIndex: 'category', key: 'category' },
         // Remove 'category' field from columns
@@ -154,11 +157,12 @@ function ManageProducts() {
     const dataSource = filteredProducts.map((product) => ({
         key: product._id,
         name: product.name || 'N/A',
-        price: product.price.toLocaleString('vi-VN', {
-            style: 'currency',
-            currency: 'VND',
-        }) || 'N/A',
-        ratings: product.ratings || 'N/A', 
+        price:
+            product.price.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+            }) || 'N/A',
+        ratings: product.ratings || 'N/A',
         numOfReviews: product.numOfReviews || 'N/A',
         category: product.category || 'N/A',
         images: product.images || [],
@@ -179,7 +183,7 @@ function ManageProducts() {
 
             <Pagination
                 currentPage={currentPage}
-                totalPages={Math.ceil(productCount / 4)}
+                totalPages={Math.ceil(productCount / numberProductsPerPage)}
                 onPageChange={(pageNumber) => {
                     setCurrentPage(pageNumber);
                 }}

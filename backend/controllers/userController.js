@@ -180,7 +180,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
 // Get All Users (admin)
 exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
-    const limit = 8;
+    const limit = 4;
 
     const skip = (page - 1) * limit;
 
@@ -196,7 +196,8 @@ exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
         users: users,
         totalPages: totalPages, 
         totalUsers: totalUsers,
-        currentPage: page,
+        currentPage: page, 
+        numberUsersPerPage: limit
     });
 });
 
