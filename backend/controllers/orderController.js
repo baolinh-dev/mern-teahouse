@@ -63,19 +63,63 @@ exports.myOrders = catchAsyncErrors(async (req, res, next) => {
 });
 // Get All Orders -- Admin
 exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
-    const orders = await Order.find();
-    let totalAmount = 0;
+    // Kiểm tra xem tham số 'page' có được cung cấp và có giá trị là "all" không
+    if (req.query.page && req.query.page.toLowerCase() === "all") {
+        // Nếu 'page' là "all", lấy tất cả các đơn hàng
+        try {
+            const orders = await Order.find();
 
-    orders.forEach((order) => {
-        totalAmount += order.totalPrice;
-    });
+            res.status(200).json({
+                success: true,
+                orders,
+                orderCount: orders.length
+            });
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách đơn hàng:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Lỗi khi lấy danh sách đơn hàng',
+            });
+        }
+    } else {
+        // Nếu 'page' không phải "all", thực hiện phân trang bình thường
+        const page = req.query.page ? parseInt(req.query.page) : 1;
+        const limit = 3; // Số đơn hàng trên mỗi trang
 
-    res.status(201).json({
-        success: true,
-        orders,
-        totalAmount,
-    });
+        try {
+            const totalOrders = await Order.countDocuments(); // Đếm tổng số đơn hàng
+            const totalPages = Math.ceil(totalOrders / limit); // Tính tổng số trang
+
+            let startIndex = 0;
+            let endIndex = 0;
+            if (page > 0 && page <= totalPages) {
+                startIndex = (page - 1) * limit;
+                endIndex = page * limit;
+            }
+
+            // Lấy danh sách đơn hàng theo trang
+            const orders = await Order.find()
+                .skip(startIndex)
+                .limit(limit);
+
+            res.status(200).json({
+                success: true,
+                orders,
+                totalPages,
+                currentPage: page, 
+                numberOrdersPerPage: limit, 
+                orderCount: totalOrders
+            });
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách đơn hàng:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Lỗi khi lấy danh sách đơn hàng',
+            });
+        }
+    }
 });
+
 // Update Order Status -- Admin
 exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
     const order = await Order.findById(req.params.id);

@@ -16,7 +16,7 @@ function DashboardApproval() {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch('/api/v1/admin/orders');
+                const response = await fetch('/api/v1/admin/orders?page=all');
                 const data = await response.json();
 
                 let statusCount = {
