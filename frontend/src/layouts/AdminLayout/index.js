@@ -5,7 +5,7 @@ import Topbar from '~/components/Admin/Topbar';
 import Sidebar from '~/components/Admin/Sidebar';
 import Breadcrumb from '~/components/Breadcrumb';
 
-import { faHome, faChartSimple, faUser, faCogs } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faChartSimple, faUser, faWarehouse, faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
@@ -13,7 +13,9 @@ const categories = [
     { categoryName: 'Home', categoryIcon: faHome, url: '/admin' },
     { categoryName: 'Dashboard', categoryIcon: faChartSimple, url: '/admin/dashboard' },
     { categoryName: 'User', categoryIcon: faUser, url: '/admin/users' },
-    { categoryName: 'Settings', categoryIcon: faCogs, url: '/admin/settings' },
+    { categoryName: 'Products', categoryIcon: faWarehouse, url: '/admin/products' }, 
+    { categoryName: 'Orders', categoryIcon: faCartShopping, url: '/admin/orders' },
+
 ];
 
 function AdminLayout({ breadcrumb, children }) {

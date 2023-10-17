@@ -48,7 +48,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     }
 
     // Send the token to the client
-    sendToken(user, 200, res); 
+    sendToken(user, 200, res);
 
     // Kiểm tra vai trò của người dùng
     if (user.role === 'user') {
@@ -179,11 +179,24 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
 
 // Get All Users (admin)
 exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
-    const users = await User.find();
+    const page = parseInt(req.query.page) || 1;
+    const limit = 8;
+
+    const skip = (page - 1) * limit;
+
+    // Find all users, skip the appropriate number of documents, and limit the results
+    const users = await User.find({}).skip(skip).limit(limit);
+
+    const totalUsers = await User.countDocuments({}); // Count the total number of users
+
+    const totalPages = Math.ceil(totalUsers / limit);
 
     res.status(200).json({
         success: true,
-        users,
+        users: users,
+        totalPages: totalPages, 
+        totalUsers: totalUsers,
+        currentPage: page,
     });
 });
 

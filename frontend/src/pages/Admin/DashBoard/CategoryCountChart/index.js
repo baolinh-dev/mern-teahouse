@@ -17,23 +17,23 @@ function CategoryCountChart() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const responseCaphe = await fetch('http://localhost:4000/api/v1/products?category=Cà phê');
+                const responseCaphe = await fetch('/api/v1/products?category=Cà phê');
                 const dataCaphe = await responseCaphe.json();
                 setQuantityCaphe(dataCaphe.products.length);
 
-                const responseTraHoaQua = await fetch('http://localhost:4000/api/v1/products?category=Trà hoa quả');
+                const responseTraHoaQua = await fetch('/api/v1/products?category=Trà hoa quả');
                 const dataTraHoaQua = await responseTraHoaQua.json();
                 setQuantityTraHoaQua(dataTraHoaQua.products.length);
 
-                const responseBanhNgot = await fetch('http://localhost:4000/api/v1/products?category=Bánh ngọt');
+                const responseBanhNgot = await fetch('/api/v1/products?category=Bánh ngọt');
                 const dataBanhNgot = await responseBanhNgot.json();
                 setQuantityBanhNgot(dataBanhNgot.products.length);
 
-                const responseSmoothies = await fetch('http://localhost:4000/api/v1/products?category=Smoothies');
+                const responseSmoothies = await fetch('/api/v1/products?category=Smoothies');
                 const dataSmoothies = await responseSmoothies.json();
                 setQuantitySmoothies(dataSmoothies.products.length);
 
-                const responseTraSua = await fetch('http://localhost:4000/api/v1/products?category=Trà sữa');
+                const responseTraSua = await fetch('/api/v1/products?category=Trà sữa');
                 const dataTraSua = await responseTraSua.json();
                 setQuantityTraSua(dataTraSua.products.length);
             } catch (error) {
@@ -72,7 +72,7 @@ function CategoryCountChart() {
                     <Heading content={'Order Approval'} />
                 </ContainerHeading>
             </div> 
-            
+
             <PieChart width={400} height={400}>
                 <Pie
                     data={data}
