@@ -15,7 +15,7 @@ const DailyRevenueStatistics = () => {
     useEffect(() => {
         // Gọi API để lấy danh sách đơn hàng
         axios
-            .get('/api/v1/admin/orders')
+            .get('/api/v1/admin/orders?page=all')
             .then((response) => {
                 const orders = response.data.orders;
 
@@ -27,7 +27,7 @@ const DailyRevenueStatistics = () => {
                 // Lặp qua mảng đơn hàng
                 orders.forEach((order) => {
                     const date = format(new Date(order.dateOrder), 'dd/MM'); // Định dạng lại ngày thành "/MM/dd"
-                    const revenue = order.totalProductPrice;
+                    const revenue = order.totalProductPrice; 
 
                     // Kiểm tra xem ngày đã tồn tại trong mảng thống kê chưa
                     const existingDate = revenueByDate.find((item) => item.date === date);

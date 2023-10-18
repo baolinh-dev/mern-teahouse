@@ -52,7 +52,7 @@ function CategoryCountChart() {
         { name: 'Trà sữa', value: quantityTraSua },
     ];
 
-    const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF'];
+    const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']; 
 
     const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
@@ -69,7 +69,7 @@ function CategoryCountChart() {
         <div className={cx('box')}>
             <div className={cx('container-heading')}>
                 <ContainerHeading center>
-                    <Heading content={'Order Approval'} />
+                    <Heading content={'Category ratio'} />
                 </ContainerHeading>
             </div> 
 
