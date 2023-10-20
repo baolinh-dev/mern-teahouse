@@ -10,9 +10,8 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import Footer from '~/components/Footer';
-import io from 'socket.io-client';
+import socket from '~/socket';
 
-const socket = io('/');
 const cx = classNames.bind(styles);
 
 const PaymentForm = () => {
@@ -42,8 +41,8 @@ const PaymentForm = () => {
         transport: 'Delivery',
         payment: 'COD',
         status: 'Processing',
-    });
-
+    }); 
+    
     // send message to server nodejs 
     const sendMessage = (message) => {
         socket.emit('placeOrder', { message: `Order ${message}` });
@@ -167,10 +166,8 @@ const PaymentForm = () => {
                     console.log(error);
                 });
         }
-    }, [userDataLoaded, error]);
+    }, [userDataLoaded, error]); 
 
-    // Lấy thông tin giỏ hàng từ localStorage khi component được render
-    console.log('Day là cart', cart);
     useEffect(() => {
         const cartData = localStorage.getItem('cart');
         if (cartData) {
