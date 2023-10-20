@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import Footer from '~/components/Footer';
-import socket from '~/socket';
 
 const cx = classNames.bind(styles);
 
@@ -42,12 +41,6 @@ const PaymentForm = () => {
         payment: 'COD',
         status: 'Processing',
     }); 
-    
-    // send message to server nodejs 
-    const sendMessage = (message) => {
-        socket.emit('placeOrder', { message: `Order ${message}` });
-    };
-
     // Hàm để gọi API và render dữ liệu
     const callAPI = async (api, renderCallback) => {
         try {
@@ -191,10 +184,6 @@ const PaymentForm = () => {
                 localStorage.removeItem('cart');
 
                 toast.success('Đặt hàng thành công');
-                sendMessage(`${customerInfo.name} đã đặt hàng thành công với hình thức thanh toán là ${orderInfo.payment} ở trạng thái ${orderInfo.status}`);
-                // setTimeout(() => {
-                //     window.location.reload();
-                // }, 2000);
             })
             .catch((error) => {
                 toast.error('Đặt hàng thất bại');
