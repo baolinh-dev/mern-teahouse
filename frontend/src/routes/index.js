@@ -23,11 +23,13 @@ import AdminHome from '~/pages/Admin/Home';
 import ManageUser from '~/pages/Admin/ManageUser';
 import ManageProducts from '~/pages/Admin/ManageProducts';
 import ManageOrders from '~/pages/Admin/ManageOrders';
+import AdminTest from '~/pages/User/AdminTest';
 // Public routes
 export const publicRoutes = [
     { path: '/', component: Home },
     { path: '/cart', component: Cart },
-    { path: '/test', component: Test },
+    { path: '/test', component: Test }, 
+    { path: '/admintest', component: AdminTest },
     { path: '/paymentform', component: PaymentForm },
     { path: '/user-profile', component: UserProfile },
     { path: '/edit-profile', component: EditProfile },

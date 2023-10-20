@@ -1,7 +1,7 @@
 const app = require('./app');
-
 const dotenv = require('dotenv');
-const connectDatabase = require('./config/database');
+const connectDatabase = require('./config/database'); 
+const socketIo = require('socket.io');
 // Handling Uncaught Exception
 process.on('uncaughtException', (err) => {
     console.log(`Error: ${err.message}`);
@@ -16,7 +16,24 @@ connectDatabase();
 
 const server = app.listen(process.env.PORT, () => {
     console.log(`Server is working on http://localhost:${process.env.PORT}`);
-}); 
+});  
+const io = socketIo(server);
+
+io.on('connection', (socket) => {
+    console.log('A client connected');
+
+    // Handle 'placeOrder' event from the user
+    socket.on('placeOrder', (data) => {
+        console.log('Order placed:', data.message);
+
+        // Emit 'orderPlaced' event to the Admin clients
+        io.emit('orderPlaced', { message: `${data.message}` });
+    });
+
+    socket.on('disconnect', () => {
+        console.log('A client disconnected');
+    });
+});
 // Unhandled Promise Rejection
 process.on('unhandledRejection', (err) => {
     console.log(`Error: ${err.message}`);

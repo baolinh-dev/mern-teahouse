@@ -1,12 +1,13 @@
 const express = require('express');
 const errorMiddleware = require('./middleware/error');
+const cors = require('cors'); 
 
 const app = express();
 const cookieParser = require('cookie-parser');
 
 app.use(express.json());
-app.use(cookieParser());
-
+app.use(cookieParser()); 
+app.use(cors()) 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');

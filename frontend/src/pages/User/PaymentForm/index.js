@@ -10,6 +10,9 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import Footer from '~/components/Footer';
+import io from 'socket.io-client';
+
+const socket = io('/');
 const cx = classNames.bind(styles);
 
 const PaymentForm = () => {
@@ -26,7 +29,6 @@ const PaymentForm = () => {
     const [cart, setCart] = useState([]);
     const [userDataLoaded, setUserDataLoaded] = useState(false);
     const [error, setError] = useState(null);
-
     // State để lưu trữ thông tin người dùng nhập vào từ các input
     const [customerInfo, setCustomerInfo] = useState({
         email: '',
@@ -41,6 +43,11 @@ const PaymentForm = () => {
         payment: 'COD',
         status: 'Processing',
     });
+
+    // send message to server nodejs 
+    const sendMessage = (message) => {
+        socket.emit('placeOrder', { message: `Order ${message}` });
+    };
 
     // Hàm để gọi API và render dữ liệu
     const callAPI = async (api, renderCallback) => {
@@ -162,8 +169,8 @@ const PaymentForm = () => {
         }
     }, [userDataLoaded, error]);
 
-    // Lấy thông tin giỏ hàng từ localStorage khi component được render 
-    console.log("Day là cart", cart);
+    // Lấy thông tin giỏ hàng từ localStorage khi component được render
+    console.log('Day là cart', cart);
     useEffect(() => {
         const cartData = localStorage.getItem('cart');
         if (cartData) {
@@ -179,7 +186,7 @@ const PaymentForm = () => {
             cart,
             customerInfo,
             orderInfo,
-        }; 
+        };
 
         axios
             .post('/api/v1/order/new', formData)
@@ -187,6 +194,7 @@ const PaymentForm = () => {
                 localStorage.removeItem('cart');
 
                 toast.success('Đặt hàng thành công');
+                sendMessage(`${customerInfo.name} đã đặt hàng thành công với hình thức thanh toán là ${orderInfo.payment} ở trạng thái ${orderInfo.status}`);
                 // setTimeout(() => {
                 //     window.location.reload();
                 // }, 2000);
@@ -196,7 +204,6 @@ const PaymentForm = () => {
                 console.log('Loi o day', error);
             });
     };
-    console.log(orderInfo);
     // Render form thanh toán
     return (
         <>
@@ -204,7 +211,7 @@ const PaymentForm = () => {
                 <div className={cx('payment')}>
                     <div className={cx('info')}>
                         <div className={cx('customer-info')}>
-                            <h2>Customer Information</h2> 
+                            <h2>Customer Information</h2>
                             {/* Infor */}
                             <div className={cx('info-wrapper')}>
                                 <div className={cx('info-avatar')}>

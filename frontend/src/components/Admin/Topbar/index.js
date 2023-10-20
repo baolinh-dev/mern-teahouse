@@ -5,13 +5,28 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-
+import io from 'socket.io-client';
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function Topbar() {
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState(null);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+
+    const [message, setMessage] = useState('');
+
+    const socket = io('/');
+    useEffect(() => {
+        // Xử lý sự kiện 'orderPlaced' từ máy chủ
+        socket.on('orderPlaced', (data) => {
+            setMessage(data.message);
+        });
+
+        // Cleanup khi component unmount
+        return () => {
+            socket.off('orderPlaced');
+        };
+    }, []);
 
     useEffect(() => {
         axios
@@ -63,7 +78,8 @@ function Topbar() {
     return (
         <div className={cx('topbar')}>
             <div className={cx('search')}>
-                <h2>Admin Page - TeaHouse</h2>
+                <h2>Admin Page - TeaHouse</h2> 
+                <p>Thông báo server {message}</p>
             </div>
             <div
                 className={cx('info-admin')}
