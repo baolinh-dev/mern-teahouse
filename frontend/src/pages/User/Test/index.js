@@ -20,7 +20,7 @@ const Test = () => {
         const newNotification = {
             authorAvatar: `avatar ${casual.uuid}`,
             content: content,
-            id: casual.uuid,
+            idNoti: casual.uuid,
             date: Date.now(),
         };
         const action = addNotification(newNotification);

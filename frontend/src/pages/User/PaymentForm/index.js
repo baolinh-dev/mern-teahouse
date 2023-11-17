@@ -10,6 +10,10 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import Footer from '~/components/Footer';
+import casual from 'casual-browserify';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNotification } from '~/actions/notificationActions';
+import socket from '~/socket';
 
 const cx = classNames.bind(styles);
 
@@ -40,8 +44,17 @@ const PaymentForm = () => {
         transport: 'Delivery',
         payment: 'COD',
         status: 'Processing',
-    }); 
-    // Hàm để gọi API và render dữ liệu
+    });
+    const [notification, setNotification] = useState(null);
+    // Hàm để gọi API và render dữ liệu 
+    const notifications = useSelector((state) => state.notifications);
+    const dispatch = useDispatch();  
+
+    useEffect(() => {
+        socket.emit('sendNotifications', notifications);
+    }, [notifications]);
+
+
     const callAPI = async (api, renderCallback) => {
         try {
             const response = await axios.get(api);
@@ -159,7 +172,7 @@ const PaymentForm = () => {
                     console.log(error);
                 });
         }
-    }, [userDataLoaded, error]); 
+    }, [userDataLoaded, error]);
 
     useEffect(() => {
         const cartData = localStorage.getItem('cart');
@@ -172,6 +185,23 @@ const PaymentForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const authorAvatar = customerInfo.avatar;
+        const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        const content = `${customerInfo.name} đã đặt hàng thành công với số tiền ${total.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+        })}`;
+        const idNoti = casual.uuid;
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().split('T')[0]; 
+
+        const notification = {
+            authorAvatar,
+            content,
+            idNoti,
+            date: formattedDate,
+        };
+
         const formData = {
             cart,
             customerInfo,
@@ -182,8 +212,8 @@ const PaymentForm = () => {
             .post('/api/v1/order/new', formData)
             .then((response) => {
                 localStorage.removeItem('cart');
-
-                toast.success('Đặt hàng thành công');
+                toast.success('Đặt hàng thành công'); 
+                dispatch(addNotification(notification))
             })
             .catch((error) => {
                 toast.error('Đặt hàng thất bại');
@@ -328,7 +358,6 @@ const PaymentForm = () => {
 
                         <div className={cx('cart-buttons')}>
                             <Link to="/products">
-                                {' '}
                                 <FontAwesomeIcon icon={faCartShopping} /> Tiếp tục mua hàng
                             </Link>
                             <button type="submit">
