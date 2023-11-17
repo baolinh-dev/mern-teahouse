@@ -29,9 +29,8 @@ function Cards() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/v1/admin/orders');
+        const response = await axios.get('/api/v1/admin/orders?page=all');
         const { orders } = response.data; 
-        console.log("orders:", orders);
         setOrderCount(orders.length);
       } catch (error) {
         console.error('Error fetching product count:', error);
@@ -44,7 +43,7 @@ function Cards() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/v1/admin/users');
+        const response = await axios.get('/api/v1/admin/users?page=all');
         const { users } = response.data; 
         setUserCount(users.length);
       } catch (error) {

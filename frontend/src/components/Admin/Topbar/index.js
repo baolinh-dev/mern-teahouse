@@ -5,14 +5,28 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import io from 'socket.io-client';
+import io from 'socket.io-client'; 
+import socket from '~/socket';
+
+
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function Topbar() {
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState(null);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+    const [responseMessage, setResponseMessage] = useState(null);
 
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    const [responseFromServer, setResponseFromServer] = useState(''); 
+  
+    useEffect(() => {
+          
+      socket.on('response', (message) => {
+        console.log('Received response:', message); 
+        setResponseFromServer(message)
+      });
+    }, []); 
 
     useEffect(() => {
         axios
@@ -24,10 +38,6 @@ function Topbar() {
                 setError(err.response.data.message);
             });
     }, [error]);
-
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-    };
 
     const handleMouseEnter = () => {
         setIsDropdownOpen(true);
@@ -64,13 +74,9 @@ function Topbar() {
     return (
         <div className={cx('topbar')}>
             <div className={cx('search')}>
-                <h2>Admin Page - TeaHouse</h2> 
+                <h2>Admin Page - TeaHouse {responseFromServer}</h2>
             </div>
-            <div
-                className={cx('info-admin')}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-            >
+            <div className={cx('info-admin')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 <img
                     src={
                         userData?.avatar?.url ||

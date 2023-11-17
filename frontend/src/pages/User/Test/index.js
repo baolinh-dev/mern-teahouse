@@ -1,20 +1,40 @@
-import { message } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
+import socket from '~/socket';
 
-const socket = io('/');
+const Test = () => {
+  const [message, setMessage] = useState('');  
+  const [responseFromServer, setResponseFromServer] = useState(''); 
+  
 
-function Test() {
   const sendMessage = () => {
-    socket.emit('placeOrder', { message: 'Order successful' }); 
-    console.log(message);
-  };
+    // Emit the 'orderSuccessNoti' event with the message
+    socket.emit('orderSuccessNoti', { message }); 
+    console.log(socket.id);
+  };  
+
+  useEffect(() => {
+    // Lắng nghe sự kiện 'response' từ server
+    socket.on('response', (message) => {
+      console.log('Received response:', message); 
+      setResponseFromServer(message)
+      // TODO: Hiển thị message lên giao diện
+    });
+  }, []); 
+
+
 
   return (
     <div>
-      <button onClick={sendMessage}>Send Message</button>
+      <input
+        type="text"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+      <button onClick={sendMessage}>Send</button> 
+      <p>{responseFromServer}</p>
     </div>
   );
-}
+};
 
 export default Test;

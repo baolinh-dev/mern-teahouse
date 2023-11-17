@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react';
-
 import io from 'socket.io-client';
-function AdminTest() {
-    const [message, setMessage] = useState('');
+import socket from '~/socket';
 
-    const socket = io('/');
-    useEffect(() => {
-        // Xử lý sự kiện 'orderPlaced' từ máy chủ
-        socket.on('orderPlaced', (data) => {
-            console.log('Received order placed:', data.message);
-            setMessage(data.message);
-        });
+const AdminTest = () => {
+  const [responseFromServer, setResponseFromServer] = useState(''); 
+  
+  useEffect(() => {
+        
+    socket.on('response', (message) => {
+      console.log('Received response:', message); 
+      setResponseFromServer(message)
+    });
+  }, []); 
 
-        // Cleanup khi component unmount
-        return () => {
-            socket.off('orderPlaced');
-        };
-    }, []);
 
-    return <div>Thông báo server {message}</div>;
-}
+
+  return (
+    <div>
+      <p>{responseFromServer}</p>
+    </div>
+  );
+};
 
 export default AdminTest;

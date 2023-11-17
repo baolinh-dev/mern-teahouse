@@ -31,9 +31,6 @@ function OrderApproval() {
         fetchOrders(currentPage);
     }, [currentPage]);
 
-    console.log("currentPage", currentPage); 
-    console.log("orderCount", orderCount); 
-    console.log("numberOrdersPerPage", numberOrdersPerPage); 
 
     return ( 
         <div className={cx('order-appoval')}>

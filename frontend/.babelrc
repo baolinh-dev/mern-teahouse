@@ -1,7 +1,7 @@
 {
     "plugins": [ 
       ["module-resolver", {
-        "alias": {
+        "alias": {                            
           "~": "./src"
         }
       }]
