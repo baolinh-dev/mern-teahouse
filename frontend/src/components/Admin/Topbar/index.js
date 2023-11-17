@@ -5,28 +5,27 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import io from 'socket.io-client'; 
+import io from 'socket.io-client';
 import socket from '~/socket';
-
+import { notification } from 'antd';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function Topbar() {
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState(null);
-    const [responseMessage, setResponseMessage] = useState(null);
-
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const [responseFromServer, setResponseFromServer] = useState(''); 
-  
+    const [responseFromServer, setResponseFromServer] = useState('');
+
     useEffect(() => {
-          
-      socket.on('response', (message) => {
-        console.log('Received response:', message); 
-        setResponseFromServer(message)
-      });
-    }, []); 
+        socket.on('response', (data) => { 
+            console.log("data", Array.isArray(data) ); 
+
+            console.log("data array", data);
+            setResponseFromServer(data);
+        });
+    }, []);
 
     useEffect(() => {
         axios
@@ -69,12 +68,29 @@ function Topbar() {
         } catch (error) {
             console.log(error);
         }
-    };
+    }; 
+
+    console.log("responseFromServer", responseFromServer);
 
     return (
         <div className={cx('topbar')}>
             <div className={cx('search')}>
-                <h2>Admin Page - TeaHouse {responseFromServer}</h2>
+                <h2>Admin Page - TeaHouse </h2>
+                <ul>
+                    {responseFromServer && responseFromServer.length > 0 ? (
+                        <ul>
+                            {responseFromServer.map((notification) => ( 
+                                <> 
+                                <li>{notification.content}</li> 
+                                </>
+                                
+
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No notifications available</p>
+                    )}
+                </ul>
             </div>
             <div className={cx('info-admin')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 <img

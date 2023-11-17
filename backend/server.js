@@ -25,10 +25,10 @@ io.on('connection', (socket) => {
     console.log(`A new client connected ${socket.id}`);
 
     // Handle events from the client
-    socket.on('orderSuccessNoti', (data) => {
-        console.log(`Received data from ${socket.id} data: ${data.message}`, );
+    socket.on('sendNotifications', (data) => {
+        console.log(`Received data from ${socket.id} data: ${data}`, );
         // Emit a response back to the client 
-        io.emit('response', `${data.message}`);
+        io.emit('response', data);
     }); 
 
 
