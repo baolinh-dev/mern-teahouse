@@ -8,5 +8,14 @@
     }
     .chart {
         margin-top: 20px;
-    } 
+    }  
+    .select-year {
+        display: flex; 
+        align-items: center; 
+        p {
+            margin-right: 12px; 
+            margin-bottom: 0; 
+            font-weight: 600;
+        }
+    }
 }

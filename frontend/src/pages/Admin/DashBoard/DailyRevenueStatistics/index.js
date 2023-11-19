@@ -19,9 +19,6 @@ const DailyRevenueStatistics = () => {
             .then((response) => {
                 const orders = response.data.orders;
 
-                console.log('orders', orders);
-
-                // Tạo một mảng để lưu trữ thông tin thống kê theo ngày
                 const revenueByDate = [];
 
                 // Lặp qua mảng đơn hàng

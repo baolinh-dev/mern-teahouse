@@ -46,14 +46,13 @@ const PaymentForm = () => {
         status: 'Processing',
     });
     const [notification, setNotification] = useState(null);
-    // Hàm để gọi API và render dữ liệu 
+    // Hàm để gọi API và render dữ liệu
     const notifications = useSelector((state) => state.notifications);
-    const dispatch = useDispatch();  
+    const dispatch = useDispatch();
 
     useEffect(() => {
         socket.emit('sendNotifications', notifications);
     }, [notifications]);
-
 
     const callAPI = async (api, renderCallback) => {
         try {
@@ -185,7 +184,7 @@ const PaymentForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const authorAvatar = customerInfo.avatar; 
+        const authorAvatar = customerInfo.avatar;
         const authorName = customerInfo.name;
         const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
         const content = `${customerInfo.name} đã đặt hàng thành công với số tiền ${total.toLocaleString('vi-VN', {
@@ -194,10 +193,10 @@ const PaymentForm = () => {
         })}`;
         const idNoti = casual.uuid;
         const currentDate = new Date();
-        const formattedDate = currentDate.toISOString().split('T')[0]; 
+        const formattedDate = currentDate.toISOString().split('T')[0];
 
         const notification = {
-            authorAvatar, 
+            authorAvatar,
             authorName,
             content,
             idNoti,
@@ -210,12 +209,17 @@ const PaymentForm = () => {
             orderInfo,
         };
 
+        if (formData.cart.length === 0) {
+            toast.warn('Giỏ hàng đang trống');
+            return;
+        }
+
         axios
             .post('/api/v1/order/new', formData)
             .then((response) => {
                 localStorage.removeItem('cart');
-                toast.success('Đặt hàng thành công'); 
-                dispatch(addNotification(notification))
+                toast.success('Đặt hàng thành công');
+                dispatch(addNotification(notification));
             })
             .catch((error) => {
                 toast.error('Đặt hàng thất bại');
