@@ -55,7 +55,7 @@ const DailyRevenueStatistics = () => {
                 </ContainerHeading>
             </div>
             <div className={cx('chart')}>
-                <BarChart width={800} height={300} data={revenueData}>
+                <BarChart width={780} height={300} data={revenueData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" domain={[revenueData.length - 1, 0]} />
                     <YAxis />
