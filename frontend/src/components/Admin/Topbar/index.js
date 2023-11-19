@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
 import socket from '~/socket';
 import { notification } from 'antd';
+import Notification from './Notification';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
@@ -75,24 +76,12 @@ function Topbar() {
     return (
         <div className={cx('topbar')}>
             <div className={cx('search')}>
-                <h2>Admin Page - TeaHouse </h2>
-                <ul>
-                    {responseFromServer && responseFromServer.length > 0 ? (
-                        <ul>
-                            {responseFromServer.map((notification) => ( 
-                                <> 
-                                <li>{notification.content}</li> 
-                                </>
-                                
-
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>No notifications available</p>
-                    )}
-                </ul>
+                <h2>Admin Page - TeaHouse </h2> 
+                
             </div>
-            <div className={cx('info-admin')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <div className={cx('info-admin')} >
+            <Notification notifications = {responseFromServer}/> 
+                <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 <img
                     src={
                         userData?.avatar?.url ||
@@ -100,6 +89,8 @@ function Topbar() {
                     }
                     alt={userData?.name}
                 />
+                </div>
+
                 <span>{userData?.name}</span>
                 {isDropdownOpen && (
                     <div className={cx('dropdown')}>

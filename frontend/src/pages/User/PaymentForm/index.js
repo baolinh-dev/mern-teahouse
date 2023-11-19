@@ -185,7 +185,8 @@ const PaymentForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const authorAvatar = customerInfo.avatar;
+        const authorAvatar = customerInfo.avatar; 
+        const authorName = customerInfo.name;
         const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
         const content = `${customerInfo.name} đã đặt hàng thành công với số tiền ${total.toLocaleString('vi-VN', {
             style: 'currency',
@@ -196,7 +197,8 @@ const PaymentForm = () => {
         const formattedDate = currentDate.toISOString().split('T')[0]; 
 
         const notification = {
-            authorAvatar,
+            authorAvatar, 
+            authorName,
             content,
             idNoti,
             date: formattedDate,

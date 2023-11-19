@@ -4,12 +4,14 @@
     justify-content: space-between;
     padding-bottom: 20px;
     .search {
-        width: 60%; 
+        width: 80%;
         padding: 0 20px;
-
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
     .info-admin {
-        width: 20%; 
+        width: 20%;
         display: flex;
         justify-content: right;
         align-items: center;
@@ -19,30 +21,31 @@
             width: 40px;
             height: 40px;
             margin-right: 8px;
+            margin-left: 40px;
             border-radius: 50%;
         }
         span {
             font-weight: 600;
         }
         .dropdown {
-            position: absolute; 
-            top: 52px; 
-            right: 0; 
+            position: absolute;
+            top: 52px;
+            right: 0;
             width: 200px;
-            border: 1px solid #ddd;  
-            background-color: #fff; 
-            z-index: 100; 
-            border-radius: 8px; 
+            border: 1px solid #ddd;
+            background-color: #fff;
+            z-index: 100;
+            border-radius: 8px;
             &::after {
                 content: '';
                 position: absolute;
-                background-color: transparent; 
-                width: 100%; 
-                height: 20px; 
+                background-color: transparent;
+                width: 100%;
+                height: 20px;
                 top: -20px;
                 z-index: 1;
-              } 
-              &::before {
+            }
+            &::before {
                 content: '';
                 position: absolute;
                 background-color: transparent;
@@ -54,29 +57,30 @@
                 border-right: 8px solid transparent;
                 border-bottom: 8px solid #000;
                 z-index: 1;
-              }
-            ul { 
-                padding: 0 12px;  
+            }
+            ul {
+                padding: 0 12px;
                 list-style: none;
-                a, button { 
-                    display: flex; 
-                    align-items: center; 
-                    padding: 12px 0; 
-                    border-bottom: 3px dashed #ddd; 
-                    background: none; 
+                a,
+                button {
+                    display: flex;
+                    align-items: center;
+                    padding: 12px 0;
+                    border-bottom: 3px dashed #ddd;
+                    background: none;
                     width: 100%;
                     svg {
                         margin-right: 8px;
-                    } 
+                    }
                     p {
-                        font-size: 16px;  
+                        font-size: 16px;
                         font-weight: 600;
                         margin-bottom: 0;
                     }
-                } 
+                }
                 button {
-                    border: none; 
-                    outline: none; 
+                    border: none;
+                    outline: none;
                 }
             }
         }
