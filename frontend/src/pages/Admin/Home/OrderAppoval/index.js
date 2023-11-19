@@ -15,12 +15,11 @@ function OrderApproval() {
     const [currentPage, setCurrentPage] = useState(1);
     const [numberOrdersPerPage, setNumberOrdersPerPage] = useState(null);
 
-
     const fetchOrders = async (currentPage) => {
         try {
             const response = await fetch(`/api/v1/admin/orders?page=${currentPage}`);
             const data = await response.json();
-            setOrders(data.orders); 
+            setOrders(data.orders);
             setNumberOrdersPerPage(data.numberOrdersPerPage);
             setOrderCount(data.orderCount);
         } catch (error) {
@@ -31,8 +30,7 @@ function OrderApproval() {
         fetchOrders(currentPage);
     }, [currentPage]);
 
-
-    return ( 
+    return (
         <div className={cx('order-appoval')}>
             <div className={cx('container-heading')}>
                 <ContainerHeading center>
@@ -43,14 +41,13 @@ function OrderApproval() {
                 <OrderAppovalItem key={order._id} order={order} />
             ))}
 
-
-<Pagination
-        currentPage={currentPage}
-        totalPages={Math.ceil(orderCount / numberOrdersPerPage)}
-        onPageChange={(pageNumber) => {
-          setCurrentPage(pageNumber);
-        }}
-      />
+            <Pagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(orderCount / numberOrdersPerPage)}
+                onPageChange={(pageNumber) => {
+                    setCurrentPage(pageNumber);
+                }}
+            />
         </div>
     );
 }
