@@ -40,11 +40,11 @@ function Topbar() {
     }, [error]);
 
     const handleMouseEnter = () => {
-        setIsDropdownOpen(false);
+        setIsDropdownOpen(true);
     };
 
     const handleMouseLeave = () => {
-        setIsDropdownOpen(true);
+        setIsDropdownOpen(false);
     };
 
     function clearAllCookies() {
@@ -71,8 +71,6 @@ function Topbar() {
         }
     };
 
-    
-
     return (
         <div className={cx('topbar')}>
             <div className={cx('search')}>
@@ -80,18 +78,19 @@ function Topbar() {
             </div>
             <div className={cx('info-admin')}>
                 <Notification notifications={responseFromServer} />
-                <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                    <img
-                        src={
-                            userData?.avatar?.url ||
-                            'https://th.bing.com/th/id/R.b9838bf721d3dff150c954530b3856f3?rik=Uulm6lnhid2Giw&riu=http%3A%2F%2Fshackmanlab.org%2Fwp-content%2Fuploads%2F2013%2F07%2Fperson-placeholder.jpg&ehk=GGILj1W77t4L5TSfJq0peMYJY8na6RvFj0vx3uPQHkI%3D&risl=&pid=ImgRaw&r=0&sres=1&sresct=1'
-                        }
-                        alt={userData?.name}
-                    />
-                </div>
+                <div className={cx('info-admin-box')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                    <div >
+                        <img
+                            src={
+                                userData?.avatar?.url ||
+                                'https://th.bing.com/th/id/R.b9838bf721d3dff150c954530b3856f3?rik=Uulm6lnhid2Giw&riu=http%3A%2F%2Fshackmanlab.org%2Fwp-content%2Fuploads%2F2013%2F07%2Fperson-placeholder.jpg&ehk=GGILj1W77t4L5TSfJq0peMYJY8na6RvFj0vx3uPQHkI%3D&risl=&pid=ImgRaw&r=0&sres=1&sresct=1'
+                            }
+                            alt={userData?.name}
+                        />
+                    </div>
 
-                <span>{userData?.name}</span>
-                {isDropdownOpen && (
+                    <span>{userData?.name}</span> 
+                    {isDropdownOpen && (
                     <div className={cx('dropdown')}>
                         <ul>
                             <li>
@@ -109,6 +108,9 @@ function Topbar() {
                         </ul>
                     </div>
                 )}
+                </div>
+
+
             </div>
         </div>
     );

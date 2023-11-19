@@ -16,17 +16,22 @@
         justify-content: right;
         align-items: center;
         cursor: pointer;
-        position: relative;
-        img {
-            width: 40px;
-            height: 40px;
-            margin-right: 8px;
-            margin-left: 40px;
-            border-radius: 50%;
+        position: relative; 
+        .info-admin-box { 
+            display: flex; 
+            align-items: center; 
+            img {
+                width: 40px;
+                height: 40px;
+                margin-right: 8px;
+                margin-left: 40px;
+                border-radius: 50%;
+            }
+            span {
+                font-weight: 600;
+            }
         }
-        span {
-            font-weight: 600;
-        }
+
         .dropdown {
             position: absolute;
             top: 52px;
@@ -60,7 +65,7 @@
             }
             ul {
                 padding: 0 12px;
-                list-style: none;
+                list-style: none; 
                 a,
                 button {
                     display: flex;
