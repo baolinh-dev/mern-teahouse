@@ -83,7 +83,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
     // ${req.get('host')}
     const resetPasswordUrl = `${req.protocol}://localhost:3000/api/v1/password/reset/${resetToken}`;
 
-    const message = `Your password reset token id :- \n\n ${resetPasswordUrl} \n\n If you have not requested this email then, please ignore it`;
+    const message = `Vui lòng đặt lại mật khẩu của bạn theo đường dẫn sau \n\n ${resetPasswordUrl} \n\nTrân trong !!!. \nTeaHouse.`;
 
     try {
         await sendEmail({

@@ -18,11 +18,13 @@ app.use(function (req, res, next) {
 // Route Imports
 const product = require('./routes/productRoute');
 const user = require('./routes/userRoute'); 
-const order = require('./routes/orderRoute'); 
+const order = require('./routes/orderRoute');  
+const notification = require('./routes/notificationRoute'); 
 
 app.use('/api/v1', product);
 app.use('/api/v1', user); 
-app.use('/api/v1', order); 
+app.use('/api/v1', order);  
+app.use('/api/v1', notification); 
 
 // Middleware for error
 app.use(errorMiddleware);

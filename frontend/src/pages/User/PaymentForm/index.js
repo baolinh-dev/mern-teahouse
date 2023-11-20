@@ -185,7 +185,8 @@ const PaymentForm = () => {
         e.preventDefault();
 
         const authorAvatar = customerInfo.avatar;
-        const authorName = customerInfo.name;
+        const authorName = customerInfo.name; 
+        const typeNoti = 'orderSuccess'
         const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
         const content = `${customerInfo.name} đã đặt hàng thành công với số tiền ${total.toLocaleString('vi-VN', {
             style: 'currency',
@@ -195,7 +196,8 @@ const PaymentForm = () => {
         const currentDate = new Date();
         const formattedDate = currentDate.toISOString().split('T')[0];
 
-        const notification = {
+        const notification = { 
+            typeNoti,
             authorAvatar,
             authorName,
             content,
@@ -293,7 +295,6 @@ const PaymentForm = () => {
                             <div className={cx('form-group')}>
                                 <input
                                     onChange={(e) => setCustomerInfo({ ...customerInfo, address: e.target.value })}
-                                    // {customerInfo.address ? (customerInfo.address) : createFullAddress() }
                                     value={customerInfo.address ? customerInfo.address : createFullAddress()}
                                     placeholder="Địa chỉ"
                                 />
