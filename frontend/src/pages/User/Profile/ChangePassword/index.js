@@ -80,7 +80,7 @@ function ChangePassword() {
 
     return (
         <>
-            <ProfileLayout>
+            <ProfileLayout title={"Change Password"}>
                 {userData ? (
                     <div className={cx('right-module', 'col-6', 'col-lg-6', 'col-sm-12', 'col-xs-12')}>
                         <div className={cx('group-infor')}>

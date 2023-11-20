@@ -20,13 +20,13 @@ const cx = classNames.bind({
     row: 'row',
 });
 
-function ProfileLayout({ children }) {
+function ProfileLayout({ children, title }) {
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState(null);
 
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
-        { label: 'Change Password', link: '/caphe', active: true },
+        { label: `${title}`, link: '/caphe', active: true },
     ];
 
     useEffect(() => {
@@ -47,7 +47,7 @@ function ProfileLayout({ children }) {
             <div className={cx('user-profile', 'container')}>
                 <Breadcrumb items={breadcrumbItems} />
                 <ContainerHeading center>
-                    <Heading content={'Change Password'} />
+                    <Heading content={title} />
                 </ContainerHeading>
                 {/* If you have userData, then you are already logged in */}
                 {userData ? (
