@@ -21,9 +21,6 @@ function OrderAppovalItem({ order }) {
             });
 
             if (response.ok) { 
-                setTimeout((() => {
-                    window.location.reload();
-                }), 1000)
                 toast.success(`Cập nhật trạng thái đơn hàng thành ${newStatus}`);
                 console.log('Cập nhật trạng thái đơn hàng thành công');
             } else {
