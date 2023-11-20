@@ -40,15 +40,14 @@ function Topbar() {
             document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
         }
     }
-
-    const handleLogout = async () => {
+    const handleLogout = async () => { 
+       
         try {
             const response = await axios.get('/api/v1/logout');
             if (response.status === 200) { 
                 localStorage.clear();
-                clearAllCookies(); // Xóa tất cả các cookie
-                setShouldRedirect(true);
-                window.location.reload();
+                clearAllCookies(); 
+                window.location.href = "/login";
             }
         } catch (error) {
             console.log(error);
