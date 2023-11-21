@@ -220,11 +220,11 @@ const PaymentForm = () => {
             .post('/api/v1/order/new', formData)
             .then((response) => {
                 if (notifications.length > 0) {
+                    dispatch(clearNotification());
                     localStorage.removeItem('cart');
                     toast.success('Đặt hàng thành công');
                     dispatch(addNotification(notification));
                 } else {
-                    dispatch(clearNotification());
                     localStorage.removeItem('cart');
                     toast.success('Đặt hàng thành công');
                     dispatch(addNotification(notification));

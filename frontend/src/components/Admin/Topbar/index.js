@@ -7,7 +7,6 @@ import { faHome, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
 import socket from '~/socket';
-import { notification } from 'antd';
 import Notification from './Notification';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
@@ -28,7 +27,7 @@ function Topbar() {
             .catch((error) => {
                 console.log(error);
             });
-    }, [notifications]); 
+    }, [notifications, notificationsDisplay]); 
 
     console.log("notificationsDisplay", notificationsDisplay);
 

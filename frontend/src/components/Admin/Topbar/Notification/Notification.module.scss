@@ -30,7 +30,7 @@
     .noti-box {
         position: absolute; 
         width: 640px;   
-        height: 90vh;
+        max-height: 90vh;
         overflow-y: auto;
         right: 0; 
         background-color: #fff; 
