@@ -4,7 +4,6 @@ import styles from './NotificationItem.module.scss';
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function NotificationItem({ noti }) {
-    console.log(noti.noti);
     return (
         <div className={cx('noti-item')}>
             <div className={cx('noti-infor')}>

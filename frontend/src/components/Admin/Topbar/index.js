@@ -16,16 +16,46 @@ function Topbar() {
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState(null);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-    const [responseFromServer, setResponseFromServer] = useState('');
+    const [notifications, setNotifications] = useState([]);
+    const [notificationsDisplay, setNotificationsDisplay] = useState([]);
 
     useEffect(() => {
-        socket.on('response', (data) => {
-            console.log('data', Array.isArray(data));
+        axios
+            .get('/api/v1/notis')
+            .then((response) => {
+                setNotificationsDisplay(response.data.notifications); // Cập nhật thông báo từ phản hồi của API
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [notifications]); 
 
+    console.log("notificationsDisplay", notificationsDisplay);
+
+    useEffect(() => {
+        // Socket event listener setup
+        const handleSocketResponse = async (data) => {
+            console.log('data', Array.isArray(data));
             console.log('data array', data);
-            setResponseFromServer(data);
-        });
+            setNotifications(data);
+            console.log(data.length); // 2
+            try {
+                for (const obj of data) {
+                    await axios.post('/api/v1/noti/new', obj).then(() => {
+                        console.log('Notification sent successfully');
+                    });
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        socket.on('response', handleSocketResponse);
+
+        // Cleanup the event listener when the component unmounts
+        return () => {
+            socket.off('response', handleSocketResponse);
+        };
     }, []);
 
     useEffect(() => {
@@ -77,9 +107,9 @@ function Topbar() {
                 <h2>Admin Page - TeaHouse </h2>
             </div>
             <div className={cx('info-admin')}>
-                <Notification notifications={responseFromServer} />
+                <Notification notifications={notificationsDisplay} />
                 <div className={cx('info-admin-box')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                    <div >
+                    <div>
                         <img
                             src={
                                 userData?.avatar?.url ||
@@ -89,28 +119,26 @@ function Topbar() {
                         />
                     </div>
 
-                    <span>{userData?.name}</span> 
+                    <span>{userData?.name}</span>
                     {isDropdownOpen && (
-                    <div className={cx('dropdown')}>
-                        <ul>
-                            <li>
-                                <Link to="/">
-                                    <FontAwesomeIcon icon={faHome} />
-                                    <p>Sales page</p>
-                                </Link>
-                            </li>
-                            <li>
-                                <button onClick={handleLogout}>
-                                    <FontAwesomeIcon icon={faSignOutAlt} />
-                                    <p>Sign out</p>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                )}
+                        <div className={cx('dropdown')}>
+                            <ul>
+                                <li>
+                                    <Link to="/">
+                                        <FontAwesomeIcon icon={faHome} />
+                                        <p>Sales page</p>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <button onClick={handleLogout}>
+                                        <FontAwesomeIcon icon={faSignOutAlt} />
+                                        <p>Sign out</p>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
                 </div>
-
-
             </div>
         </div>
     );
