@@ -30,7 +30,6 @@ function Notification({ notifications }) {
                 console.error('Error deleting notification:', error);
             });
     };
-    console.log(notifications);
     return (
         <div className={cx('noti')}>
             <div className={cx('noti-icon-wrapper')} onClick={handleToggleNotifications}>

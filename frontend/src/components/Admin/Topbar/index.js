@@ -29,13 +29,11 @@ function Topbar() {
             });
     }, [notifications, notificationsDisplay]); 
 
-    console.log("notificationsDisplay", notificationsDisplay);
 
     useEffect(() => {
         // Socket event listener setup
         const handleSocketResponse = async (data) => {
-            console.log('data', Array.isArray(data));
-            console.log('data array', data);
+            console.log('data array', typeof data);
             setNotifications(data);
             console.log(data.length); // 2
             try {
