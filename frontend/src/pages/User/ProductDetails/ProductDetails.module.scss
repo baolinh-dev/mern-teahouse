@@ -211,20 +211,22 @@
                 .comment-info {
                     display: flex;
                     align-items: center;
-                    .comment-avatar {
-                        margin-right: 20px;
-                        img {
+                    .comment-avatar {  
+                        margin-right: 12px;
+                        img { 
+                            display: block;
                             width: 52px;
                             height: 52px;
                             padding: 2px;
-                            border: 1px solid #ddd;
                             border-radius: 50%;
+                            border: 1px solid #ddd;
                         }
                     }
                     .comment-name {
                         p {
                             font-weight: 700;
-                            font-size: 1.6rem;
+                            font-size: 1.6rem; 
+                            margin-bottom: 0;
                         }
                     }
                 }
