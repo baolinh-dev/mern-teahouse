@@ -12,7 +12,7 @@ import { faCartShopping, faClipboardList } from '@fortawesome/free-solid-svg-ico
 import Footer from '~/components/Footer';
 import casual from 'casual-browserify';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNotification } from '~/actions/notificationActions';
+import { addNotification, clearNotification } from '~/actions/notificationActions';
 import socket from '~/socket';
 
 const cx = classNames.bind(styles);
@@ -185,8 +185,8 @@ const PaymentForm = () => {
         e.preventDefault();
 
         const authorAvatar = customerInfo.avatar;
-        const authorName = customerInfo.name; 
-        const typeNoti = 'orderSuccess'
+        const authorName = customerInfo.name;
+        const typeNoti = 'orderSuccess';
         const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
         const content = `${customerInfo.name} đã đặt hàng thành công với số tiền ${total.toLocaleString('vi-VN', {
             style: 'currency',
@@ -196,7 +196,7 @@ const PaymentForm = () => {
         const currentDate = new Date();
         const formattedDate = currentDate.toISOString().split('T')[0];
 
-        const notification = { 
+        const notification = {
             typeNoti,
             authorAvatar,
             authorName,
@@ -219,9 +219,16 @@ const PaymentForm = () => {
         axios
             .post('/api/v1/order/new', formData)
             .then((response) => {
-                localStorage.removeItem('cart');
-                toast.success('Đặt hàng thành công');
-                dispatch(addNotification(notification));
+                if (notifications.length > 0) {
+                    localStorage.removeItem('cart');
+                    toast.success('Đặt hàng thành công');
+                    dispatch(addNotification(notification));
+                } else {
+                    dispatch(clearNotification());
+                    localStorage.removeItem('cart');
+                    toast.success('Đặt hàng thành công');
+                    dispatch(addNotification(notification));
+                }
             })
             .catch((error) => {
                 toast.error('Đặt hàng thất bại');

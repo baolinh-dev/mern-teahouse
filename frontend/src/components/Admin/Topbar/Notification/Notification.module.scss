@@ -29,7 +29,9 @@
     } 
     .noti-box {
         position: absolute; 
-        width: 640px; 
+        width: 640px;   
+        height: 90vh;
+        overflow-y: auto;
         right: 0; 
         background-color: #fff; 
         padding: 20px; 
