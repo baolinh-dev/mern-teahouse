@@ -18,9 +18,10 @@ const ProductDetails = () => {
     const [reviews, setReviews] = useState([]);
     const [commentForm, setCommentForm] = useState({ rating: '', comment: '' });
     const pathname = window.location.pathname;
-    const productId = pathname.substring(pathname.lastIndexOf('/') + 1); 
-    const carts = useSelector((state) => state.carts);  
+    const productId = pathname.substring(pathname.lastIndexOf('/') + 1);
+    const carts = useSelector((state) => state.carts);
     const dispatch = useDispatch();
+
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -38,7 +39,7 @@ const ProductDetails = () => {
             console.log('Reviews:', res.data.reviews);
         };
         fetchReviews();
-    }, [productId]);
+    }, [productId, commentForm]);
 
     if (!product) {
         return <div>Loading...</div>;
@@ -72,10 +73,10 @@ const ProductDetails = () => {
         const itemIndex = carts.findIndex((item) => item.id === product._id);
         if (itemIndex !== -1) {
             const updatedCart = [...carts];
-            updatedCart[itemIndex].quantity += quantity; 
-            dispatch(updateCart(updatedCart))            
+            updatedCart[itemIndex].quantity += quantity;
+            dispatch(updateCart(updatedCart));
         } else {
-            dispatch(addCart(newItem))
+            dispatch(addCart(newItem));
         }
     };
 
@@ -100,7 +101,6 @@ const ProductDetails = () => {
 
             // Clear the comment form
             setCommentForm({ rating: '', comment: '' });
-            window.location.reload();
         } catch (error) {
             // Handle the error, e.g., display an error message
             console.error('Error submitting comment:', error);

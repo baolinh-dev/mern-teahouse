@@ -153,7 +153,7 @@ function EditProfile() {
                 console.log(error);
                 toast.error(err.response.data.message);
             });
-    }, [error]);
+    }, [error, updatedProfile]);
 
     const handleInputChange = (e) => {
         setUpdatedProfile((prevState) => ({
@@ -185,12 +185,10 @@ function EditProfile() {
         const updatedProfileClone = { ...updatedProfile }; // Clone the updatedProfile to avoid modifying the state directly
         updatedProfileClone.avatar.url = imageUrl; // Update the avatar URL in the cloned object
 
-        console.log(updatedProfileClone.avatar.url); // https://firebasestorage.googleapis.com/v0/b/mern-teahouse.appspot.com/o/profile-images%2F0d395d6d-70d0-4de9-8bb4-00baeeec80d5?alt=media&token=0b9959d1-c7f7-4d03-93e2-775ba3898bf9
         axios
             .put('/api/v1/me/update', updatedProfileClone)
             .then((response) => {
                 toast.success('Profile updated successfully');
-                window.location.reload();
             })
             .catch((error) => {
                 toast.error('Failed to update profile');
