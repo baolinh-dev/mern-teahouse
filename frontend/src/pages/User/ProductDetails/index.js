@@ -9,6 +9,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import MainLayout from '~/layouts/MainLayout';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCart, updateCart } from '~/actions/cartActions';
+import { useParams } from 'react-router-dom';
 
 const cx = classNames.bind({ ...styles, container: 'container', row: 'row' });
 
@@ -17,29 +18,31 @@ const ProductDetails = () => {
     const [quantity, setQuantity] = useState(1);
     const [reviews, setReviews] = useState([]);
     const [commentForm, setCommentForm] = useState({ rating: '', comment: '' });
-    const pathname = window.location.pathname;
-    const productId = pathname.substring(pathname.lastIndexOf('/') + 1);
+
+    const { id } = useParams();
+
+    console.log('id', id);
+
     const carts = useSelector((state) => state.carts);
     const dispatch = useDispatch();
 
-
     useEffect(() => {
         const fetchProduct = async () => {
-            const res = await axios.get(`/api/v1/product/${productId}`);
+            const res = await axios.get(`/api/v1/product/${id}`);
             setProduct(res.data.product);
             console.log('Product:', res.data.product);
         };
         fetchProduct();
-    }, [productId]);
+    }, [id]);
 
     useEffect(() => {
         const fetchReviews = async () => {
-            const res = await axios.get(`/api/v1/reviews?productId=${productId}`);
+            const res = await axios.get(`/api/v1/reviews?productId=${id}`);
             setReviews(res.data.reviews);
             console.log('Reviews:', res.data.reviews);
         };
         fetchReviews();
-    }, [productId, commentForm]);
+    }, [id, commentForm]);
 
     if (!product) {
         return <div>Loading...</div>;
@@ -92,7 +95,7 @@ const ProductDetails = () => {
             const response = await axios.put('/api/v1/review', {
                 rating: commentForm.rating,
                 comment: commentForm.comment,
-                productId: productId,
+                productId: id,
             });
 
             console.log('response.data', response.data);
