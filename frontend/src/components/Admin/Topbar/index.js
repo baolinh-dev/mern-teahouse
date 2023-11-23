@@ -27,8 +27,7 @@ function Topbar() {
             .catch((error) => {
                 console.log(error);
             });
-    }, [notifications, notificationsDisplay]); 
-
+    }, [notifications, notificationsDisplay]);
 
     useEffect(() => {
         // Socket event listener setup
@@ -106,7 +105,7 @@ function Topbar() {
             <div className={cx('info-admin')}>
                 <Notification notifications={notificationsDisplay} />
                 <div className={cx('info-admin-box')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                    <div>
+                    <div className={cx('info-admin-box-infor')}>
                         <img
                             src={
                                 userData?.avatar?.url ||
