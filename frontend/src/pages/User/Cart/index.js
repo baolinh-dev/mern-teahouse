@@ -49,7 +49,7 @@ function Cart() {
                     <Breadcrumb
                         items={[
                             { label: 'Trang chủ', link: '/' },
-                            { label: 'Giỏ hàng', active: true },
+                            { label: 'Giỏ hàng của bạn', active: true },
                         ]}
                     />
                     <div className={cx('cart-content')}>
