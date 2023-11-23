@@ -28,7 +28,8 @@ const PaymentForm = () => {
     const [selectedWard, setSelectedWard] = useState('');
     const [houseNumber, setHouseNumber] = useState('');
     // State để lưu trữ thông tin giỏ hàng từ localStorage
-    const [cart, setCart] = useState([]);
+
+
     const [userDataLoaded, setUserDataLoaded] = useState(false);
     const [error, setError] = useState(null);
     // State để lưu trữ thông tin người dùng nhập vào từ các input
@@ -45,8 +46,8 @@ const PaymentForm = () => {
         payment: 'COD',
         status: 'Processing',
     });
-    const [notification, setNotification] = useState(null);
     // Hàm để gọi API và render dữ liệu
+    const carts = useSelector((state) => state.carts);  
     const notifications = useSelector((state) => state.notifications);
     const dispatch = useDispatch();
 
@@ -173,12 +174,6 @@ const PaymentForm = () => {
         }
     }, [userDataLoaded, error]);
 
-    useEffect(() => {
-        const cartData = localStorage.getItem('cart');
-        if (cartData) {
-            setCart(JSON.parse(cartData));
-        }
-    }, []);
 
     // Hàm xử lý khi người dùng submit form
     const handleSubmit = async (e) => {
@@ -187,7 +182,7 @@ const PaymentForm = () => {
         const authorAvatar = customerInfo.avatar;
         const authorName = customerInfo.name;
         const typeNoti = 'orderSuccess';
-        const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        const total = carts.reduce((acc, item) => acc + item.price * item.quantity, 0);
         const content = `${customerInfo.name} đã đặt hàng thành công với số tiền ${total.toLocaleString('vi-VN', {
             style: 'currency',
             currency: 'VND',
@@ -206,12 +201,12 @@ const PaymentForm = () => {
         };
 
         const formData = {
-            cart,
+            carts,
             customerInfo,
             orderInfo,
         };
 
-        if (formData.cart.length === 0) {
+        if (formData.carts.length === 0) {
             toast.warn('Giỏ hàng đang trống');
             return;
         }
@@ -221,11 +216,9 @@ const PaymentForm = () => {
             .then((response) => {
                 if (notifications.length > 0) {
                     dispatch(clearNotification());
-                    localStorage.removeItem('cart');
                     toast.success('Đặt hàng thành công');
                     dispatch(addNotification(notification));
                 } else {
-                    localStorage.removeItem('cart');
                     toast.success('Đặt hàng thành công');
                     dispatch(addNotification(notification));
                 }
@@ -360,8 +353,8 @@ const PaymentForm = () => {
                         </div>
                     </div>
                     <div className={cx('cart')}>
-                        {cart.length > 0 ? (
-                            <Cart cartItems={cart} />
+                        {carts.length > 0 ? (
+                            <Cart cartItems={carts} />
                         ) : (
                             <div className={cx('empty-cart')}>
                                 <FontAwesomeIcon icon={faCartShopping} />

@@ -7,17 +7,20 @@ import Rating from 'react-rating';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import MainLayout from '~/layouts/MainLayout';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCart, updateCart } from '~/actions/cartActions';
 
 const cx = classNames.bind({ ...styles, container: 'container', row: 'row' });
 
 const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
-    const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
     const [reviews, setReviews] = useState([]);
     const [commentForm, setCommentForm] = useState({ rating: '', comment: '' });
     const pathname = window.location.pathname;
-    const productId = pathname.substring(pathname.lastIndexOf('/') + 1);
+    const productId = pathname.substring(pathname.lastIndexOf('/') + 1); 
+    const carts = useSelector((state) => state.carts);  
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -66,17 +69,14 @@ const ProductDetails = () => {
             price: product.price,
             quantity: quantity,
         };
-        const itemIndex = cart.findIndex((item) => item.id === product._id);
+        const itemIndex = carts.findIndex((item) => item.id === product._id);
         if (itemIndex !== -1) {
-            const updatedCart = [...cart];
-            updatedCart[itemIndex].quantity += quantity;
-            setCart(updatedCart);
-            localStorage.setItem('cart', JSON.stringify(updatedCart));
+            const updatedCart = [...carts];
+            updatedCart[itemIndex].quantity += quantity; 
+            dispatch(updateCart(updatedCart))            
         } else {
-            setCart([...cart, newItem]);
-            localStorage.setItem('cart', JSON.stringify([...cart, newItem]));
+            dispatch(addCart(newItem))
         }
-        window.location.reload();
     };
 
     const handleRatingChange = (value) => {

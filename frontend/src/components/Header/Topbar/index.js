@@ -8,16 +8,22 @@ import axios from 'axios';
 import ContainerHeading from '~/components/ContainerHeading';
 import Heading from '~/components/Heading';
 import AuthLink from '~/components/AuthLink';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCart } from '~/actions/cartActions';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
-function Topbar() {
+function Topbar() { 
+    const carts = useSelector((state) => state.carts);  
+    const dispatch = useDispatch(); 
+
+    console.log("carts carts", carts);
+
     const [userData, setUserData] = useState(null);
     const [shouldRedirect, setShouldRedirect] = useState(false);
-    const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
     const [error, setError] = useState(null);
     // Tính tổng số lượng sản phẩm trong giỏ hàng
-    const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
+    const totalQuantity = carts.reduce((total, item) => total + item.quantity, 0);
 
     useEffect(() => {
         axios
@@ -53,23 +59,13 @@ function Topbar() {
         }
     };
 
-    useEffect(() => {
-        const storedCart = localStorage.getItem('cart');
-        if (storedCart) {
-            setCart(JSON.parse(storedCart));
-        }
-    }, []);
 
-    useEffect(() => {
-        localStorage.setItem('cart', JSON.stringify(cart));
-    }, [cart]);
 
-    const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    const totalPrice = carts.reduce((total, item) => total + item.price * item.quantity, 0);
 
     const handleRemoveItem = (itemId) => {
-        const newCart = cart.filter((item) => item.id !== itemId);
-        setCart(newCart);
-        window.location.reload();
+        const newCart = carts.filter((item) => item.id !== itemId);
+        dispatch(updateCart(newCart))
     };
 
     const handleQuantityChange = (itemId, newQuantity) => {
@@ -77,20 +73,17 @@ function Topbar() {
 
         if (!isNaN(parsedQuantity)) {
             // Kiểm tra nếu giá trị là một số hợp lệ
-            const newCart = cart.map((item) => {
-                if (item.id === itemId) {
-                    return { ...item, quantity: parsedQuantity };
+            const newCart = carts.map((item) => {
+                if (item.id === itemId) { 
+                    const newCartItem = { ...item, quantity: parsedQuantity }
+                    return newCartItem;
                 }
-                return item;
+                return item; 
             });
-            setCart(newCart);
+            dispatch(updateCart(newCart))
         }
-        setTimeout(() => {
-            window.location.reload();
-        }, 2000);
-    };
 
-    console.log('cart', cart);
+    };
 
     return (
         <div className={cx('topbar-container')}>
@@ -128,7 +121,7 @@ function Topbar() {
                                     <Heading content={'Giỏ hàng'} />
                                 </ContainerHeading>
 
-                                {cart.length === 0 ? (
+                                {carts.length === 0 ? (
                                     <div className={cx('cart-empty')}>
                                         <FontAwesomeIcon icon={faCartShopping} />
                                         <p>Giỏ hàng trống</p>
@@ -136,7 +129,7 @@ function Topbar() {
                                 ) : (
                                     <>
                                         <div className={cx('cart-content')}>
-                                            {cart.map((item) => (
+                                            {carts.map((item) => (
                                                 <div key={item.id} className={cx('cart-item')}>
                                                     <div className={cx('cart-item-image')}>
                                                         <img src={item.image} alt={item.name} />

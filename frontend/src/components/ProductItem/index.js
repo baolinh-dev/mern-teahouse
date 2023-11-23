@@ -2,11 +2,14 @@ import classNames from 'classnames/bind';
 import styles from './ProductItem.module.scss';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCart, updateCart } from '~/actions/cartActions';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function ProductItem({ imageUrl, nameProduct, price, id }) {
-    const [cart, setCart] = useState([]);
+    const carts = useSelector((state) => state.carts);
+    const dispatch = useDispatch();
     const quantity = 1;
 
     const handleAddToCart = () => {
@@ -17,29 +20,21 @@ function ProductItem({ imageUrl, nameProduct, price, id }) {
             price: price,
             quantity: quantity,
         };
-        const itemIndex = cart.findIndex((item) => item.id === id);
+        const itemIndex = carts.findIndex((item) => item.id === id);
         if (itemIndex !== -1) {
-            const updatedCart = [...cart];
+            const updatedCart = [...carts];
             updatedCart[itemIndex].quantity += quantity;
-            setCart(updatedCart);
-            localStorage.setItem('cart', JSON.stringify(updatedCart));
+            dispatch(updateCart(updatedCart));
         } else {
-            setCart([...cart, newItem]);
-            localStorage.setItem('cart', JSON.stringify([...cart, newItem]));
+            dispatch(addCart(newItem));
         }
-        window.location.reload();
     };
 
     const productImg = imageUrl
         ? imageUrl
         : 'https://www.independentmediators.co.uk/wp-content/uploads/2016/02/placeholder-image.jpg';
 
-    useEffect(() => {
-        const storedCart = JSON.parse(localStorage.getItem('cart'));
-        if (storedCart) {
-            setCart(storedCart);
-        }
-    }, []);
+
 
     return (
         <div className={cx('product-item')}>

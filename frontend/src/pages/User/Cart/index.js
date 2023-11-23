@@ -8,38 +8,42 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faShare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import MainLayout from '~/layouts/MainLayout';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCart } from '~/actions/cartActions';
 
-const cx = classNames.bind({ ...styles, container: 'container' });
+const cx = classNames.bind({ ...styles, container: 'container' }); 
 
-function Cart() {
+
+
+function Cart() { 
+    const carts = useSelector((state) => state.carts);  
+    const dispatch = useDispatch();
+
     // Lấy danh sách sản phẩm từ localStorage
-    const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem('cart')) || []);
 
     // Tính tổng giá trị của các sản phẩm trong giỏ hàng
-    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const total = carts.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     // Tính tổng số lượng sản phẩm trong giỏ hàng
-    const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+    const totalQuantity = carts.reduce((total, item) => total + item.quantity, 0);
 
     // Hàm để cập nhật số lượng sản phẩm
     const updateQuantity = (index, newQuantity) => {
-        const newCartItems = [...cartItems];
+        const newCartItems = [...carts];
         const parsedQuantity = parseInt(newQuantity);
         if (!isNaN(parsedQuantity)) {
-            newCartItems[index].quantity = parsedQuantity;
-            setCartItems(newCartItems);
-            localStorage.setItem('cart', JSON.stringify(newCartItems));
+            newCartItems[index].quantity = parsedQuantity; 
+            console.log("newCartItems", newCartItems); 
+
+            dispatch(updateCart(newCartItems))
         }
-        window.location.reload();
     };
 
     // Hàm để xóa sản phẩm khỏi danh sách
     const removeItem = (index) => {
-        const newCartItems = [...cartItems];
-        newCartItems.splice(index, 1);
-        setCartItems(newCartItems);
-        localStorage.setItem('cart', JSON.stringify(newCartItems));
-        window.location.reload();
+        const newCartItems = [...carts];
+        newCartItems.splice(index, 1); 
+        dispatch(updateCart(newCartItems))
     };
 
     return (
@@ -57,7 +61,7 @@ function Cart() {
                             <Heading content={'Giỏ hàng của bạn'} />
                         </ContainerHeading>
                         <div className={cx('cart-list')}>
-                            {cartItems.map((item, index) => (
+                            {carts.map((item, index) => (
                                 <div key={item.id} className={cx('cart-content-item')}>
                                     <div className={cx('cart-content-item-infor-wrapper')}>
                                         <img src={item.image} alt={item.name} />
