@@ -69,57 +69,57 @@ const ProductAll = () => {
                     <div className={cx('products')}>
                         <div className={cx('sub')}>
                             <Breadcrumb items={breadcrumbItems} />
-                            <div className={cx('options')}>
-                                <div className={cx('filter')}>
-                                    <Range
-                                        className={cx('range')}
-                                        values={values}
-                                        step={5000}
-                                        min={min}
-                                        max={max}
-                                        onChange={handleChange}
-                                        renderTrack={({ props, children }) => (
-                                            <div className={cx('range-line')} {...props}>
-                                                {children}
-                                            </div>
-                                        )}
-                                        renderThumb={({ props }) => <div className={cx('range-dot')} {...props} />}
-                                    />
-                                    <div className={cx('range-value')}>
-                                        <span>
-                                            {values[0].toLocaleString('vi-VN', {
-                                                style: 'currency',
-                                                currency: 'VND',
-                                            })}
-                                        </span>
-                                        <span>
-                                            {values[1].toLocaleString('vi-VN', {
-                                                style: 'currency',
-                                                currency: 'VND',
-                                            })}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className={cx('search')}>
-                                    <div className={cx('search-box')}>
-                                        <form onSubmit={handleSubmit}>
-                                            <input
-                                                type="text"
-                                                placeholder="Nhập từ khóa tìm kiếm"
-                                                value={searchKeyword}
-                                                onChange={handleInputChange}
-                                            />
-                                            <button>
-                                                <FontAwesomeIcon icon={faSearch} />
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <ContainerHeading center>
                             <Heading content={'Tất cả sản phẩm'} />
                         </ContainerHeading>
+                        <div className={cx('options')}>
+                            <div className={cx('search')}>
+                                <div className={cx('search-box')}>
+                                    <form onSubmit={handleSubmit}>
+                                        <input
+                                            type="text"
+                                            placeholder="Nhập từ khóa tìm kiếm"
+                                            value={searchKeyword}
+                                            onChange={handleInputChange}
+                                        />
+                                        <button>
+                                            <FontAwesomeIcon icon={faSearch} />
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div className={cx('filter')}>
+                                <Range
+                                    className={cx('range')}
+                                    values={values}
+                                    step={5000}
+                                    min={min}
+                                    max={max}
+                                    onChange={handleChange}
+                                    renderTrack={({ props, children }) => (
+                                        <div className={cx('range-line')} {...props}>
+                                            {children}
+                                        </div>
+                                    )}
+                                    renderThumb={({ props }) => <div className={cx('range-dot')} {...props} />}
+                                />
+                                <div className={cx('range-value')}>
+                                    <span>
+                                        {values[0].toLocaleString('vi-VN', {
+                                            style: 'currency',
+                                            currency: 'VND',
+                                        })}
+                                    </span>
+                                    <span>
+                                        {values[1].toLocaleString('vi-VN', {
+                                            style: 'currency',
+                                            currency: 'VND',
+                                        })}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                         {!searchStatus ? ( // kiểm tra trạng thái tìm kiếm
                             <h1>Không tìm thấy sản phẩm</h1>
                         ) : (
