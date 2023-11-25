@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Table, Button, Space, Popconfirm, Modal, Form, Input } from 'antd'; // Remove Radio import
+import { Table, Button, Space, Popconfirm, Modal, Form, Input, Select } from 'antd'; // Remove Radio import
 import AdminLayout from '~/layouts/AdminLayout';
 import { toast } from 'react-toastify';
 import Pagination from '~/components/Pagination';
@@ -9,7 +9,7 @@ function ManageProducts() {
     const [products, setProducts] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-    const [form] = Form.useForm();
+    const [editForm] = Form.useForm();
     const [searchKeyword, setSearchKeyword] = useState('');
     const [productCount, setProductCount] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -26,9 +26,7 @@ function ManageProducts() {
             .catch((error) => {
                 console.error('Error fetching products:', error);
             });
-    }; 
-
-    console.log(products);
+    };
 
     useEffect(() => {
         fetchProducts(currentPage, searchKeyword);
@@ -40,9 +38,12 @@ function ManageProducts() {
             .then((response) => {
                 const product = response.data.product;
                 setSelectedProduct(product);
-                form.setFieldsValue({
+                editForm.setFieldsValue({
                     name: product.name,
-                    price: product.price,
+                    price: product.price,  
+                    description: product.description, 
+                    category: product.category, 
+                    image: product.images[0].url
                 });
                 setIsEditModalVisible(true);
             })
@@ -66,7 +67,7 @@ function ManageProducts() {
     };
 
     const handleEditModalOk = () => {
-        form.submit();
+        editForm.submit();
     };
 
     const handleEditModalCancel = () => {
@@ -74,11 +75,13 @@ function ManageProducts() {
     };
 
     const handleEditFormFinish = (values) => {
-        const { name, price } = values;
+        const { name, price, description, category, image } = values;
         const newProductData = {
             name,
-            price,
-            category: selectedProduct.category,
+            price, 
+            description, 
+            category,  
+            image
         };
 
         axios
@@ -96,13 +99,14 @@ function ManageProducts() {
             });
     };
 
+    // Data to pass into UI
     const columns = [
         { title: 'Name', dataIndex: 'name', key: 'name' },
         { title: 'Price', dataIndex: 'price', key: 'price' },
         { title: 'Ratings', dataIndex: 'ratings', key: 'ratings' },
         { title: 'Number of Reviews', dataIndex: 'numOfReviews', key: 'numOfReviews' },
+        { title: 'Description', dataIndex: 'description', key: 'description' },
         { title: 'Category', dataIndex: 'category', key: 'category' },
-        // Remove 'category' field from columns
         {
             title: 'Images',
             dataIndex: 'images',
@@ -153,6 +157,7 @@ function ManageProducts() {
             }) || 'N/A',
         ratings: product.ratings || 'N/A',
         numOfReviews: product.numOfReviews || 'N/A',
+        description: product.description || 'N/A',
         category: product.category || 'N/A',
         images: product.images || [],
     }));
@@ -178,7 +183,7 @@ function ManageProducts() {
                     setCurrentPage(pageNumber);
                     fetchProducts(pageNumber, searchKeyword);
                 }}
-            /> 
+            />
 
             <Modal
                 title="Edit Product"
@@ -186,7 +191,7 @@ function ManageProducts() {
                 onOk={handleEditModalOk}
                 onCancel={handleEditModalCancel}
             >
-                <Form form={form} onFinish={handleEditFormFinish}>
+                <Form form={editForm} onFinish={handleEditFormFinish}>
                     <Form.Item
                         name="name"
                         label="Name"
@@ -198,6 +203,29 @@ function ManageProducts() {
                         name="price"
                         label="Price"
                         rules={[{ required: true, message: 'Please enter the product price' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="description"
+                        label="Description"
+                        rules={[{ required: true, message: 'Please enter the product description' }]}
+                    >
+                        <Input.TextArea />
+                    </Form.Item>
+                    <Form.Item name="category" label="Category">
+                        <Select>
+                            <Select.Option value="Trà hoa quả">Trà hoa quả</Select.Option>
+                            <Select.Option value="Cà phê">Cà phê</Select.Option>
+                            <Select.Option value="Bánh ngọt">Bánh ngọt</Select.Option>
+                            <Select.Option value="Smoothies">Smoothies</Select.Option>
+                            <Select.Option value="Trà sữa">Trà sữa</Select.Option>
+                        </Select>
+                    </Form.Item>
+                    <Form.Item
+                        name="image"
+                        label="Image"
+                        rules={[{ required: true, message: 'Please enter the product image' }]}
                     >
                         <Input />
                     </Form.Item>
