@@ -9,17 +9,28 @@ import { storage } from '~/firebase';
 import { v4 } from 'uuid';
 import { Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import classNames from 'classnames/bind';
+import styles from './ManageProducts.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAdd } from '@fortawesome/free-solid-svg-icons';
 
 function ManageProducts() {
+    const cx = classNames.bind({ ...styles, container: 'container' });
     const [products, setProducts] = useState([]);
-    const [selectedProduct, setSelectedProduct] = useState(null);
-    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-    const [editForm] = Form.useForm();
     const [searchKeyword, setSearchKeyword] = useState('');
     const [productCount, setProductCount] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [numberProductsPerPage, setNumberProductsPerPage] = useState(null);
-    const [selectedFile, setSelectedFile] = useState(null);
+
+    const [selectedEditProduct, setSelectedEditProduct] = useState(null);
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    const [editForm] = Form.useForm();
+    const [selectedEditFile, setSelectedEditFile] = useState(null);
+
+    const [selectedAddProduct, setSelectedAddProduct] = useState(null);
+    const [isAddModalVisible, setIsAddModalVisible] = useState(false);
+    const [addForm] = Form.useForm();
+    const [selectedAddFile, setSelectedAddFile] = useState(null);
 
     const fetchProducts = (currentPage, keyword) => {
         axios
@@ -43,7 +54,7 @@ function ManageProducts() {
             .get(`/api/v1/product/${productId}`)
             .then((response) => {
                 const product = response.data.product;
-                setSelectedProduct(product);
+                setSelectedEditProduct(product);
                 editForm.setFieldsValue({
                     name: product.name,
                     price: product.price,
@@ -56,6 +67,10 @@ function ManageProducts() {
             .catch((error) => {
                 console.error('Error fetching product:', error);
             });
+    };
+
+    const handleAdd = () => {
+        setIsAddModalVisible(true);
     };
 
     const handleDelete = (productId) => {
@@ -75,9 +90,15 @@ function ManageProducts() {
     const handleEditModalOk = () => {
         editForm.submit();
     };
+    const handleAddModalOk = () => {
+        addForm.submit();
+    };
 
     const handleEditModalCancel = () => {
         setIsEditModalVisible(false);
+    };
+    const handleAddModalCancel = () => {
+        setIsAddModalVisible(false);
     };
 
     const handleEditFormFinish = async (values) => {
@@ -94,10 +115,8 @@ function ManageProducts() {
         const storageRef = ref(storage, `products/${imageName}`);
 
         try {
-            // Upload the file bytes to Firebase Storage
-            await uploadBytes(storageRef, selectedFile);
+            await uploadBytes(storageRef, selectedEditFile);
 
-            // Get the download URL of the uploaded image
             const imageUrl = await getDownloadURL(storageRef);
 
             const imagesValue = {
@@ -105,26 +124,75 @@ function ManageProducts() {
                 url: imageUrl,
             };
 
-            // Update the newProductData with the Firebase Storage download URL
             newProductData.images = imagesValue;
 
-            // Update the product data in the database
             console.log(newProductData);
 
             axios
-                .put(`/api/v1/admin/product/${selectedProduct._id}`, newProductData)
+                .put(`/api/v1/admin/product/${selectedEditProduct._id}`, newProductData)
                 .then((response) => {
                     toast.success('Product updated successfully');
                     setIsEditModalVisible(false);
                     setProducts(
                         products.map((product) =>
-                            product._id === selectedProduct._id ? response.data.product : product,
+                            product._id === selectedEditProduct._id ? response.data.product : product,
                         ),
                     );
                 })
                 .catch((error) => {
                     console.error('Error updating product:', error);
                     toast.error('Error updating product');
+                });
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            toast.error('Error uploading image');
+        }
+    };
+    const handleAddFormFinish = async (values) => {
+        const { name, price, description, category, images } = values;
+        addForm.setFieldsValue({
+            name,
+            price,
+            description,
+            category,
+            images,
+        });
+        const newProductData = {
+            name,
+            price,
+            description,
+            category,
+            images,
+        };
+
+        const imageName = v4(); // Tạo tên duy nhất cho hình ảnh
+        const storageRef = ref(storage, `products/${imageName}`);
+
+        try {
+            await uploadBytes(storageRef, selectedAddFile);
+
+            const imageUrl = await getDownloadURL(storageRef);
+
+            const imagesValue = {
+                public_id: imageName,
+                url: imageUrl,
+            };
+
+            newProductData.images = imagesValue;
+
+            console.log(newProductData);
+
+            axios
+                .post(`/api/v1/admin/product/new`, newProductData)
+                .then((response) => {
+                    toast.success('Product added successfully');
+                    setIsAddModalVisible(false);
+                    setProducts([...products, response.data.product]); 
+                    addForm.resetFields();
+                })
+                .catch((error) => {
+                    console.error('Error adding product:', error);
+                    toast.error('Error adding product');
                 });
         } catch (error) {
             console.error('Error uploading image:', error);
@@ -197,7 +265,7 @@ function ManageProducts() {
 
     return (
         <AdminLayout>
-            <div style={{ marginBottom: '16px' }}>
+            <div className={cx('options')} style={{ marginBottom: '16px' }}>
                 <Input.Search
                     placeholder="Search by name"
                     allowClear
@@ -206,6 +274,9 @@ function ManageProducts() {
                     onChange={(e) => setSearchKeyword(e.target.value)}
                     onSearch={() => fetchProducts(currentPage, searchKeyword)}
                 />
+                <Button type="primary" style={{ marginLeft: '8px' }} onClick={handleAdd}>
+                    <FontAwesomeIcon icon={faAdd} />
+                </Button>
             </div>
             <Table dataSource={dataSource} columns={columns} pagination={false} />
 
@@ -217,7 +288,7 @@ function ManageProducts() {
                     fetchProducts(pageNumber, searchKeyword);
                 }}
             />
-
+            {/* Modal Edit */}
             <Modal
                 title="Edit Product"
                 visible={isEditModalVisible}
@@ -252,7 +323,8 @@ function ManageProducts() {
                             <Select.Option value="Cà phê">Cà phê</Select.Option>
                             <Select.Option value="Bánh ngọt">Bánh ngọt</Select.Option>
                             <Select.Option value="Smoothies">Smoothies</Select.Option>
-                            <Select.Option value="Trà sữa">Trà sữa</Select.Option>
+                            <Select.Option value="Trà sữa">Trà sữa</Select.Option> 
+                            <Select.Option value="Nước ngọt">Nước ngọt</Select.Option>
                         </Select>
                     </Form.Item>
                     <Form.Item
@@ -263,10 +335,70 @@ function ManageProducts() {
                         <Upload
                             accept="image/*"
                             beforeUpload={(file) => {
-                                setSelectedFile(file);
+                                setSelectedEditFile(file);
                                 return false;
                             }}
-                            fileList={selectedFile ? [selectedFile] : []}
+                            fileList={selectedEditFile ? [selectedEditFile] : []}
+                            showUploadList={{
+                                showRemoveIcon: false,
+                            }}
+                        >
+                            <Button icon={<UploadOutlined />}>Select Image</Button>
+                        </Upload>
+                    </Form.Item>
+                </Form>
+            </Modal>
+            {/* Modal Add */}
+            <Modal
+                title="Add Product"
+                visible={isAddModalVisible}
+                onOk={handleAddModalOk}
+                onCancel={handleAddModalCancel}
+            >
+                <Form form={addForm} onFinish={handleAddFormFinish}>
+                    <Form.Item
+                        name="name"
+                        label="Name"
+                        rules={[{ required: true, message: 'Please enter the product name' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="price"
+                        label="Price"
+                        rules={[{ required: true, message: 'Please enter the product price' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="description"
+                        label="Description"
+                        rules={[{ required: true, message: 'Please enter the product description' }]}
+                    >
+                        <Input.TextArea />
+                    </Form.Item>
+                    <Form.Item name="category" label="Category">
+                        <Select>
+                            <Select.Option value="Trà hoa quả">Trà hoa quả</Select.Option>
+                            <Select.Option value="Cà phê">Cà phê</Select.Option>
+                            <Select.Option value="Bánh ngọt">Bánh ngọt</Select.Option>
+                            <Select.Option value="Smoothies">Smoothies</Select.Option>
+                            <Select.Option value="Trà sữa">Trà sữa</Select.Option>
+                            <Select.Option value="Nước ngọt">Nước ngọt</Select.Option>
+                        </Select>
+                    </Form.Item>
+                    <Form.Item
+                        name="images"
+                        label="Image"
+                        rules={[{ required: true, message: 'Please upload an image' }]}
+                    >
+                        <Upload
+                            accept="image/*"
+                            beforeUpload={(file) => {
+                                setSelectedAddFile(file);
+                                return false;
+                            }}
+                            fileList={selectedAddFile ? [selectedAddFile] : []}
                             showUploadList={{
                                 showRemoveIcon: false,
                             }}
