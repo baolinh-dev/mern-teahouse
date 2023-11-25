@@ -7,6 +7,8 @@ import Pagination from '~/components/Pagination';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '~/firebase';
 import { v4 } from 'uuid';
+import { Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 
 function ManageProducts() {
     const [products, setProducts] = useState([]);
@@ -17,11 +19,7 @@ function ManageProducts() {
     const [productCount, setProductCount] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [numberProductsPerPage, setNumberProductsPerPage] = useState(null);
-    const [fileEdit, setFileEdit] = useState(null);
-
-    const handleFileUpload = (e) => {
-        setFileEdit(e.target.files[0]);
-    };
+    const [selectedFile, setSelectedFile] = useState(null);
 
     const fetchProducts = (currentPage, keyword) => {
         axios
@@ -97,7 +95,7 @@ function ManageProducts() {
 
         try {
             // Upload the file bytes to Firebase Storage
-            await uploadBytes(storageRef, fileEdit);
+            await uploadBytes(storageRef, selectedFile);
 
             // Get the download URL of the uploaded image
             const imageUrl = await getDownloadURL(storageRef);
@@ -262,9 +260,19 @@ function ManageProducts() {
                         label="Image"
                         rules={[{ required: true, message: 'Please upload an image' }]}
                     >
-                        <div>
-                            <input type="file" accept="image/*" onChange={handleFileUpload} />
-                        </div>
+                        <Upload
+                            accept="image/*"
+                            beforeUpload={(file) => {
+                                setSelectedFile(file);
+                                return false;
+                            }}
+                            fileList={selectedFile ? [selectedFile] : []}
+                            showUploadList={{
+                                showRemoveIcon: false,
+                            }}
+                        >
+                            <Button icon={<UploadOutlined />}>Select Image</Button>
+                        </Upload>
                     </Form.Item>
                 </Form>
             </Modal>
