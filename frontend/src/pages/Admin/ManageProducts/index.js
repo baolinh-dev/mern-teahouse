@@ -265,7 +265,7 @@ function ManageProducts() {
 
     return (
         <AdminLayout>
-            <div className={cx('options')} style={{ marginBottom: '16px' }}>
+            <div className={cx('options')} >
                 <Input.Search
                     placeholder="Search by name"
                     allowClear
