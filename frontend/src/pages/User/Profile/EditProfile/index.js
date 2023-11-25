@@ -8,7 +8,7 @@ import styles from './EditProfile.module.scss';
 import { Link } from 'react-router-dom';
 import ProfileLayout from '~/layouts/ProfileLayout';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../../../../firebase';
+import { storage } from '~/firebase';
 import { v4 } from 'uuid';
 
 const cx = classNames.bind({
@@ -163,7 +163,8 @@ function EditProfile() {
     };
 
     const handleFileUpload = (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files[0]; 
+        
         const storageRef = ref(storage, 'profile-images/' + v4());
 
         uploadBytes(storageRef, file).then(() => {

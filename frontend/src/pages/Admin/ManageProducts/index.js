@@ -4,6 +4,9 @@ import { Table, Button, Space, Popconfirm, Modal, Form, Input, Select } from 'an
 import AdminLayout from '~/layouts/AdminLayout';
 import { toast } from 'react-toastify';
 import Pagination from '~/components/Pagination';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '~/firebase';
+import { v4 } from 'uuid';
 
 function ManageProducts() {
     const [products, setProducts] = useState([]);
@@ -14,6 +17,11 @@ function ManageProducts() {
     const [productCount, setProductCount] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [numberProductsPerPage, setNumberProductsPerPage] = useState(null);
+    const [fileEdit, setFileEdit] = useState(null);
+
+    const handleFileUpload = (e) => {
+        setFileEdit(e.target.files[0]);
+    };
 
     const fetchProducts = (currentPage, keyword) => {
         axios
@@ -40,10 +48,10 @@ function ManageProducts() {
                 setSelectedProduct(product);
                 editForm.setFieldsValue({
                     name: product.name,
-                    price: product.price,  
-                    description: product.description, 
-                    category: product.category, 
-                    image: product.images[0].url
+                    price: product.price,
+                    description: product.description,
+                    category: product.category,
+                    image: product.images[0].url,
                 });
                 setIsEditModalVisible(true);
             })
@@ -74,29 +82,56 @@ function ManageProducts() {
         setIsEditModalVisible(false);
     };
 
-    const handleEditFormFinish = (values) => {
-        const { name, price, description, category, image } = values;
+    const handleEditFormFinish = async (values) => {
+        const { name, price, description, category, images } = values;
         const newProductData = {
             name,
-            price, 
-            description, 
-            category,  
-            image
+            price,
+            description,
+            category,
+            images,
         };
 
-        axios
-            .put(`/api/v1/admin/product/${selectedProduct._id}`, newProductData)
-            .then((response) => {
-                toast.success('Product updated successfully');
-                setIsEditModalVisible(false);
-                setProducts(
-                    products.map((product) => (product._id === selectedProduct._id ? response.data.product : product)),
-                );
-            })
-            .catch((error) => {
-                console.error('Error updating product:', error);
-                toast.error('Error updating product');
-            });
+        const imageName = v4(); // Generate a unique name for the image
+        const storageRef = ref(storage, `products/${imageName}`);
+
+        try {
+            // Upload the file bytes to Firebase Storage
+            await uploadBytes(storageRef, fileEdit);
+
+            // Get the download URL of the uploaded image
+            const imageUrl = await getDownloadURL(storageRef);
+
+            const imagesValue = {
+                public_id: imageName,
+                url: imageUrl,
+            };
+
+            // Update the newProductData with the Firebase Storage download URL
+            newProductData.images = imagesValue;
+
+            // Update the product data in the database
+            console.log(newProductData);
+
+            axios
+                .put(`/api/v1/admin/product/${selectedProduct._id}`, newProductData)
+                .then((response) => {
+                    toast.success('Product updated successfully');
+                    setIsEditModalVisible(false);
+                    setProducts(
+                        products.map((product) =>
+                            product._id === selectedProduct._id ? response.data.product : product,
+                        ),
+                    );
+                })
+                .catch((error) => {
+                    console.error('Error updating product:', error);
+                    toast.error('Error updating product');
+                });
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            toast.error('Error uploading image');
+        }
     };
 
     // Data to pass into UI
@@ -223,11 +258,13 @@ function ManageProducts() {
                         </Select>
                     </Form.Item>
                     <Form.Item
-                        name="image"
+                        name="images"
                         label="Image"
-                        rules={[{ required: true, message: 'Please enter the product image' }]}
+                        rules={[{ required: true, message: 'Please upload an image' }]}
                     >
-                        <Input />
+                        <div>
+                            <input type="file" accept="image/*" onChange={handleFileUpload} />
+                        </div>
                     </Form.Item>
                 </Form>
             </Modal>
