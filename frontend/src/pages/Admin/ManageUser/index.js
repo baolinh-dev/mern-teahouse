@@ -26,6 +26,7 @@ function ManageUser() {
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const [editForm] = Form.useForm();
     const [selectedEditUser, setSelectedEditUser] = useState(null);
+    const [selectedEditFile, setSelectedEditFile] = useState(null);
     // Add
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [addForm] = Form.useForm();
@@ -100,7 +101,7 @@ function ManageUser() {
         setIsAddModalVisible(false);
     };
 
-    const handleEditFormFinish = (values) => {
+    const handleEditFormFinish = async (values) => {
         const { name, email, address, phoneNumber, role } = values;
 
         const newUserData = {
@@ -111,17 +112,40 @@ function ManageUser() {
             role,
         };
 
-        axios
-            .put(`/api/v1/admin/user/${selectedEditUser._id}`, newUserData)
-            .then((response) => {
-                toast.success('User updated successfully');
-                setIsEditModalVisible(false);
-                setUsers(users.map((user) => (user._id === selectedEditUser._id ? response.data.user : user)));
-            })
-            .catch((error) => {
-                console.error('Error updating user:', error);
-                toast.error('Error updating user');
-            });
+        const imageName = v4(); // Tạo tên duy nhất cho hình ảnh
+        const storageRef = ref(storage, `profile-images/${imageName}`);
+
+        try {
+            await uploadBytes(storageRef, selectedEditFile);
+
+            const imageUrl = await getDownloadURL(storageRef);
+
+            const avatarValue = {
+                public_id: imageName,
+                url: imageUrl,
+            };
+
+            newUserData.avatar = avatarValue; 
+
+            console.log("selectedEditUser._id", selectedEditUser._id); 
+
+            console.log("newUserData", newUserData);
+
+            axios
+                .put(`/api/v1/admin/user/${selectedEditUser._id}`, newUserData)
+                .then((response) => {
+                    toast.success('User updated successfully');
+                    setIsEditModalVisible(false);
+                    setUsers(users.map((user) => (user._id === selectedEditUser._id ? response.data.user : user)));
+                })
+                .catch((error) => {
+                    console.error('Error updating user:', error);
+                    toast.error('Error updating user');
+                });
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            toast.error('Error uploading image');
+        }
     };
     const handleAddFormFinish = async (values) => {
         const { name, email, address, password, phoneNumber, role } = values;
@@ -157,10 +181,10 @@ function ManageUser() {
                 url: imageUrl,
             };
 
-            newUserData.avatar = avatarValue;  
+            newUserData.avatar = avatarValue;
 
-            console.log("newUserData", newUserData); 
-            
+            console.log('newUserData', newUserData);
+
             axios
                 .post(`/api/v1/admin/user/`, newUserData)
                 .then((response) => {
@@ -282,6 +306,25 @@ function ManageUser() {
                         </Form.Item>
                         <Form.Item name="phoneNumber" label="Phone Number" rules={[{ required: true }]}>
                             <Input />
+                        </Form.Item>
+                        <Form.Item
+                            name="images"
+                            label="Image"
+                            rules={[{ required: true, message: 'Please upload an image' }]}
+                        >
+                            <Upload
+                                accept="image/*"
+                                beforeUpload={(file) => {
+                                    setSelectedEditFile(file);
+                                    return false;
+                                }}
+                                fileList={selectedEditFile ? [selectedEditFile] : []}
+                                showUploadList={{
+                                    showRemoveIcon: false,
+                                }}
+                            >
+                                <Button icon={<UploadOutlined />}>Select Image</Button>
+                            </Upload>
                         </Form.Item>
                         <Form.Item name="role" label="Role" rules={[{ required: true }]}>
                             <Radio.Group>

@@ -63,7 +63,7 @@ function Topbar() {
             .catch((err) => {
                 setError(err.response.data.message);
             });
-    }, [error]);
+    }, [error, userData]);
 
     const handleMouseEnter = () => {
         setIsDropdownOpen(true);
