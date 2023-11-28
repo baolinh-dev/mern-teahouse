@@ -24,6 +24,7 @@ import ManageUser from '~/pages/Admin/ManageUser';
 import ManageProducts from '~/pages/Admin/ManageProducts';
 import ManageOrders from '~/pages/Admin/ManageOrders';
 import AdminTest from '~/pages/User/AdminTest';
+import ManageCategories from '~/pages/Admin/ManageCategories';
 // Public routes
 export const publicRoutes = [
     { path: '/', component: Home },
@@ -54,4 +55,5 @@ export const privateRoutes = [
     { path: '/admin/users', component: ManageUser }, 
     { path: '/admin/products', component: ManageProducts }, 
     { path: '/admin/orders', component: ManageOrders },
+    { path: '/admin/categories', component: ManageCategories },
 ];

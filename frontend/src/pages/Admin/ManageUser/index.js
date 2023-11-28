@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Table, Button, Space, Popconfirm, Modal, Form, Input, Radio, Select } from 'antd';
+import { Table, Button, Space, Popconfirm, Modal, Form, Input, Radio } from 'antd';
 import AdminLayout from '~/layouts/AdminLayout';
 import { toast } from 'react-toastify';
 import Pagination from '~/components/Pagination';
@@ -171,7 +171,6 @@ function ManageUser() {
                 console.error('Error fetching user:', error);
             });
     };
-    const handleAdd = () => {};
 
     const handleDelete = (userId) => {
         axios
