@@ -46,6 +46,8 @@ function ManageUser() {
                 form.setFieldsValue({
                     name: user.name,
                     email: user.email,
+                    address: user.address,
+                    phoneNumber: user.phoneNumber,
                     role: user.role,
                 });
                 setIsEditModalVisible(true);
@@ -77,10 +79,12 @@ function ManageUser() {
     };
 
     const handleEditFormFinish = (values) => {
-        const { name, email, role } = values;
+        const { name, email, address, phoneNumber, role } = values;
         const newUserData = {
             name,
             email,
+            address,
+            phoneNumber,
             role,
         };
 
@@ -166,7 +170,7 @@ function ManageUser() {
                         onChange={(e) => setSearchKeyword(e.target.value)}
                         onSearch={() => fetchUsers(currentPage, searchKeyword)}
                     />
-                    <Button type="primary" style={{ marginLeft: '8px' }} >
+                    <Button type="primary" style={{ marginLeft: '8px' }}>
                         <FontAwesomeIcon icon={faAdd} />
                     </Button>
                 </div>
@@ -192,6 +196,12 @@ function ManageUser() {
                             <Input />
                         </Form.Item>
                         <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email' }]}>
+                            <Input />
+                        </Form.Item>
+                        <Form.Item name="address" label="Address" rules={[{ required: true }]}>
+                            <Input />
+                        </Form.Item>
+                        <Form.Item name="phoneNumber" label="Phone Number" rules={[{ required: true }]}>
                             <Input />
                         </Form.Item>
                         <Form.Item name="role" label="Role" rules={[{ required: true }]}>

@@ -187,10 +187,7 @@ exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
         // Trả về tất cả người dùng
         const query = keyword
             ? {
-                  $or: [
-                      { name: { $regex: keyword, $options: 'i' } },
-                      { email: { $regex: keyword, $options: 'i' } },
-                  ],
+                  $or: [{ name: { $regex: keyword, $options: 'i' } }, { email: { $regex: keyword, $options: 'i' } }],
               }
             : {};
 
@@ -208,10 +205,7 @@ exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
 
         if (keyword) {
             query = {
-                $or: [
-                    { name: { $regex: keyword, $options: 'i' } },
-                    { email: { $regex: keyword, $options: 'i' } },
-                ],
+                $or: [{ name: { $regex: keyword, $options: 'i' } }, { email: { $regex: keyword, $options: 'i' } }],
             };
         }
 
@@ -244,11 +238,13 @@ exports.getSingleUser = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Update User Role
-exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
+exports.updateUser = catchAsyncErrors(async (req, res, next) => {
     const newUserData = {
         name: req.body.name,
         email: req.body.email,
         role: req.body.role,
+        address: req.body.address,
+        phoneNumber: req.body.phoneNumber,
     };
 
     const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
