@@ -12,13 +12,17 @@ import { faAdd } from '@fortawesome/free-solid-svg-icons';
 function ManageUser() {
     const cx = classNames.bind({ ...styles, container: 'container' });
     const [users, setUsers] = useState([]);
-    const [selectedUser, setSelectedUser] = useState(null);
-    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-    const [form] = Form.useForm();
     const [searchKeyword, setSearchKeyword] = useState('');
     const [totalUsers, setTotalUser] = useState(null);
     const [numberUsersPerPage, setNumberUsersPerPage] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
+    // Edit
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    const [editForm] = Form.useForm();
+    const [selectedEditUser, setSelectedEditUser] = useState(null);
+    // Add
+    const [isAddModalVisible, setIsAddModalVisible] = useState(false);
+    const [addForm] = Form.useForm();
 
     const fetchUsers = (currentPage, keyword) => {
         axios
@@ -42,8 +46,8 @@ function ManageUser() {
             .get(`/api/v1/admin/user/${userId}`)
             .then((response) => {
                 const user = response.data.user;
-                setSelectedUser(user);
-                form.setFieldsValue({
+                setSelectedEditUser(user);
+                editForm.setFieldsValue({
                     name: user.name,
                     email: user.email,
                     address: user.address,
@@ -56,6 +60,7 @@ function ManageUser() {
                 console.error('Error fetching user:', error);
             });
     };
+    const handleAdd = () => {};
 
     const handleDelete = (userId) => {
         axios
@@ -71,15 +76,24 @@ function ManageUser() {
     };
 
     const handleEditModalOk = () => {
-        form.submit();
+        editForm.submit();
     };
 
     const handleEditModalCancel = () => {
         setIsEditModalVisible(false);
     };
 
+    const handleAddModalOk = () => {
+        addForm.submit();
+    };
+
+    const handleAddModalCancel = () => {
+        setIsAddModalVisible(false);
+    };
+
     const handleEditFormFinish = (values) => {
         const { name, email, address, phoneNumber, role } = values;
+
         const newUserData = {
             name,
             email,
@@ -89,11 +103,44 @@ function ManageUser() {
         };
 
         axios
-            .put(`/api/v1/admin/user/${selectedUser._id}`, newUserData)
+            .put(`/api/v1/admin/user/${selectedEditUser._id}`, newUserData)
             .then((response) => {
                 toast.success('User updated successfully');
                 setIsEditModalVisible(false);
-                setUsers(users.map((user) => (user._id === selectedUser._id ? response.data.user : user)));
+                setUsers(users.map((user) => (user._id === selectedEditUser._id ? response.data.user : user)));
+            })
+            .catch((error) => {
+                console.error('Error updating user:', error);
+                toast.error('Error updating user');
+            });
+    };
+    const handleAddFormFinish = (values) => {
+        const { name, email, address, password, phoneNumber, role } = values;
+
+        addForm.setFieldsValue({
+            name,
+            email, 
+            password,
+            address,
+            phoneNumber,
+            role,
+        });
+
+        const newUserData = {
+            name,
+            email, 
+            password,
+            address,
+            phoneNumber,
+            role
+        };
+
+        axios
+            .post(`/api/v1/admin/user/`, newUserData)
+            .then((response) => {
+                toast.success('User added successfully');
+                setIsEditModalVisible(false);  
+                addForm.resetFields();
             })
             .catch((error) => {
                 console.error('Error updating user:', error);
@@ -170,7 +217,7 @@ function ManageUser() {
                         onChange={(e) => setSearchKeyword(e.target.value)}
                         onSearch={() => fetchUsers(currentPage, searchKeyword)}
                     />
-                    <Button type="primary" style={{ marginLeft: '8px' }}>
+                    <Button type="primary" style={{ marginLeft: '8px' }} onClick={() => setIsAddModalVisible(true)}>
                         <FontAwesomeIcon icon={faAdd} />
                     </Button>
                 </div>
@@ -185,17 +232,50 @@ function ManageUser() {
                         }}
                     />
                 )}
+                {/* Modal Edit */}
                 <Modal
                     title="Edit User"
                     visible={isEditModalVisible}
                     onOk={handleEditModalOk}
                     onCancel={handleEditModalCancel}
                 >
-                    <Form form={form} onFinish={handleEditFormFinish}>
+                    <Form form={editForm} onFinish={handleEditFormFinish}>
                         <Form.Item name="name" label="Name" rules={[{ required: true }]}>
                             <Input />
                         </Form.Item>
                         <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email' }]}>
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item name="address" label="Address" rules={[{ required: true }]}>
+                            <Input />
+                        </Form.Item>
+                        <Form.Item name="phoneNumber" label="Phone Number" rules={[{ required: true }]}>
+                            <Input />
+                        </Form.Item>
+                        <Form.Item name="role" label="Role" rules={[{ required: true }]}>
+                            <Radio.Group>
+                                <Radio value="admin">Admin</Radio>
+                                <Radio value="user">User</Radio>
+                            </Radio.Group>
+                        </Form.Item>
+                    </Form>
+                </Modal>
+                {/* Modal Add */}
+                <Modal
+                    title="Add User"
+                    visible={isAddModalVisible}
+                    onOk={handleAddModalOk}
+                    onCancel={handleAddModalCancel}
+                >
+                    <Form form={addForm} onFinish={handleAddFormFinish}>
+                        <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+                            <Input />
+                        </Form.Item>
+                        <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email' }]}>
+                            <Input />
+                        </Form.Item> 
+                        <Form.Item name="password" label="Password" rules={[{ required: true, type: 'password' }]}>
                             <Input />
                         </Form.Item>
                         <Form.Item name="address" label="Address" rules={[{ required: true }]}>

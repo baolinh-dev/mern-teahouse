@@ -237,7 +237,7 @@ exports.getSingleUser = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-// Update User Role
+// Update User 
 exports.updateUser = catchAsyncErrors(async (req, res, next) => {
     const newUserData = {
         name: req.body.name,
@@ -257,7 +257,26 @@ exports.updateUser = catchAsyncErrors(async (req, res, next) => {
         success: true,
         user,
     });
-});
+}); 
+
+// Create User 
+exports.createUser = catchAsyncErrors(async (req, res, next) => {
+    const newUserData = {
+      name: req.body.name,
+      email: req.body.email, 
+      password: req.body.password,
+      role: req.body.role,
+      address: req.body.address,
+      phoneNumber: req.body.phoneNumber,
+    };
+  
+    const user = await User.create(newUserData);
+  
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  });
 
 // Delete User (Admin)
 exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
