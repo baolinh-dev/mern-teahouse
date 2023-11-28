@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Table, Button, Space, Popconfirm, Modal, Form, Input, Radio } from 'antd';
+import { Table, Button, Space, Popconfirm, Modal, Form, Input, Radio, Select } from 'antd';
 import AdminLayout from '~/layouts/AdminLayout';
 import { toast } from 'react-toastify';
 import Pagination from '~/components/Pagination';
@@ -31,8 +31,109 @@ function ManageUser() {
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [addForm] = Form.useForm();
     const [selectedAddFile, setSelectedAddFile] = useState(null);
+    // address
+    const host = 'https://provinces.open-api.vn/api/';
+    const [provinces, setProvinces] = useState([]);
+    const [districts, setDistricts] = useState([]);
+    const [wards, setWards] = useState([]);
+    const [selectedProvince, setSelectedProvince] = useState('');
+    const [selectedDistrict, setSelectedDistrict] = useState('');
+    const [selectedWard, setSelectedWard] = useState('');
+    const [houseNumber, setHouseNumber] = useState('');
+    const [editAddressConplete, setEditAddressConplete] = useState('');
+    const [addAddressConplete, setAddAddressConplete] = useState('');
 
     console.log('selectedAddFile', selectedAddFile);
+
+    const callAPI = async (api, renderCallback) => {
+        try {
+            const response = await axios.get(api);
+            renderCallback(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    const renderData = (array, select) => {
+        const row = array.map((element) => (
+            <option key={element.code} value={element.code}>
+                {element.name}
+            </option>
+        ));
+        select === 'province' ? setProvinces(row) : select === 'district' ? setDistricts(row) : setWards(row);
+    };
+
+    const createFullAddress = useCallback(() => {
+        let address = '';
+
+        if (houseNumber !== '') {
+            address += `${houseNumber} | `;
+        }
+
+        if (selectedProvince !== '') {
+            const provinceOption = document.querySelector(`#province option[value="${selectedProvince}"]`);
+            address += provinceOption.textContent;
+        }
+
+        if (selectedDistrict !== '') {
+            const districtOption = document.querySelector(`#district option[value="${selectedDistrict}"]`);
+            address += ` | ${districtOption.textContent}`;
+        }
+
+        if (selectedWard !== '') {
+            const wardOption = document.querySelector(`#ward option[value="${selectedWard}"]`);
+            address += ` | ${wardOption.textContent}`;
+        }
+
+        return address;
+    }, [houseNumber, selectedProvince, selectedDistrict, selectedWard]);
+
+    useEffect(() => {
+        const updatedAddress = createFullAddress();
+
+        editForm.setFieldsValue({
+            address: updatedAddress,
+        });
+
+        addForm.setFieldsValue({
+            address: updatedAddress,
+        });
+
+        setEditAddressConplete(updatedAddress);
+        setAddAddressConplete(updatedAddress);
+
+        console.log('updatedAddress', updatedAddress);
+    }, [houseNumber, selectedProvince, selectedDistrict, selectedWard, createFullAddress]);
+
+    useEffect(() => {
+        // Lấy danh sách tỉnh/thành phố và render vào select box
+        callAPI(host + '?depth=1', (data) => renderData(data, 'province'));
+    }, []);
+
+    // Xử lý sự kiện thay đổi select box tỉnh/thành phố
+    const handleProvinceChange = (e) => {
+        setSelectedProvince(e.target.value);
+        setSelectedDistrict('');
+        setSelectedWard('');
+        callAPI(host + 'p/' + e.target.value + '?depth=2', (data) => renderData(data.districts, 'district'));
+    };
+
+    // Xử lý sự kiện thay đổi select box quận/huyện
+    const handleDistrictChange = (e) => {
+        setSelectedDistrict(e.target.value);
+        setSelectedWard('');
+        callAPI(host + 'd/' + e.target.value + '?depth=2', (data) => renderData(data.wards, 'ward'));
+    };
+
+    // Xử lý sự kiện thay đổi select box phường/xã
+    const handleWardChange = (e) => {
+        setSelectedWard(e.target.value);
+    };
+
+    // Xử lý sự kiện thay đổi input số nhà
+    const handleHouseNumberChange = (e) => {
+        setHouseNumber(e.target.value);
+    };
 
     const fetchUsers = (currentPage, keyword) => {
         axios
@@ -125,11 +226,11 @@ function ManageUser() {
                 url: imageUrl,
             };
 
-            newUserData.avatar = avatarValue; 
+            newUserData.avatar = avatarValue;
 
-            console.log("selectedEditUser._id", selectedEditUser._id); 
+            console.log('selectedEditUser._id', selectedEditUser._id);
 
-            console.log("newUserData", newUserData);
+            console.log('newUserData', newUserData);
 
             axios
                 .put(`/api/v1/admin/user/${selectedEditUser._id}`, newUserData)
@@ -189,7 +290,7 @@ function ManageUser() {
                 .post(`/api/v1/admin/user/`, newUserData)
                 .then((response) => {
                     toast.success('User added successfully');
-                    setIsEditModalVisible(false);
+                    setIsAddModalVisible(false);
                     addForm.resetFields();
                 })
                 .catch((error) => {
@@ -302,7 +403,43 @@ function ManageUser() {
                         </Form.Item>
 
                         <Form.Item name="address" label="Address" rules={[{ required: true }]}>
-                            <Input />
+                            <div className={cx('form-group')}>
+                                <select id="province" onChange={handleProvinceChange}>
+                                    <option value="">Chọn tỉnh/thành phố</option>
+                                    {provinces}
+                                </select>
+                            </div>
+                            <div className={cx('form-group')}>
+                                <select id="district" onChange={handleDistrictChange}>
+                                    <option value="">Chọn quận/huyện</option>
+                                    {districts}
+                                </select>
+                            </div>
+                            <div className={cx('form-group')}>
+                                <select id="ward" onChange={handleWardChange}>
+                                    <option value="">Chọn phường/xã</option>
+                                    {wards}
+                                </select>
+                            </div>
+                            <div className={cx('form-group')}>
+                                <Input
+                                    type="text"
+                                    placeholder="Số nhà"
+                                    value={houseNumber}
+                                    onChange={handleHouseNumberChange}
+                                />
+                            </div>
+                            <div className={cx('form-group')}>
+                                <Input
+                                    onChange={() =>
+                                        editForm.setFieldsValue({
+                                            address: editAddressConplete,
+                                        })
+                                    }
+                                    placeholder="Địa chỉ"
+                                    value={editAddressConplete}
+                                />
+                            </div>
                         </Form.Item>
                         <Form.Item name="phoneNumber" label="Phone Number" rules={[{ required: true }]}>
                             <Input />
@@ -352,7 +489,43 @@ function ManageUser() {
                             <Input />
                         </Form.Item>
                         <Form.Item name="address" label="Address" rules={[{ required: true }]}>
-                            <Input />
+                            <div className={cx('form-group')}>
+                                <select id="province" onChange={handleProvinceChange}>
+                                    <option value="">Chọn tỉnh/thành phố</option>
+                                    {provinces}
+                                </select>
+                            </div>
+                            <div className={cx('form-group')}>
+                                <select id="district" onChange={handleDistrictChange}>
+                                    <option value="">Chọn quận/huyện</option>
+                                    {districts}
+                                </select>
+                            </div>
+                            <div className={cx('form-group')}>
+                                <select id="ward" onChange={handleWardChange}>
+                                    <option value="">Chọn phường/xã</option>
+                                    {wards}
+                                </select>
+                            </div>
+                            <div className={cx('form-group')}>
+                                <Input
+                                    type="text"
+                                    placeholder="Số nhà"
+                                    value={houseNumber}
+                                    onChange={handleHouseNumberChange}
+                                />
+                            </div>
+                            <div className={cx('form-group')}>
+                                <Input
+                                    onChange={() =>
+                                        addForm.setFieldsValue({
+                                            address: editAddressConplete,
+                                        })
+                                    }
+                                    placeholder="Địa chỉ"
+                                    value={editAddressConplete}
+                                />
+                            </div>
                         </Form.Item>
                         <Form.Item name="phoneNumber" label="Phone Number" rules={[{ required: true }]}>
                             <Input />
