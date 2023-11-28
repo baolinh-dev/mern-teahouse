@@ -1,5 +1,4 @@
 const ErrorHandler = require('../utils/errorHandler');
-const ApiFeatures = require('../utils/apifeatures');
 
 const User = require('../models/userModel');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
