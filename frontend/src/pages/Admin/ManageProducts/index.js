@@ -27,7 +27,6 @@ function ManageProducts() {
     const [editForm] = Form.useForm();
     const [selectedEditFile, setSelectedEditFile] = useState(null);
 
-    const [selectedAddProduct, setSelectedAddProduct] = useState(null);
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [addForm] = Form.useForm();
     const [selectedAddFile, setSelectedAddFile] = useState(null);

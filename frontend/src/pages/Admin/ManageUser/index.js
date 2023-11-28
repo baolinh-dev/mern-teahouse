@@ -8,6 +8,12 @@ import classNames from 'classnames/bind';
 import styles from './ManageUser.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
+// Upload
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '~/firebase';
+import { v4 } from 'uuid';
+import { Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 
 function ManageUser() {
     const cx = classNames.bind({ ...styles, container: 'container' });
@@ -23,6 +29,9 @@ function ManageUser() {
     // Add
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [addForm] = Form.useForm();
+    const [selectedAddFile, setSelectedAddFile] = useState(null);
+
+    console.log('selectedAddFile', selectedAddFile);
 
     const fetchUsers = (currentPage, keyword) => {
         axios
@@ -114,12 +123,12 @@ function ManageUser() {
                 toast.error('Error updating user');
             });
     };
-    const handleAddFormFinish = (values) => {
+    const handleAddFormFinish = async (values) => {
         const { name, email, address, password, phoneNumber, role } = values;
 
         addForm.setFieldsValue({
             name,
-            email, 
+            email,
             password,
             address,
             phoneNumber,
@@ -128,24 +137,45 @@ function ManageUser() {
 
         const newUserData = {
             name,
-            email, 
+            email,
             password,
             address,
             phoneNumber,
-            role
+            role,
         };
 
-        axios
-            .post(`/api/v1/admin/user/`, newUserData)
-            .then((response) => {
-                toast.success('User added successfully');
-                setIsEditModalVisible(false);  
-                addForm.resetFields();
-            })
-            .catch((error) => {
-                console.error('Error updating user:', error);
-                toast.error('Error updating user');
-            });
+        const imageName = v4(); // Tạo tên duy nhất cho hình ảnh
+        const storageRef = ref(storage, `profile-images/${imageName}`);
+
+        try {
+            await uploadBytes(storageRef, selectedAddFile);
+
+            const imageUrl = await getDownloadURL(storageRef);
+
+            const avatarValue = {
+                public_id: imageName,
+                url: imageUrl,
+            };
+
+            newUserData.avatar = avatarValue;  
+
+            console.log("newUserData", newUserData); 
+            
+            axios
+                .post(`/api/v1/admin/user/`, newUserData)
+                .then((response) => {
+                    toast.success('User added successfully');
+                    setIsEditModalVisible(false);
+                    addForm.resetFields();
+                })
+                .catch((error) => {
+                    console.error('Error updating user:', error);
+                    toast.error('Error updating user');
+                });
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            toast.error('Error uploading image');
+        }
     };
 
     const columns = [
@@ -274,7 +304,7 @@ function ManageUser() {
                         </Form.Item>
                         <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email' }]}>
                             <Input />
-                        </Form.Item> 
+                        </Form.Item>
                         <Form.Item name="password" label="Password" rules={[{ required: true, type: 'password' }]}>
                             <Input />
                         </Form.Item>
@@ -284,6 +314,27 @@ function ManageUser() {
                         <Form.Item name="phoneNumber" label="Phone Number" rules={[{ required: true }]}>
                             <Input />
                         </Form.Item>
+
+                        <Form.Item
+                            name="images"
+                            label="Image"
+                            rules={[{ required: true, message: 'Please upload an image' }]}
+                        >
+                            <Upload
+                                accept="image/*"
+                                beforeUpload={(file) => {
+                                    setSelectedAddFile(file);
+                                    return false;
+                                }}
+                                fileList={selectedAddFile ? [selectedAddFile] : []}
+                                showUploadList={{
+                                    showRemoveIcon: false,
+                                }}
+                            >
+                                <Button icon={<UploadOutlined />}>Select Image</Button>
+                            </Upload>
+                        </Form.Item>
+
                         <Form.Item name="role" label="Role" rules={[{ required: true }]}>
                             <Radio.Group>
                                 <Radio value="admin">Admin</Radio>
