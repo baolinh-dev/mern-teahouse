@@ -29,7 +29,6 @@ const PaymentForm = () => {
     const [houseNumber, setHouseNumber] = useState('');
     // State để lưu trữ thông tin giỏ hàng từ localStorage
 
-
     const [userDataLoaded, setUserDataLoaded] = useState(false);
     const [error, setError] = useState(null);
     // State để lưu trữ thông tin người dùng nhập vào từ các input
@@ -47,7 +46,7 @@ const PaymentForm = () => {
         status: 'Processing',
     });
     // Hàm để gọi API và render dữ liệu
-    const carts = useSelector((state) => state.carts);  
+    const cart = useSelector((state) => state.carts);
     const notifications = useSelector((state) => state.notifications);
     const dispatch = useDispatch();
 
@@ -174,16 +173,16 @@ const PaymentForm = () => {
         }
     }, [userDataLoaded, error]);
 
-
     // Hàm xử lý khi người dùng submit form
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Notifications
         const authorAvatar = customerInfo.avatar;
         const authorName = customerInfo.name;
         const typeNoti = 'orderSuccess';
-        const total = carts.reduce((acc, item) => acc + item.price * item.quantity, 0);
-        const content = `${customerInfo.name} đã đặt hàng thành công với số tiền ${total.toLocaleString('vi-VN', {
+        const totalProductPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        const content = `${customerInfo.name} đã đặt hàng thành công với số tiền ${totalProductPrice.toLocaleString('vi-VN', {
             style: 'currency',
             currency: 'VND',
         })}`;
@@ -199,17 +198,21 @@ const PaymentForm = () => {
             idNoti,
             date: formattedDate,
         };
-
+        // FormDatas
         const formData = {
-            carts,
+            cart, 
             customerInfo,
             orderInfo,
-        };
+        }; 
 
-        if (formData.carts.length === 0) {
+        console.log("formData.carts", formData.cart);
+
+        if (formData.cart.length === 0) {
             toast.warn('Giỏ hàng đang trống');
             return;
         }
+
+        console.log('formData', formData);
 
         axios
             .post('/api/v1/order/new', formData)
@@ -353,8 +356,8 @@ const PaymentForm = () => {
                         </div>
                     </div>
                     <div className={cx('cart')}>
-                        {carts.length > 0 ? (
-                            <Cart cartItems={carts} />
+                        {cart.length > 0 ? (
+                            <Cart cartItems={cart} />
                         ) : (
                             <div className={cx('empty-cart')}>
                                 <FontAwesomeIcon icon={faCartShopping} />

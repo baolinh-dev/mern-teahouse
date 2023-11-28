@@ -15,7 +15,9 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
 
     // Lấy thông tin người dùng từ request
     const { cart, totalProductPrice, customerInfo, orderInfo } = req.body;
-    const userId = req.user._id;
+    const userId = req.user._id; 
+
+    console.log("cart", cart);
 
     // Tạo đơn hàng mới
     const order = await Order.create({
