@@ -7,7 +7,7 @@ import styles from './MenuItem.module.scss';
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function MenuItem({ contentHeading, desc, listItem }) {
-    
+    console.log("listItem", listItem);
     return (
         <div className={cx('menu-item')}>
             <div className={cx('title')}>
@@ -17,7 +17,10 @@ function MenuItem({ contentHeading, desc, listItem }) {
             </div>
             <div className={cx('desc')}>
                 <p>{desc}</p>
-            </div>
+            </div> 
+
+            
+
             <div className={cx('list')}>
                 {listItem.map((product) => (
                     <ProductItem

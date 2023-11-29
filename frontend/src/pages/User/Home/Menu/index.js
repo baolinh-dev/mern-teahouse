@@ -1,35 +1,17 @@
 import axios from 'axios';
 import Heading from '~/components/Heading';
-
 import ContainerHeading from '~/components/ContainerHeading';
 import { useEffect, useState } from 'react';
 import ProductItem from '~/components/ProductItem';
-
 import classNames from 'classnames/bind';
 import styles from './Menu.module.scss';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
-const tabtitles = [
-    {
-        content: 'Cà phê',
-    },
-    {
-        content: 'Bánh ngọt',
-    },
-    {
-        content: 'Smoothies',
-    },
-    {
-        content: 'Trà hoa quả',
-    },
-    {
-        content: 'Trà sữa',
-    },
-];
-
 function Menu() {
     const [selectedTab, setSelectedTab] = useState(0);
+    const [categories, setCategories] = useState([]);
+    const [categoryNames, setCategoryNames] = useState([]);
     const [products, setProducts] = useState([]);
 
     const handleTabClick = (index) => {
@@ -37,18 +19,36 @@ function Menu() {
     };
 
     useEffect(() => {
-        const category = tabtitles[selectedTab].content;
         axios
-            .get(`/api/v1/products?category=${category}`)
+            .get('/api/v1/categories?page=all')
             .then((response) => {
-                setProducts(response.data.products);
+                setCategories(response.data.categories);
+                if (response.data.categories.length > 0) {
+                    setSelectedTab(0);
+                    const names = response.data.categories.map((category) => category.name);
+                    setCategoryNames(names);
+                }
             })
             .catch((error) => {
                 console.log(error);
             });
-    }, [selectedTab]); 
+    }, []);
 
-    console.log("products", products[0]);
+    useEffect(() => {
+        if (categories.length > 0) {
+            const category = categoryNames[selectedTab]; 
+            console.log("category", category.name);
+
+            axios
+                .get(`/api/v1/products?category=${category}`)
+                .then((response) => {
+                    setProducts(response.data.products);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    }, [selectedTab, categories]);
 
     return (
         <div className={cx('menu')}>
@@ -59,32 +59,32 @@ function Menu() {
             </div>
             <div className={cx('tabs-title')}>
                 <ul>
-                    {tabtitles.map((tabtitle, index) => (
+                    {categoryNames.map((categoryName, index) => (
                         <li
                             key={index}
                             className={selectedTab === index ? cx('active') : ''}
                             onClick={() => handleTabClick(index)}
                         >
-                            {tabtitle.content}
+                            {categoryName}
                         </li>
                     ))}
                 </ul>
             </div>
             <div className={cx('products', 'container')}>
-                    {products !== undefined && products.length > 0 ? (
-                        products.map((product, index) => (
-                            <ProductItem
-                                id={product._id}
-                                key={index}
-                                imageUrl={product.images[0].url}
-                                price={product.price}
-                                nameProduct={product.name}
-                            />
-                        ))
-                    ) : (
-                        <p>No products available.</p>
-                    )}
-                </div>
+                {products !== undefined && products.length > 0 ? (
+                    products.map((product, index) => (
+                        <ProductItem
+                            id={product._id}
+                            key={index}
+                            imageUrl={product.images[0].url}
+                            price={product.price}
+                            nameProduct={product.name}
+                        />
+                    ))
+                ) : (
+                    <p>No products available.</p>
+                )}
+            </div>
         </div>
     );
 }
