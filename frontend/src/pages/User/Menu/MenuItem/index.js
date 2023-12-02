@@ -7,7 +7,7 @@ import styles from './MenuItem.module.scss';
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function MenuItem({ contentHeading, desc, listItem }) {
-    console.log("listItem", listItem);
+    // console.log("listItem", listItem);
     return (
         <div className={cx('menu-item')}>
             <div className={cx('title')}>

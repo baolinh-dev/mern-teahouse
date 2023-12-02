@@ -17,7 +17,6 @@ function Topbar() {
     const carts = useSelector((state) => state.carts);  
     const dispatch = useDispatch(); 
 
-    console.log("carts carts", carts);
 
     const [userData, setUserData] = useState(null);
     const [shouldRedirect, setShouldRedirect] = useState(false);
@@ -58,8 +57,6 @@ function Topbar() {
             console.log(error);
         }
     };
-
-
 
     const totalPrice = carts.reduce((total, item) => total + item.price * item.quantity, 0);
 

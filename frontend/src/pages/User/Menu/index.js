@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Breadcrumb from '~/components/Breadcrumb';
 import MenuItem from './MenuItem';
@@ -10,32 +10,35 @@ import MainLayout from '~/layouts/MainLayout';
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function Menu() {
-    const [caPheProducts, setCaPheProducts] = useState([]);
-    const [caPheCurrentPage, setCaPheCurrentPage] = useState(1);
-    const [caPheTotalPages, setCaPheTotalPages] = useState(0);
+    const [categories, setCategories] = useState([]);
+    const [categoryNames, setCategoryNames] = useState([]);
+    const [products, setProducts] = useState({});
+    const [currentPage, setCurrentPage] = useState({});
+    const [totalPages, setTotalPages] = useState({});
+    const descs = {
+        'Cà phê':
+            'Một món đồ uống tuyệt vời để bắt đầu ngày mới. Vị đắng đặc trưng của cà phê hòa quyện với hương thơm thảo mộc, mang lại sự tỉnh táo và sảng khoái.',
+        'Bánh ngọt':
+            'Những món bánh ngọt ngon lành, được làm từ những nguyên liệu tươi ngon và tinh túy. Vị ngọt ngào sẽ làm tan chảy trái tim bạn.',
+        Smoothies:
+            'Thức uống trái cây tươi mát, giàu chất dinh dưỡng và hương vị tuyệt vời. Được làm từ những loại trái cây tươi ngon, smoothies là lựa chọn hoàn hảo cho một ngày nắng nóng.',
+        'Trà hoa quả':
+            'Trà hoa quả là sự kết hợp tuyệt vời giữa hương vị tự nhiên của trái cây và hương thơm của trà. Thức uống này không chỉ thỏa mãn khát, mà còn mang lại cảm giác sảng khoái và thư giãn.',
+        'Trà sữa':
+            'Trà sữa là sự kết hợp hoàn hảo giữa trà thảo mộc đậm đà và sữa béo ngậy. Với hương vị đặc trưng và đa dạng, trà sữa là một thức uống phổ biến và được ưa chuộng.',
+        'Nước ngọt':
+            'Một loại nước giải khát ngon lành để giải quyết cơn khát vào những ngày nóng bức. Với vị ngon ngọt và mát lạnh, nước ngọt là lựa chọn tuyệt vời để thưởng thức.',
+    };
 
-    const [banhNgotProducts, setBanhNgotProducts] = useState([]);
-    const [banhNgotCurrentPage, setBanhNgotCurrentPage] = useState(1);
-    const [banhNgotTotalPages, setBanhNgotTotalPages] = useState(0);
-
-    const [smoothiesProducts, setSmoothiesProducts] = useState([]);
-    const [smoothiesCurrentPage, setSmoothiesCurrentPage] = useState(1);
-    const [smoothiesTotalPages, setSmoothiesTotalPages] = useState(0);
-
-    const [traHoaQuaProducts, setTraHoaQuaProducts] = useState([]);
-    const [traHoaQuaCurrentPage, setTraHoaQuaCurrentPage] = useState(1);
-    const [traHoaQuaTotalPages, setTraHoaQuaTotalPages] = useState(0);
-
-    const [traSuaProducts, setTraSuaProducts] = useState([]);
-    const [traSuaCurrentPage, setTraSuaCurrentPage] = useState(1);
-    const [traSuaTotalPages, setTraSuaTotalPages] = useState(0);
-
-    const fetchProducts = useCallback((category, currentPage, setProducts, setTotalPages) => {
+    useEffect(() => {
         axios
-            .get(`/api/v1/products?category=${category}&page=${currentPage}`)
+            .get('/api/v1/categories?page=all')
             .then((response) => {
-                setProducts(response.data.products);
-                setTotalPages(Math.ceil(response.data.productCount / 4));
+                setCategories(response.data.categories);
+                if (response.data.categories.length > 0) {
+                    const names = response.data.categories.map((category) => category.name);
+                    setCategoryNames(names);
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -43,44 +46,42 @@ function Menu() {
     }, []);
 
     useEffect(() => {
-        fetchProducts('Cà phê', caPheCurrentPage, setCaPheProducts, setCaPheTotalPages);
-    }, [caPheCurrentPage, fetchProducts]);
+        const fetchProducts = async () => {
+            if (categoryNames.length > 0) {
+                const fetchedProducts = {};
+                const fetchedTotalPages = {};
 
-    useEffect(() => {
-        fetchProducts('Bánh ngọt', banhNgotCurrentPage, setBanhNgotProducts, setBanhNgotTotalPages);
-    }, [banhNgotCurrentPage, fetchProducts]);
+                for (const category of categoryNames) {
+                    try {
+                        const response = await axios.get(`/api/v1/products?category=${category}`);
+                        fetchedProducts[category] = response.data.products;
+                        fetchedTotalPages[category] = Math.ceil(
+                            response.data.productCount / response.data.numberProductsPerPage,
+                        );
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
 
-    useEffect(() => {
-        fetchProducts('Smoothies', smoothiesCurrentPage, setSmoothiesProducts, setSmoothiesTotalPages);
-    }, [smoothiesCurrentPage, fetchProducts]);
+                setProducts(fetchedProducts);
+                setTotalPages(fetchedTotalPages);
+                setCurrentPage({}); // Đặt trang hiện tại về trống khi danh sách sản phẩm thay đổi
+            }
+        };
 
-    useEffect(() => {
-        fetchProducts('Trà hoa quả', traHoaQuaCurrentPage, setTraHoaQuaProducts, setTraHoaQuaTotalPages);
-    }, [traHoaQuaCurrentPage, fetchProducts]);
+        fetchProducts();
+    }, [categoryNames]);
 
-    useEffect(() => {
-        fetchProducts('Trà sữa', traSuaCurrentPage, setTraSuaProducts, setTraSuaTotalPages);
-    }, [traSuaCurrentPage, fetchProducts]);
-
-    const handleTraHoaQuaPageChange = (pageNumber) => {
-        setTraHoaQuaCurrentPage(pageNumber);
+    const handlePageChange = (category, page) => {
+        setCurrentPage((prevCurrentPage) => {
+            return {
+                ...prevCurrentPage,
+                [category]: page,
+            };
+        });
     };
 
-    const handleCaPhePageChange = (pageNumber) => {
-        setCaPheCurrentPage(pageNumber);
-    };
-
-    const handleBanhNgotPageChange = (pageNumber) => {
-        setBanhNgotCurrentPage(pageNumber);
-    };
-
-    const handleSmoothiesPageChange = (pageNumber) => {
-        setSmoothiesCurrentPage(pageNumber);
-    };
-
-    const handleTraSuaPageChange = (pageNumber) => {
-        setTraSuaCurrentPage(pageNumber);
-    };
+    console.log('categories', categories);
 
     return (
         <>
@@ -92,76 +93,20 @@ function Menu() {
                             { label: 'Thực đơn', active: true },
                         ]}
                     />
-                    <div className={cx('item')}>
-                        <MenuItem
-                            contentHeading={'TRÀ HOA QUẢ'}
-                            desc={
-                                'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
-                            }
-                            listItem={traHoaQuaProducts}
-                        />
-                        <Pagination
-                            currentPage={traHoaQuaCurrentPage}
-                            totalPages={traHoaQuaTotalPages}
-                            onPageChange={handleTraHoaQuaPageChange}
-                        />
-                    </div>
-                    <div className={cx('item')}>
-                        <MenuItem
-                            contentHeading={'CÀ PHÊ'}
-                            desc={
-                                'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
-                            }
-                            listItem={caPheProducts}
-                        />
-                        <Pagination
-                            currentPage={caPheCurrentPage}
-                            totalPages={caPheTotalPages}
-                            onPageChange={handleCaPhePageChange}
-                        />
-                    </div>
-                    <div className={cx('item')}>
-                        <MenuItem
-                            contentHeading={'BÁNH NGỌT'}
-                            desc={
-                                'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
-                            }
-                            listItem={banhNgotProducts}
-                        />
-                        <Pagination
-                            currentPage={banhNgotCurrentPage}
-                            totalPages={banhNgotTotalPages}
-                            onPageChange={handleBanhNgotPageChange}
-                        />
-                    </div>
-                    <div className={cx('item')}>
-                        <MenuItem
-                            contentHeading={'SMOOTHIES'}
-                            desc={
-                                'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
-                            }
-                            listItem={smoothiesProducts}
-                        />
-                        <Pagination
-                            currentPage={smoothiesCurrentPage}
-                            totalPages={smoothiesTotalPages}
-                            onPageChange={handleSmoothiesPageChange}
-                        />
-                    </div>
-                    <div className={cx('item')}>
-                        <MenuItem
-                            contentHeading={'TRÀ SỮA'}
-                            desc={
-                                'Hương vị tự nhiên, thơm ngon của Trà Việt với phong cách hiện đại tại Tea House sẽ giúp bạn gợi mở vị giác của bản thân và tận hưởng một cảm giác thật khoan khoái, tươi mới.'
-                            }
-                            listItem={traSuaProducts}
-                        />
-                        <Pagination
-                            currentPage={traSuaCurrentPage}
-                            totalPages={traSuaTotalPages}
-                            onPageChange={handleTraSuaPageChange}
-                        />
-                    </div>
+                    {categories.map((category) => (
+                        <div className={cx('item')} key={category.id}>
+                            <MenuItem
+                                contentHeading={category.name}
+                                desc={descs[category.name]}
+                                listItem={products[category.name] || []}
+                            />
+                            <Pagination
+                                currentPage={currentPage[category.name] || 1}
+                                totalPages={totalPages[category.name] || 1}
+                                onPageChange={(page) => handlePageChange(category.name, page)}
+                            />
+                        </div>
+                    ))}
                 </div>
             </MainLayout>
         </>
