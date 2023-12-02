@@ -22,16 +22,18 @@ function ProductCategory() {
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
         { label: category, active: true },
-    ];
+    ]; 
+
+    console.log("category", category);
 
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [searchKeyword, setSearchKeyword] = useState('');
     const [searchStatus, setSearchStatus] = useState(false);
-    const [values, setValues] = useState([20000, 80000]);
+    const [values, setValues] = useState([5000, 80000]);
 
-    const min = 20000;
+    const min = 5000;
     const max = 80000;
 
     function handleChange(newValues) {
@@ -56,6 +58,8 @@ function ProductCategory() {
 
         fetchProducts();
     }, [category, currentPage, searchKeyword, values]);
+
+    console.log('values[0]', values[0], values[1]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);

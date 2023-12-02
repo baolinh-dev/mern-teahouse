@@ -4,7 +4,7 @@ const { isAuthenticatedUser, authorizerRoles, adminOnly } = require('../middlewa
 const router = express.Router();
 
 // User
-router.route('/categories').get(isAuthenticatedUser, adminOnly, getAllCategories);
+router.route('/categories').get(isAuthenticatedUser, getAllCategories);
 router.route('/category').post(isAuthenticatedUser, adminOnly, createCategory);
 router
     .route('/category/:id')

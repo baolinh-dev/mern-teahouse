@@ -71,6 +71,12 @@ function Navigation() {
                             >
                                 Trà sữa
                             </Link>
+                            <Link
+                                className={isActive('/productCategory?category=Nước ngọt')}
+                                to="/productCategory?category=Nước ngọt"
+                            >
+                                Nước ngọt
+                            </Link>
                         </div>
                     </li>
                 </ul>
