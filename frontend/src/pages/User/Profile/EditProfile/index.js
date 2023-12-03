@@ -129,7 +129,6 @@ function EditProfile() {
     };
 
     useEffect(() => {
-        console.log('Image URL changed:', imageUrl);
         setUpdatedProfile((prevProfile) => ({
             ...prevProfile,
             avatar: {
@@ -137,34 +136,35 @@ function EditProfile() {
                 url: imageUrl,
             },
         }));
-    }, [imageUrl]);
-
-    console.log(updatedProfile.avatar.url);
+    }, []);
 
     useEffect(() => {
         axios
             .get('/api/v1/me')
             .then((response) => {
                 setUpdatedProfile(response.data.user);
-                console.log('response.data.user', response.data.user);
             })
             .catch((err) => {
                 setError(err.response.data.message);
                 console.log(error);
                 toast.error(err.response.data.message);
             });
-    }, [error, updatedProfile]);
+    }, []);
 
     const handleInputChange = (e) => {
+        console.log('e.target.name', e.target.name);
+        console.log('e.target.value', e.target.value);
         setUpdatedProfile((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value,
         }));
     };
 
+    console.log('updatedProfile', updatedProfile);
+
     const handleFileUpload = (e) => {
-        const file = e.target.files[0]; 
-        
+        const file = e.target.files[0];
+
         const storageRef = ref(storage, 'profile-images/' + v4());
 
         uploadBytes(storageRef, file).then(() => {
@@ -188,8 +188,9 @@ function EditProfile() {
 
         axios
             .put('/api/v1/me/update', updatedProfileClone)
-            .then((response) => {
+            .then(() => {
                 toast.success('Profile updated successfully');
+                setTimeout(() => window.location.reload(), 1000);
             })
             .catch((error) => {
                 toast.error('Failed to update profile');
