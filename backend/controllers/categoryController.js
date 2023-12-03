@@ -12,13 +12,11 @@ exports.createCategory = catchAsyncErrors(async (req, res, next) => {
 
 exports.getAllCategories = catchAsyncErrors(async (req, res, next) => {
     const page = req.query.page || 1;
-    const limit = 4;
+    const limit = 8;
     const keyword = req.query.keyword;
 
     if (page === 'all') {
-        // Trả về tất cả danh mục
         const query = keyword ? { name: { $regex: keyword, $options: 'i' } } : {};
-
         const categories = await Category.find(query);
 
         res.status(200).json({
@@ -78,5 +76,17 @@ exports.deleteCategory = catchAsyncErrors(async (req, res, next) => {
     res.status(200).json({
         success: true,
         message: 'Category deleted successfully',
+    });
+}); 
+
+// Get Product Details
+exports.getDetailCategory = catchAsyncErrors(async (req, res, next) => {
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+        return next(new ErrorHandler('Product not found', 404));
+    }
+    res.status(200).json({
+        success: true,
+        category,
     });
 });
