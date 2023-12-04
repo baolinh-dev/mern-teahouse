@@ -20,7 +20,7 @@ function OrderAppovalItem({ order }) {
                 body: JSON.stringify({ status: newStatus }),
             });
 
-            if (response.ok) { 
+            if (response.ok) {
                 toast.success(`Cập nhật trạng thái đơn hàng thành ${newStatus}`);
                 console.log('Cập nhật trạng thái đơn hàng thành công');
             } else {
@@ -39,29 +39,32 @@ function OrderAppovalItem({ order }) {
                 <img alt={order.customerInfo.name} width={200} src={order.customerInfo.avatar} />
                 <h3>{order.customerInfo.name}</h3>
             </div>
-            <select
-                value={selectedStatus}
-                onChange={handleStatusChange}
-                className={cx('custom-select', {
-                    delivered: selectedStatus === 'Delivered',
-                    cancelled: selectedStatus === 'Cancelled',
-                    refunded: selectedStatus === 'Refunded',
-                    processing: selectedStatus === 'Processing',
-                })}
-            >
-                <option value="Delivered" selected={selectedStatus === 'Delivered'}>
-                    Delivered
-                </option>
-                <option value="Cancelled" selected={selectedStatus === 'Cancelled'}>
-                    Cancelled
-                </option>
-                <option value="Refunded" selected={selectedStatus === 'Refunded'}>
-                    Refunded
-                </option>
-                <option value="Processing" selected={selectedStatus === 'Processing'}>
-                    Processing
-                </option>
-            </select>
+            <div className={cx('options')}>
+                <select
+                    value={selectedStatus}
+                    onChange={handleStatusChange}
+                    className={cx('custom-select', {
+                        delivered: selectedStatus === 'Delivered',
+                        cancelled: selectedStatus === 'Cancelled',
+                        refunded: selectedStatus === 'Refunded',
+                        processing: selectedStatus === 'Processing',
+                    })}
+                >
+                    <option value="Delivered" selected={selectedStatus === 'Delivered'}>
+                        Delivered
+                    </option>
+                    <option value="Cancelled" selected={selectedStatus === 'Cancelled'}>
+                        Cancelled
+                    </option>
+                    <option value="Refunded" selected={selectedStatus === 'Refunded'}>
+                        Refunded
+                    </option>
+                    <option value="Processing" selected={selectedStatus === 'Processing'}>
+                        Processing
+                    </option>
+                </select>
+            </div>
+
             <p>{order.dateOrder}</p>
             <p className={cx('money')}>
                 {order.totalProductPrice.toLocaleString('vi-VN', {
