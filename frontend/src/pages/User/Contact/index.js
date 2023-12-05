@@ -22,7 +22,7 @@ function Contact() {
         {
             icon: faEnvelope,
             label: 'Email',
-            text: 'tblinh.20it12@vku.udn.vn',
+            text: 'baolinhdev@gmail.com',
         },
         {
             icon: faPhone,
@@ -50,7 +50,7 @@ function Contact() {
                         </div>
                         <div className={cx('infor')}>
                             <ContainerHeading left>
-                                <Heading content={'our contact information'} />
+                                <Heading content={'Hãy liên hệ với chúng tôi'} />
                             </ContainerHeading>
                             <div className={cx('desc')}>
                                 Hãy liên hệ ngay với chúng tôi để nhận được nhiều ưu đãi hấp dẫn dành cho bạn!
