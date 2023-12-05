@@ -10,7 +10,7 @@ const {
     deleteOrder,
 } = require('../controllers/orderController');
 
-const { isAuthenticatedUser, authorizerRoles, adminOnly } = require('../middleware/auth'); 
+const { isAuthenticatedUser, adminOnly } = require('../middleware/auth'); 
 
 
 router.route('/order/new').post(isAuthenticatedUser, newOrder);

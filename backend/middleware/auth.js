@@ -1,7 +1,5 @@
 const userModel = require('../models/userModel');
 const ErrorHandler = require('../utils/errorHandler');
-const catchAsyncErrors = require('./catchAsyncErrors');
-const Cookies = require('js-cookie');
 const jwt = require('jsonwebtoken');
 
 const getTokenFromCookie = (req) => {

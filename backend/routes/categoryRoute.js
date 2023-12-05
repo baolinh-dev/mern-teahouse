@@ -6,7 +6,7 @@ const {
     createCategory,
     getDetailCategory,
 } = require('../controllers/categoryController');
-const { isAuthenticatedUser, authorizerRoles, adminOnly } = require('../middleware/auth');
+const { isAuthenticatedUser, adminOnly } = require('../middleware/auth');
 const router = express.Router();
 
 // User

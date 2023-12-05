@@ -14,7 +14,7 @@ const {
     deleteUser,
     createUser,
 } = require('../controllers/userController');
-const { isAuthenticatedUser, authorizerRoles, adminOnly } = require('../middleware/auth');
+const { isAuthenticatedUser, adminOnly } = require('../middleware/auth');
 const router = express.Router();
 
 router.route('/register').post(registerUser);
