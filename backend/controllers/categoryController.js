@@ -1,5 +1,6 @@
 const Category = require('../models/categoryModel');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
+const ErrorHandler = require('../utils/errorHandler');
 
 exports.createCategory = catchAsyncErrors(async (req, res, next) => {
     const category = await Category.create(req.body);

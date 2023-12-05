@@ -21,12 +21,14 @@ const user = require('./routes/userRoute');
 const order = require('./routes/orderRoute');  
 const notification = require('./routes/notificationRoute'); 
 const category = require('./routes/categoryRoute'); 
+const news = require('./routes/newsRoute'); 
 
 app.use('/api/v1', product);
 app.use('/api/v1', user); 
 app.use('/api/v1', order);  
 app.use('/api/v1', notification); 
 app.use('/api/v1', category); 
+app.use('/api/v1', news); 
 
 // Middleware for error
 app.use(errorMiddleware);

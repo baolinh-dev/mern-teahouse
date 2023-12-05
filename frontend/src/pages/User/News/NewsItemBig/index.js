@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './NewsItemBig.module.scss';
 const cx = classNames.bind(styles);
-function NewsItemBig({ imgUrl, blogUrl, heading }) {
+function NewsItemBig({ imgUrl, blogUrl, title }) {
     return (
         <div className={cx('new-item-big')}>
             <div className={cx('thumb')}>
@@ -11,7 +11,7 @@ function NewsItemBig({ imgUrl, blogUrl, heading }) {
             </div>
             <div className={cx('content-blog')}>
                 <h3>
-                    <a href={blogUrl}>{heading}</a>
+                    <a href={blogUrl}>{title}</a>
                 </h3>
             </div>
         </div>

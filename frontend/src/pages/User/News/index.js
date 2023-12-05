@@ -46,9 +46,7 @@ function News() {
                                         blogUrl={
                                             'https://bizweb.dktcdn.net/100/415/010/articles/untitled-1.jpg?v=1608884901087'
                                         }
-                                        heading={
-                                            'Nhâm nhi cà phê bao lâu nhưng bạn tận mắt nhìn kỹ xem hạt cà phê chưa?'
-                                        }
+                                        title={'Nhâm nhi cà phê bao lâu nhưng bạn tận mắt nhìn kỹ xem hạt cà phê chưa?'}
                                     />
                                 </div>
                                 <div className={cx('col-lg-6', 'col-md-6', 'col-sm-6', 'col-12')}>
@@ -59,7 +57,7 @@ function News() {
                                         blogUrl={
                                             'https://bizweb.dktcdn.net/100/415/010/articles/untitled-5.jpg?v=1608884590463'
                                         }
-                                        heading={'Uống 1-4 tách cà phê mỗi ngày giúp bệnh nhân ung thư kéo dài sự sống'}
+                                        title={'Uống 1-4 tách cà phê mỗi ngày giúp bệnh nhân ung thư kéo dài sự sống'}
                                     />
                                 </div>
                             </div>
