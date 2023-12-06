@@ -29,7 +29,7 @@ function ProductCategory() {
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
-    const [searchKeyword, setSearchKeyword] = useState('');
+    const [searchKeyword, setSearchKeyword] = useState('123');
     const [searchStatus, setSearchStatus] = useState(false);
     const [values, setValues] = useState([5000, 80000]);
 
@@ -42,7 +42,7 @@ function ProductCategory() {
 
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await axios.get('http://localhost:4000/api/v1/products', {
+            const response = await axios.get('/api/v1/products', {
                 params: {
                     page: currentPage,
                     category: category,
@@ -72,7 +72,9 @@ function ProductCategory() {
     const handleSubmit = (event) => {
         event.preventDefault();
         setCurrentPage(1);
-    };
+    }; 
+
+    console.log("products", products);
 
     return (
         <>

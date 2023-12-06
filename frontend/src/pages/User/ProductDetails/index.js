@@ -10,11 +10,13 @@ import MainLayout from '~/layouts/MainLayout';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCart, updateCart } from '~/actions/cartActions';
 import { useParams } from 'react-router-dom';
+import ProductRelated from './ProductRelated';
 
 const cx = classNames.bind({ ...styles, container: 'container', row: 'row' });
 
 const ProductDetails = () => {
     const [product, setProduct] = useState(null);
+    const [productId, setProductId] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [reviews, setReviews] = useState([]); 
     const [category, setCategory]  = useState(''); 
@@ -31,6 +33,7 @@ const ProductDetails = () => {
         const fetchProduct = async () => {
             const res = await axios.get(`/api/v1/product/${id}`);
             setProduct(res.data.product); 
+            setProductId(res.data.product._id); 
             setCategory(res.data.product.category)
             console.log('Product:', res.data.product);
         };
@@ -222,6 +225,9 @@ const ProductDetails = () => {
                                 </div>
                             </div>
                         </div>
+                    </div> 
+                    <div>
+                        <ProductRelated id={productId} category={category}/>
                     </div>
                     <div className={cx('comments', 'container')}>
                         <h3 className={cx('comments-title')}>bình luận</h3>
