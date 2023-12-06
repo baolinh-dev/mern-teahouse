@@ -1,17 +1,20 @@
 import classNames from 'classnames/bind';
 import styles from './NewsItemBig.module.scss';
+import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 function NewsItemBig({ imgUrl, blogUrl, title }) {
     return (
         <div className={cx('new-item-big')}>
             <div className={cx('thumb')}>
-                <a href={blogUrl}>
-                    <img src={imgUrl} alt='thumb'/>
-                </a>
+                <Link to={blogUrl} target="_blank">
+                    <img src={imgUrl} alt="thumb" />
+                </Link>
             </div>
             <div className={cx('content-blog')}>
                 <h3>
-                    <a href={blogUrl}>{title}</a>
+                    <Link to={blogUrl} target="_blank">
+                        {title}
+                    </Link>
                 </h3>
             </div>
         </div>

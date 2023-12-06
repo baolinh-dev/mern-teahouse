@@ -1,6 +1,9 @@
-.news { 
-    margin-top: 100px; 
-    .news-content { 
+.news {
+    margin-top: 100px;
+    .news-content {
+        margin: 0 -20px;
         display: flex;
+        width: 100%;
+        overflow: hidden;
     }
 }
