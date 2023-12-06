@@ -31,11 +31,13 @@ const ProductDetails = () => {
         const fetchProduct = async () => {
             const res = await axios.get(`/api/v1/product/${id}`);
             setProduct(res.data.product); 
-            setCategory(product.category)
+            setCategory(res.data.product.category)
             console.log('Product:', res.data.product);
         };
         fetchProduct();
-    }, [id]); 
+    }, [id]);  
+
+    console.log("category", category);
 
     useEffect(() => {
         const fetchReviews = async () => {
