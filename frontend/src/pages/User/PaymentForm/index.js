@@ -218,13 +218,13 @@ const PaymentForm = () => {
         axios
             .post('/api/v1/order/new', formData)
             .then(() => {
-                if (notifications.length > 0) {
+                if (cart.length > 0) {
                     dispatch(clearNotification());
                     toast.success('Đặt hàng thành công'); 
                     dispatch(clearCart());
                     dispatch(addNotification(notification));
                 } else {
-                    toast.error('Đặt hàng thất bại');
+                    toast.error('Đặt hàng thất bại ok');
                 }
             })
             .catch((error) => {

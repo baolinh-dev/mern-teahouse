@@ -16,7 +16,8 @@ const cx = classNames.bind({ ...styles, container: 'container', row: 'row' });
 const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
-    const [reviews, setReviews] = useState([]);
+    const [reviews, setReviews] = useState([]); 
+    const [category, setCategory]  = useState(''); 
     const [commentForm, setCommentForm] = useState({ rating: '', comment: '' });
 
     const { id } = useParams();
@@ -29,11 +30,12 @@ const ProductDetails = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             const res = await axios.get(`/api/v1/product/${id}`);
-            setProduct(res.data.product);
+            setProduct(res.data.product); 
+            setCategory(product.category)
             console.log('Product:', res.data.product);
         };
         fetchProduct();
-    }, [id]);
+    }, [id]); 
 
     useEffect(() => {
         const fetchReviews = async () => {
