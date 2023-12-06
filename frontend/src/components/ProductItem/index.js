@@ -1,7 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './ProductItem.module.scss';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCart, updateCart } from '~/actions/cartActions';
 

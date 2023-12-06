@@ -1,5 +1,5 @@
 // actions/notificationActions.js
-import { ADD_CART, DELETE_CART, UPDATE_CART, } from "~/actionTypes/cartActionTypes";
+import { ADD_CART, CLEAR_CART, DELETE_CART, UPDATE_CART, } from "~/actionTypes/cartActionTypes";
 
 // Action creators
 export const addCart = (cart) => {
@@ -20,6 +20,13 @@ export const deleteCart = (cartId) => {
         type: DELETE_CART, 
         payload: cartId,
     };
+}; 
+export const clearCart = () => {
+    return {
+        type: CLEAR_CART,
+    };
 };
+
+
 
 

@@ -11,7 +11,7 @@ const notificationsReducer = (state = initialState, action) => {
             const notificationId = action.payload;
             return state.filter((notification) => notification.id !== notificationId);
         case CLEAR_NOTIFICATION:
-            return []; // Đặt mảng notifications thành rỗng
+            return []; 
         default:
             return state;
     }

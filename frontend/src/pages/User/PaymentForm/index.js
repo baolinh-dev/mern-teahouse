@@ -14,6 +14,7 @@ import casual from 'casual-browserify';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNotification, clearNotification } from '~/actions/notificationActions';
 import socket from '~/socket';
+import { clearCart } from '~/actions/cartActions';
 
 const cx = classNames.bind(styles);
 
@@ -216,14 +217,14 @@ const PaymentForm = () => {
 
         axios
             .post('/api/v1/order/new', formData)
-            .then((response) => {
+            .then(() => {
                 if (notifications.length > 0) {
                     dispatch(clearNotification());
-                    toast.success('Đặt hàng thành công');
+                    toast.success('Đặt hàng thành công'); 
+                    dispatch(clearCart());
                     dispatch(addNotification(notification));
                 } else {
-                    toast.success('Đặt hàng thành công');
-                    dispatch(addNotification(notification));
+                    toast.error('Đặt hàng thất bại');
                 }
             })
             .catch((error) => {

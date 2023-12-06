@@ -1,5 +1,5 @@
 // src/reducers/cartActionTypes.js
-import { ADD_CART, UPDATE_CART, DELETE_CART } from '../actionTypes/cartActionTypes';
+import { ADD_CART, UPDATE_CART, DELETE_CART, CLEAR_CART } from '../actionTypes/cartActionTypes';
 
 const initialState = [];
 
@@ -13,7 +13,8 @@ const cartsReducer = (state = initialState, action) => {
         case DELETE_CART:
             const cartId = action.payload;
             return state.filter((cart) => cart.id !== cartId);
-
+        case CLEAR_CART:
+            return [];
         default:
             return state;
     }
