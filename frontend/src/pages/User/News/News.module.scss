@@ -3,11 +3,11 @@
     .blog_left_base {
         .new-item-bigs,
         .new-item-smalls {
-            display: flex;
+            display: flex; 
             margin: 0 -15px;
         }
         .new-item-bigs {
-            margin-bottom: 40px;
+            flex-wrap: wrap;
         }
     }
     .blog_right_base {

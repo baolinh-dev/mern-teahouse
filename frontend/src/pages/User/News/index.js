@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Breadcrumb from '~/components/Breadcrumb';
 import NewsItemBig from './NewsItemBig';
 import NewsItemSmall from './NewsItemSmall';
@@ -8,7 +10,6 @@ import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 import classNames from 'classnames/bind';
 import styles from './News.module.scss';
-import { useState } from 'react';
 import MainLayout from '~/layouts/MainLayout';
 
 const cx = classNames.bind({
@@ -18,18 +19,30 @@ const cx = classNames.bind({
 });
 
 function News() {
+    const [newsData, setNewsData] = useState([]); // Lưu trữ dữ liệu tin tức
     const [showMenu, setShowMenu] = useState(false); // Khởi tạo state cho menu
 
     const toggleMenu = () => {
         setShowMenu(!showMenu); // Cập nhật trạng thái của menu khi click vào icon
     };
+
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
-        {
-            label: 'Tin tức',
-            active: true,
-        },
+        { label: 'Tin tức', active: true },
     ];
+
+    useEffect(() => {
+        // Gọi API để lấy dữ liệu tin tức
+        axios
+            .get('/api/v1/news?page=all')
+            .then((response) => {
+                setNewsData(response.data.news); // Lưu trữ dữ liệu tin tức vào state
+            })
+            .catch((error) => {
+                console.error('Error fetching news data:', error);
+            });
+    }, []);
+
     return (
         <>
             <MainLayout>
@@ -38,28 +51,15 @@ function News() {
                     <div className={cx('row')}>
                         <div className={cx('blog_left_base', 'col-lg-9', 'col-md-9', 'col-sm-9', 'col-12')}>
                             <div className={cx('new-item-bigs')}>
-                                <div className={cx('col-lg-6', 'col-md-6', 'col-sm-6', 'col-12')}>
-                                    <NewsItemBig
-                                        imgUrl={
-                                            'https://bizweb.dktcdn.net/100/415/010/articles/untitled-1.jpg?v=1608884901087'
-                                        }
-                                        blogUrl={
-                                            'https://bizweb.dktcdn.net/100/415/010/articles/untitled-1.jpg?v=1608884901087'
-                                        }
-                                        title={'Nhâm nhi cà phê bao lâu nhưng bạn tận mắt nhìn kỹ xem hạt cà phê chưa?'}
-                                    />
-                                </div>
-                                <div className={cx('col-lg-6', 'col-md-6', 'col-sm-6', 'col-12')}>
-                                    <NewsItemBig
-                                        imgUrl={
-                                            'https://bizweb.dktcdn.net/100/415/010/articles/untitled-5.jpg?v=1608884590463'
-                                        }
-                                        blogUrl={
-                                            'https://bizweb.dktcdn.net/100/415/010/articles/untitled-5.jpg?v=1608884590463'
-                                        }
-                                        title={'Uống 1-4 tách cà phê mỗi ngày giúp bệnh nhân ung thư kéo dài sự sống'}
-                                    />
-                                </div>
+                                {newsData.map((newsItem, index) => (
+                                    <div key={index} className={cx('col-lg-6', 'col-md-6', 'col-sm-6', 'col-12')}>
+                                        <NewsItemBig
+                                            imgUrl={newsItem.imgUrl}
+                                            blogUrl={newsItem.blogUrl}
+                                            title={newsItem.title}
+                                        />
+                                    </div>
+                                ))}
                             </div>
                         </div>
                         <div
@@ -183,6 +183,7 @@ function News() {
                                     src="https://bizweb.dktcdn.net/thumb/large/100/415/010/themes/894852/assets/pictureblog_2.jpg?1676274744913"
                                 />
                             </section>
+                            {/* Phần code còn lại */}
                         </div>
                     </div>
                 </div>
