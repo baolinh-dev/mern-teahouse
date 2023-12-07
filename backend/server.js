@@ -21,16 +21,35 @@ const server = http.createServer(app);
 
 const io = socketio(server);
 
+global.onlineUsers = [];
+
 io.on('connection', (socket) => {
     console.log(`A new client connected ${socket.id}`);
 
     // Handle events from the client
     socket.on('sendNotifications', (data) => {
-        console.log(`Received data from ${socket.id} data: ${data}`, );
-        // Emit a response back to the client 
+        console.log(`Received data from ${socket.id} data: ${data}`);
+        // Emit a response back to the client
         io.emit('response', data);
-    }); 
+    });
 
+    global.chatSocket = socket;
+
+    socket.on('add-user', (userId) => {
+        const existingUser = onlineUsers.find((user) => user.userId === userId);
+        if (!existingUser) {
+            onlineUsers.push({ userId, socketId: socket.id });
+        }
+        console.log('Online Users:', onlineUsers);
+        io.emit('onlineUsers', onlineUsers);
+    });
+
+    socket.on('send-msg', (data) => {
+        const sendUserSocket = onlineUsers.get(data.to);
+        if (sendUserSocket) {
+            socket.to(sendUserSocket).emit('msg-recieve', data.msg);
+        }
+    });
 
     // Handle client disconnection
     socket.on('disconnect', () => {
@@ -47,7 +66,7 @@ process.on('unhandledRejection', (err) => {
     });
 });
 
-const PORT = process.env.PORT ;
+const PORT = process.env.PORT;
 
 server.listen(PORT, () => {
     console.log(`Server is working on http://localhost:${PORT}`);
