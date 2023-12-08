@@ -45,10 +45,12 @@ io.on('connection', (socket) => {
     });
 
     socket.on('send-msg', (data) => {
-        const sendUserSocket = onlineUsers.get(data.to);
+        const sendUser = onlineUsers.find((user) => user.userId === data.to);
+        const sendUserSocket = sendUser ? sendUser.socketId : null;
         if (sendUserSocket) {
             socket.to(sendUserSocket).emit('msg-recieve', data.msg);
         }
+        console.log('to: ', data.to, 'message: ', data.msg);
     });
 
     // Handle client disconnection
