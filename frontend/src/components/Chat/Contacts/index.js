@@ -9,11 +9,9 @@ import ContactSender from './ContactSender';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
-function Contacts() {
-    const [message, setMessage] = useState('');
+function Contacts({userId}) {
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [users, setUsers] = useState([]);
-    const [userId, setUserId] = useState('');
     const [userRole, setUserRole] = useState('');
     const [error, setError] = useState([]);
 
@@ -21,15 +19,12 @@ function Contacts() {
         axios
             .get('/api/v1/me')
             .then((response) => {
-                setUserId(response.data.user._id);
                 setUserRole(response.data.user.role);
             })
             .catch((err) => {
                 setError(err.response.data.message);
             });
     }, [error]);
-
-    console.log('role', userRole);
 
     useEffect(() => {
         socket.on('connect', () => {
@@ -51,12 +46,12 @@ function Contacts() {
 
     console.log('onlineUsers', onlineUsers);
 
-    console.log('userId', userId);
-    console.log();
+    console.log('userIduserId', userId); 
+
 
     useEffect(() => {
         socket.emit('add-user', userId);
-    }, []);
+    }, [userId]);
 
     useEffect(() => {
         const fetchUsers = async () => {

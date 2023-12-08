@@ -6,9 +6,13 @@ import Heading from '~/components/Heading';
 import InforItem from './InforItem';
 import { faLocationDot, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import MainLayout from '~/layouts/MainLayout';
+import Chat from '~/components/Chat';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 const cx = classNames.bind({ ...styles, container: 'container' });
 
-function Contact() {
+function Contact() { 
+    const [userId, setUserId] = useState('')
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
         { label: 'Liên hệ', active: true },
@@ -29,7 +33,21 @@ function Contact() {
             label: 'Hotline',
             text: '0768494121',
         },
-    ];
+    ]; 
+    useEffect(() => {
+        axios
+            .get('/api/v1/me')
+            .then((response) => {
+                setUserId(response.data.user._id);
+            })
+            .catch((err) => { 
+                console.log(err.response.data.message);
+            });
+    }, []); 
+
+    console.log("userIdchat", userId);
+
+
     return (
         <>
             <MainLayout>
@@ -59,6 +77,9 @@ function Contact() {
                                 <InforItem key={index} icon={item.icon} label={item.label} text={item.text} />
                             ))}
                         </div>
+                    </div>
+                    <div className={cx('chat')}>
+                        <Chat userId={userId}/>
                     </div>
                 </div>
             </MainLayout>

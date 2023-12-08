@@ -1,17 +1,19 @@
-import ChatContainer from "./ChatContainer";
-import Contacts from "./Contacts";  
+import ChatContainer from './ChatContainer';
+import Contacts from './Contacts';
 import classNames from 'classnames/bind';
 import styles from './Chat.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Chat() {
-    return (    
-        <div className={cx('chat')}> 
-            <Contacts /> 
-            <ChatContainer /> 
-        </div>
+function Chat({ userId }) { 
 
+    console.log("userIdChat2", userId);
+
+    return (
+        <div className={cx('chat')}>
+            <Contacts userId={userId} />
+            <ChatContainer />
+        </div>
     );
 }
 
