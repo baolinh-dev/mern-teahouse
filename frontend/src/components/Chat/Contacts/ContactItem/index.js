@@ -3,18 +3,17 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
-import styles from './ChatUserItem.module.scss';
+import styles from './ContactItem.module.scss';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
-function ChatUserItem({ id, isOnline }) {
+function ContactItem({ id, isOnline }) {
     const [user, setUser] = useState({});  
     
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`/api/v1/admin/user/${id}`); 
-                console.log( "response.data",  response.data); 
                 const dataUser = response.data.user;
                 setUser(dataUser);
             } catch (error) {
@@ -53,4 +52,4 @@ function ChatUserItem({ id, isOnline }) {
     );
 }
 
-export default ChatUserItem;
+export default ContactItem;

@@ -1,15 +1,15 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import socket from '~/socket';
-import ChatUserItem from './ChatUserItem';
+import ChatUserItem from './ContactItem';
 
 import classNames from 'classnames/bind';
-import styles from './Chat.module.scss';
+import styles from './Contacts.module.scss';
+import ContactSender from './ContactSender';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
-function Chat() {
-    const [chatStarted, setChatStarted] = useState(false);
+function Contacts() {
     const [message, setMessage] = useState('');
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [users, setUsers] = useState([]);
@@ -52,19 +52,11 @@ function Chat() {
     console.log('onlineUsers', onlineUsers);
 
     console.log('userId', userId);
-    const handleStartChat = () => {
-        // Emit sự kiện 'add-user' đến server
+    console.log();
+
+    useEffect(() => {
         socket.emit('add-user', userId);
-
-        setChatStarted(true);
-    };
-
-    const handleSendMessage = () => {
-        // Gửi tin nhắn tới server
-        socket.emit('send-msg', { to: userId, msg: message });
-
-        setMessage('');
-    };
+    }, []);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -89,31 +81,22 @@ function Chat() {
     }, [onlineUsers]);
 
     return (
-        <div>
-            {chatStarted ? (
-                <>
-                    <div>
-                        {userRole === 'admin' && (
-                            <>
-                                {users.map((user) => (
-                                    <div key={user._id} className={cx('chat')}>
-                                        <ChatUserItem id={user._id} isOnline={user.isOnline} />
-                                    </div>
-                                ))}
-                            </>
-                        )}
-                    </div>
-                    <div>
-                        {/* Hiển thị cửa sổ chat */}
-                        <textarea value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
-                        <button onClick={handleSendMessage}>Gửi</button>
-                    </div>
-                </>
-            ) : (
-                <button onClick={handleStartChat}>Bắt đầu chat</button>
-            )}
+        <div className={cx('contacts')}>
+            <div className={cx('contact-scroll')}>
+                {userRole === 'admin' && (
+                    <>
+                        {users.map((user) => (
+                            <div key={user._id} className={cx('contact-item')}>
+                                <ChatUserItem id={user._id} isOnline={user.isOnline} />
+                            </div>
+                        ))}
+                    </>
+                )}
+            </div>
+
+            <ContactSender />
         </div>
     );
 }
 
-export default Chat;
+export default Contacts;

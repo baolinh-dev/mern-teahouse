@@ -1,0 +1,11 @@
+.contacts {
+    .contact-scroll {
+        border: 1px solid #ddd;
+        height: 80%;
+        overflow-y: auto;
+    }
+
+    .contact-item {
+        width: 300px;
+    }
+}
