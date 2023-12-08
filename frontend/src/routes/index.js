@@ -27,6 +27,7 @@ import AdminTest from '~/pages/User/AdminTest';
 import ManageCategories from '~/pages/Admin/ManageCategories';
 import ManageNews from '~/pages/Admin/ManageNews';
 import Chat from '~/pages/Chat';
+import ChatAdmin from '~/pages/Admin/ChatAdmin';
 // Public routes
 export const publicRoutes = [
     { path: '/', component: Home },
@@ -60,4 +61,5 @@ export const privateRoutes = [
     { path: '/admin/orders', component: ManageOrders },
     { path: '/admin/categories', component: ManageCategories },
     { path: '/admin/news', component: ManageNews },
+    { path: '/admin/chat', component: ChatAdmin },
 ];

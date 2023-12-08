@@ -52,6 +52,8 @@ function Chat() {
     console.log('onlineUsers', onlineUsers);
 
     console.log('userId', userId);
+    console.log();
+
     const handleStartChat = () => {
         // Emit sự kiện 'add-user' đến server
         socket.emit('add-user', userId);
