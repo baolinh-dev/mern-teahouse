@@ -18,7 +18,6 @@ function ContactSender() {
             });
     }, []); 
 
-    console.log("userData", userData); 
 
     return ( 
         <div className={cx('sender')}>  

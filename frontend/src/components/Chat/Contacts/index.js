@@ -44,11 +44,6 @@ function Contacts({userId}) {
         });
     }, []);
 
-    console.log('onlineUsers', onlineUsers);
-
-    console.log('userIduserId', userId); 
-
-
     useEffect(() => {
         socket.emit('add-user', userId);
     }, [userId]);

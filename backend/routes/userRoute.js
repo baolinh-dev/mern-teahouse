@@ -26,7 +26,7 @@ router.route('/me').get(isAuthenticatedUser, getUserDetails);
 router.route('/password/update').put(isAuthenticatedUser, updatePassword);
 router.route('/me/update').put(isAuthenticatedUser, updateProfile);
 // Admin
-router.route('/admin/users').get(isAuthenticatedUser, adminOnly, getAllUsers);
+router.route('/admin/users').get(isAuthenticatedUser, getAllUsers);
 router.route('/admin/user').post(isAuthenticatedUser, adminOnly, createUser);
 router
     .route('/admin/user/:id')

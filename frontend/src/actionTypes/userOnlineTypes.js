@@ -1,0 +1,2 @@
+export const SET_USER_ONLINE = 'SET_USER_ONLINE';
+
