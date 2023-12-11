@@ -2,8 +2,8 @@
 import { SET_USER_ONLINE } from '../actionTypes/userOnlineTypes';
 
 const initialState = {
-    userName: null,
-    userAvatarUrl: null,
+    userName: 'TEAHOUSE',
+    userAvatarUrl: 'https://firebasestorage.googleapis.com/v0/b/mern-teahouse.appspot.com/o/profile-images%2F64d31b22-47b1-4189-b39e-c0c9dcc583fa?alt=media&token=6f38403e-2298-4542-8c76-8622eee35605',
     userId: '657340cb1484b471f17bfba2',
 };
 

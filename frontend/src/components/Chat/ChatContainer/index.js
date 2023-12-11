@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import socket from '~/socket';
-import classNames from 'classnames/bind';
-import styles from './ChatContainer.module.scss';
 import Header from './Header';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import MessageItem from './MessageItem';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
+import classNames from 'classnames/bind';
+import styles from './ChatContainer.module.scss';
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function ChatContainer() {
@@ -36,7 +38,6 @@ function ChatContainer() {
     }, []);
 
     useEffect(() => {
-        console.log('userSendId', userSendId, 'userOnline', userOnline.userId);
         const requestBody = {
             from: userSendId,
             to: userOnline.userId,
@@ -73,23 +74,21 @@ function ChatContainer() {
             });
     };
 
-    console.log('chatMessages', chatMessages);
-
     return (
-        <div className={cx('chat-container')}>
-            <Header />
-            <div>
-                <textarea value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
-                <button onClick={handleSendMessage}>Gửi</button>
+        <div className={cx('chat')}>
+            <div className={cx('chat-container')}>
+                <Header />
+                <div className={cx('chat-content')}>
+                    {chatMessages.map((chatMessage, index) => (
+                        <MessageItem key={index} fromSelf={chatMessage.fromSelf} message={chatMessage.message} />
+                    ))}
+                </div>
             </div>
-            <div>
-                <p>Tin nhắn nhận được: {receivedMessage}</p>
-            </div>
-            <div>
-                <h3>Tin nhắn:</h3>
-                {chatMessages.map((chatMessage, index) => (
-                    <MessageItem key={index} fromSelf={chatMessage.fromSelf} message={chatMessage.message} />
-                ))}
+            <div className={cx('send-msg-box')}>
+                <input placeholder='Nhập tin nhắn của bạn ...' value={message} onChange={(e) => setMessage(e.target.value)}></input>
+                <button onClick={handleSendMessage}>
+                    <FontAwesomeIcon icon={faPaperPlane} />
+                </button>
             </div>
         </div>
     );

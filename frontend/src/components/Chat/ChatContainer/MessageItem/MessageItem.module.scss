@@ -1,5 +1,12 @@
-.message-item {
-    
+.chat-item { 
+    p { 
+        display: inline-block;
+        background-color: var(--primary);  
+        color: #fff;
+        padding: 4px 8px; 
+        border-radius: 12px; 
+        box-shadow: 0 0 4px rgba($color: #000000, $alpha: 0.2);
+    }
 }
 
 .float-left {
