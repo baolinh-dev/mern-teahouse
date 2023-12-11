@@ -6,25 +6,34 @@ import axios from 'axios';
 import MessageItem from './MessageItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-
+import { useDispatch } from 'react-redux';
 import classNames from 'classnames/bind';
 import styles from './ChatContainer.module.scss';
+import casual from 'casual-browserify';
+import { addNotification, clearNotification } from '~/actions/notificationActions';
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function ChatContainer() {
     const [message, setMessage] = useState('');
     const [receivedMessage, setReceivedMessage] = useState('');
     const [userSendId, setUserSendId] = useState(null);
+    const [userSend, setUserSend] = useState(null);
     const [chatMessages, setChatMessages] = useState([]);
     const [success, setSuccess] = useState(false); // Thêm state success
+    const userOnline = useSelector((state) => state.userOnline); 
+    const notifications = useSelector((state) => state.notifications);
+    const dispatch = useDispatch(); 
 
-    const userOnline = useSelector((state) => state.userOnline);
-
+    useEffect(() => {
+        socket.emit('sendNotifications', notifications);
+    }, [notifications]);
+    
     useEffect(() => {
         axios
             .get('/api/v1/me')
             .then((response) => {
                 setUserSendId(response.data.user._id);
+                setUserSend(response.data.user);
             })
             .catch((err) => {
                 console.log(err.response.data.message);
@@ -51,23 +60,48 @@ function ChatContainer() {
             .catch((error) => {
                 console.error('Lỗi khi lấy tin nhắn:', error);
             });
-    }, [userSendId, userOnline.userId, success, receivedMessage]);
+    }, [userSendId, userOnline.userId, success, receivedMessage]); 
+
 
     const handleSendMessage = () => {
         socket.emit('send-msg', { to: userOnline?.userId, msg: message });
-        setMessage('');
+        setMessage(''); 
 
         const requestBody = {
             from: userSendId,
             to: userOnline?.userId,
             message: message,
-        };
+        };  
+
+        // Notifications 
+        const authorAvatar = userSend.avatar.url;
+        const authorName = userSend.name;
+        const typeNoti = 'Có Tin nhắn';
+        const content = `${userSend.name} gửi cho bạn tin nhắn ${message}`;
+        const idNoti = casual.uuid;
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().split('T')[0]; 
+
+        const notification = {
+            typeNoti,
+            authorAvatar,
+            authorName,
+            content,
+            idNoti,
+            date: formattedDate,
+        };  
+
+        
+
+        console.log("notification", notification); 
 
         axios
             .post('/api/v1/addmsg', requestBody)
-            .then((response) => {
-                console.log('Tin nhắn đã được gửi thành công');
-                setSuccess(!success); // Khi gửi thành công, setSuccess với giá trị mới để re-render
+            .then((response) => {  
+                dispatch(clearNotification());
+                setSuccess(!success); 
+                console.log('Tin nhắn đã được gửi thành công'); 
+                dispatch(addNotification(notification));
             })
             .catch((error) => {
                 console.error('Lỗi khi gửi tin nhắn:', error);

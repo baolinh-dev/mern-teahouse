@@ -4,8 +4,6 @@ import { faBell, faLocationDot, faPhoneAlt } from '@fortawesome/free-solid-svg-i
 import NotificationItem from './NotificationItem';
 import classNames from 'classnames/bind';
 import styles from './Notification.module.scss';
-import ContainerHeading from '~/components/ContainerHeading';
-import Heading from '~/components/Heading';
 import axios from 'axios';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
@@ -23,7 +21,7 @@ function Notification({ notifications }) {
             .then((response) => {
                 // Xử lý thành công
                 console.log('Notification deleted'); 
-                
+                setShowNotifications(false)
             })
             .catch((error) => {
                 // Xử lý lỗi

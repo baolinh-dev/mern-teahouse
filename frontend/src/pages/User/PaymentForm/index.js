@@ -181,7 +181,7 @@ const PaymentForm = () => {
         // Notifications
         const authorAvatar = customerInfo.avatar;
         const authorName = customerInfo.name;
-        const typeNoti = 'orderSuccess';
+        const typeNoti = 'Đặt hàng thành công';
         const totalProductPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
         const content = `${customerInfo.name} đã đặt hàng thành công với số tiền ${totalProductPrice.toLocaleString('vi-VN', {
             style: 'currency',
@@ -206,14 +206,10 @@ const PaymentForm = () => {
             orderInfo,
         }; 
 
-        console.log("formData.carts", formData.cart);
-
         if (formData.cart.length === 0) {
             toast.warn('Giỏ hàng đang trống');
             return;
-        }
-
-        console.log('formData', formData);
+        } 
 
         axios
             .post('/api/v1/order/new', formData)

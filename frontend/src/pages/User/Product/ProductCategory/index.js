@@ -24,12 +24,10 @@ function ProductCategory() {
         { label: category, active: true },
     ]; 
 
-    console.log("category", category);
-
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
-    const [searchKeyword, setSearchKeyword] = useState('123');
+    const [searchKeyword, setSearchKeyword] = useState('');
     const [searchStatus, setSearchStatus] = useState(false);
     const [values, setValues] = useState([5000, 80000]);
 

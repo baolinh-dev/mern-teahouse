@@ -37,9 +37,14 @@
     .noti-content {
         display: flex;
         flex-direction: column;
-        justify-content: start;
+        justify-content: start; 
+        max-width: 340px;
         p {
-            font-weight: 600;
+            font-weight: 600; 
+            display: -webkit-box; 
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
         }
         span {
             font-style: italic;

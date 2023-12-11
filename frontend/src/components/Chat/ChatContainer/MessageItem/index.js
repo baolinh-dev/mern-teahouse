@@ -5,7 +5,7 @@ const cx = classNames.bind({ ...styles, container: 'container' });
 
 function MessageItem({ fromSelf, message }) {
   const messageStyle = {
-    'text-align': fromSelf ? 'left' : 'right',
+    'textAlign': fromSelf ? 'left' : 'right',
   };
 
   return (

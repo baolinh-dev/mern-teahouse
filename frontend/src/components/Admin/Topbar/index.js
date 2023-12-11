@@ -5,7 +5,6 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import io from 'socket.io-client';
 import socket from '~/socket';
 import Notification from './Notification';
 

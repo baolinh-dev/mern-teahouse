@@ -15,6 +15,7 @@ function NotificationItem({ noti, onClick }) {
     const handleMouseLeave = () => {
         setIsHovered(false);
     };
+
     return (
         <Link to={'/admin/orders'}>
             <div
@@ -28,6 +29,7 @@ function NotificationItem({ noti, onClick }) {
                     <p>{noti.authorName}</p>
                 </div>
                 <div className={cx('noti-content')}>
+                    <h3>{noti.typeNoti}</h3>
                     <p>{noti.content}</p>
                     <span>{noti.date}</span>
                 </div>
