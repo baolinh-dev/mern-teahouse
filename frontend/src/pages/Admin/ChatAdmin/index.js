@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function ChatAdmin() {  
-    const [userId, setUserId] = useState('')
+    const [userId, setUserId] = useState(null);
+
     useEffect(() => {
         axios
             .get('/api/v1/me')
@@ -16,8 +17,9 @@ function ChatAdmin() {
             });
     }, []); 
 
-
-
+    if (userId === null) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <AdminLayout>

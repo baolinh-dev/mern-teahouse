@@ -7,8 +7,6 @@ const cx = classNames.bind(styles);
 
 function Chat({ userId }) { 
 
-    console.log("userIdChat2", userId);
-
     return (
         <div className={cx('chat')}>
             <Contacts userId={userId} />

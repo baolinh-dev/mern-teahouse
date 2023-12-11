@@ -51,7 +51,7 @@ function ChatContainer() {
             .catch((error) => {
                 console.error('Lỗi khi lấy tin nhắn:', error);
             });
-    }, [userSendId, userOnline.userId, success]);
+    }, [userSendId, userOnline.userId, success, receivedMessage]);
 
     const handleSendMessage = () => {
         socket.emit('send-msg', { to: userOnline?.userId, msg: message });
@@ -77,14 +77,15 @@ function ChatContainer() {
     return (
         <div className={cx('chat')}>
             <div className={cx('chat-container')}>
-                <Header />
+                <Header /> 
                 <div className={cx('chat-content')}>
                     {chatMessages.map((chatMessage, index) => (
                         <MessageItem key={index} fromSelf={chatMessage.fromSelf} message={chatMessage.message} />
                     ))}
                 </div>
             </div>
-            <div className={cx('send-msg-box')}>
+            <div className={cx('send-msg-box')}> 
+                
                 <input placeholder='Nhập tin nhắn của bạn ...' value={message} onChange={(e) => setMessage(e.target.value)}></input>
                 <button onClick={handleSendMessage}>
                     <FontAwesomeIcon icon={faPaperPlane} />

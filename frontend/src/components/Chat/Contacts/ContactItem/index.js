@@ -11,7 +11,6 @@ const cx = classNames.bind({ ...styles, container: 'container' });
 
 function ContactItem({ id, isOnline }) {
     const [user, setUser] = useState({});
-    const [activeItems, setActiveItems] = useState([]); // Mảng state để lưu trữ các phần tử đã được click
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -33,16 +32,13 @@ function ContactItem({ id, isOnline }) {
         const userAvatarUrl = user.avatar?.url;
         const userId = user._id;
 
-        setActiveItems((prevItems) => [...prevItems, id]); // Push phần tử vào mảng activeItems
 
         dispatch(setUserOnline(userName, userAvatarUrl, userId));
     };
 
-    const isActive = activeItems.length > 0 && activeItems[activeItems.length - 1] === id; // Kiểm tra phần tử cuối cùng của mảng activeItems
 
-    console.log('activeItems', activeItems);
     return (
-        <div className={cx('box', { active: isActive })} onClick={handleClick}>
+        <div className={cx('box')} onClick={handleClick}>
             <div className={cx('box-image')}>
                 <img src={user.avatar?.url} alt="User Avatar" />
             </div>

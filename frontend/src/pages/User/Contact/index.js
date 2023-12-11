@@ -11,8 +11,9 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 const cx = classNames.bind({ ...styles, container: 'container' });
 
-function Contact() { 
-    const [userId, setUserId] = useState('')
+function Contact() {
+    const [userId, setUserId] = useState(null);
+    const [userRole, setUserRole] = useState(null);
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
         { label: 'Liên hệ', active: true },
@@ -33,20 +34,22 @@ function Contact() {
             label: 'Hotline',
             text: '0768494121',
         },
-    ]; 
+    ];
     useEffect(() => {
         axios
             .get('/api/v1/me')
             .then((response) => {
                 setUserId(response.data.user._id);
+                setUserRole(response.data.user.role);
             })
-            .catch((err) => { 
+            .catch((err) => {
                 console.log(err.response.data.message);
             });
-    }, []); 
+    }, []);
 
-    console.log("userIdchat", userId);
-
+    if (userId === null) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <>
@@ -78,9 +81,11 @@ function Contact() {
                             ))}
                         </div>
                     </div>
-                    <div className={cx('chat')}>
-                        <Chat userId={userId}/>
-                    </div>
+                    {userRole === 'user' && (
+                        <div className={cx('chat')}>
+                            <Chat userId={userId} />
+                        </div>
+                    )}
                 </div>
             </MainLayout>
         </>

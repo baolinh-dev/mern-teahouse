@@ -48,7 +48,12 @@ io.on('connection', (socket) => {
         const sendUser = onlineUsers.find((user) => user.userId === data.to);
         const sendUserSocket = sendUser ? sendUser.socketId : null;
         if (sendUserSocket) {
-            socket.to(sendUserSocket).emit('msg-recieve', data.msg);
+            socket.to(sendUserSocket).emit('msg-recieve', data.msg);  
+            console.log("dã emit tới", sendUserSocket);
+        } else {
+            console.log("chưa dã emit tới"); 
+            console.log(sendUserSocket);
+            console.log(sendUser);
         }
         console.log('to: ', data.to, 'message: ', data.msg);
     });
