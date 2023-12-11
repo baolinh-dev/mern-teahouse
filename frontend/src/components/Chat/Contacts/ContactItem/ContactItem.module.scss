@@ -1,6 +1,8 @@
 .box {  
     display: flex;  
-    margin-bottom: 20px; 
+    margin-bottom: 20px;  
+    padding: 12px; 
+    border-radius: 20px;
     cursor: pointer;
     .box-image {  
         margin-right: 20px;
@@ -31,4 +33,7 @@
             }
         }
     }
+} 
+.active {
+    background-color: var(--primary);
 }
