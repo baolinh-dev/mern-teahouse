@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import socket from '~/socket';
 import casual from 'casual-browserify';
-import { addNotification } from '~/actions/notificationActions';
+import { addNotification } from '~/redux/actions/notificationActions';
 
 const Test = () => {
     const [content, setContent] = useState('');

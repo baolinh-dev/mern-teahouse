@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import MainLayout from '~/layouts/MainLayout';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCart, updateCart } from '~/actions/cartActions';
+import { addCart, updateCart } from '~/redux/actions/cartActions';
 import { useParams } from 'react-router-dom';
 import ProductRelated from './ProductRelated';
 
@@ -18,8 +18,8 @@ const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const [productId, setProductId] = useState(null);
     const [quantity, setQuantity] = useState(1);
-    const [reviews, setReviews] = useState([]); 
-    const [category, setCategory]  = useState(''); 
+    const [reviews, setReviews] = useState([]);
+    const [category, setCategory] = useState('');
     const [commentForm, setCommentForm] = useState({ rating: '', comment: '' });
 
     const { id } = useParams();
@@ -32,15 +32,15 @@ const ProductDetails = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             const res = await axios.get(`/api/v1/product/${id}`);
-            setProduct(res.data.product); 
-            setProductId(res.data.product._id); 
-            setCategory(res.data.product.category)
+            setProduct(res.data.product);
+            setProductId(res.data.product._id);
+            setCategory(res.data.product.category);
             console.log('Product:', res.data.product);
         };
         fetchProduct();
-    }, [id]);  
+    }, [id]);
 
-    console.log("category", category);
+    console.log('category', category);
 
     useEffect(() => {
         const fetchReviews = async () => {
@@ -225,9 +225,9 @@ const ProductDetails = () => {
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                     <div>
-                        <ProductRelated id={productId} category={category}/>
+                        <ProductRelated id={productId} category={category} />
                     </div>
                     <div className={cx('comments', 'container')}>
                         <h3 className={cx('comments-title')}>bình luận</h3>

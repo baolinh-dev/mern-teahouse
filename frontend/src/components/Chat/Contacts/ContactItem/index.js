@@ -5,7 +5,7 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import styles from './ContactItem.module.scss';
 import { useDispatch } from 'react-redux';
-import { setUserOnline } from '~/actions/userOnlineActions';
+import { setUserOnline } from '~/redux/actions/userOnlineActions';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
@@ -32,10 +32,8 @@ function ContactItem({ id, isOnline }) {
         const userAvatarUrl = user.avatar?.url;
         const userId = user._id;
 
-
         dispatch(setUserOnline(userName, userAvatarUrl, userId));
     };
-
 
     return (
         <div className={cx('box')} onClick={handleClick}>

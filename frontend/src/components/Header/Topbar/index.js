@@ -9,14 +9,13 @@ import ContainerHeading from '~/components/ContainerHeading';
 import Heading from '~/components/Heading';
 import AuthLink from '~/components/AuthLink';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCart } from '~/actions/cartActions';
+import { updateCart } from '~/redux/actions/cartActions';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
-function Topbar() { 
-    const carts = useSelector((state) => state.carts);  
-    const dispatch = useDispatch(); 
-
+function Topbar() {
+    const carts = useSelector((state) => state.carts);
+    const dispatch = useDispatch();
 
     const [userData, setUserData] = useState(null);
     const [shouldRedirect, setShouldRedirect] = useState(false);
@@ -62,7 +61,7 @@ function Topbar() {
 
     const handleRemoveItem = (itemId) => {
         const newCart = carts.filter((item) => item.id !== itemId);
-        dispatch(updateCart(newCart))
+        dispatch(updateCart(newCart));
     };
 
     const handleQuantityChange = (itemId, newQuantity) => {
@@ -71,15 +70,14 @@ function Topbar() {
         if (!isNaN(parsedQuantity)) {
             // Kiểm tra nếu giá trị là một số hợp lệ
             const newCart = carts.map((item) => {
-                if (item.id === itemId) { 
-                    const newCartItem = { ...item, quantity: parsedQuantity }
+                if (item.id === itemId) {
+                    const newCartItem = { ...item, quantity: parsedQuantity };
                     return newCartItem;
                 }
-                return item; 
+                return item;
             });
-            dispatch(updateCart(newCart))
+            dispatch(updateCart(newCart));
         }
-
     };
 
     return (

@@ -1,4 +1,4 @@
-import { SET_USER_ONLINE } from '~/actionTypes/userOnlineTypes';
+import { SET_USER_ONLINE } from '~/redux/actionTypes/userOnlineTypes';
 
 export const setUserOnline = (userName, userAvatarUrl, userId) => {
     return {

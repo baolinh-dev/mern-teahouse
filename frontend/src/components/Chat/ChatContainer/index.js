@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import classNames from 'classnames/bind';
 import styles from './ChatContainer.module.scss';
 import casual from 'casual-browserify';
-import { addNotification, clearNotification } from '~/actions/notificationActions';
+import { addNotification, clearNotification } from '~/redux/actions/notificationActions';
 const cx = classNames.bind({ ...styles, container: 'container' });
 
 function ChatContainer() {
@@ -20,14 +20,14 @@ function ChatContainer() {
     const [userSend, setUserSend] = useState(null);
     const [chatMessages, setChatMessages] = useState([]);
     const [success, setSuccess] = useState(false); // Thêm state success
-    const userOnline = useSelector((state) => state.userOnline); 
+    const userOnline = useSelector((state) => state.userOnline);
     const notifications = useSelector((state) => state.notifications);
-    const dispatch = useDispatch(); 
+    const dispatch = useDispatch();
 
     useEffect(() => {
         socket.emit('sendNotifications', notifications);
     }, [notifications]);
-    
+
     useEffect(() => {
         axios
             .get('/api/v1/me')
@@ -60,27 +60,26 @@ function ChatContainer() {
             .catch((error) => {
                 console.error('Lỗi khi lấy tin nhắn:', error);
             });
-    }, [userSendId, userOnline.userId, success, receivedMessage]); 
-
+    }, [userSendId, userOnline.userId, success, receivedMessage]);
 
     const handleSendMessage = () => {
         socket.emit('send-msg', { to: userOnline?.userId, msg: message });
-        setMessage(''); 
+        setMessage('');
 
         const requestBody = {
             from: userSendId,
             to: userOnline?.userId,
             message: message,
-        };  
+        };
 
-        // Notifications 
+        // Notifications
         const authorAvatar = userSend.avatar.url;
         const authorName = userSend.name;
         const typeNoti = 'Có Tin nhắn';
         const content = `${userSend.name} gửi cho bạn tin nhắn ${message}`;
         const idNoti = casual.uuid;
         const currentDate = new Date();
-        const formattedDate = currentDate.toISOString().split('T')[0]; 
+        const formattedDate = currentDate.toISOString().split('T')[0];
 
         const notification = {
             typeNoti,
@@ -89,18 +88,16 @@ function ChatContainer() {
             content,
             idNoti,
             date: formattedDate,
-        };  
+        };
 
-        
-
-        console.log("notification", notification); 
+        console.log('notification', notification);
 
         axios
             .post('/api/v1/addmsg', requestBody)
-            .then((response) => {  
+            .then((response) => {
                 dispatch(clearNotification());
-                setSuccess(!success); 
-                console.log('Tin nhắn đã được gửi thành công'); 
+                setSuccess(!success);
+                console.log('Tin nhắn đã được gửi thành công');
                 dispatch(addNotification(notification));
             })
             .catch((error) => {
@@ -111,16 +108,19 @@ function ChatContainer() {
     return (
         <div className={cx('chat')}>
             <div className={cx('chat-container')}>
-                <Header /> 
+                <Header />
                 <div className={cx('chat-content')}>
                     {chatMessages.map((chatMessage, index) => (
                         <MessageItem key={index} fromSelf={chatMessage.fromSelf} message={chatMessage.message} />
                     ))}
                 </div>
             </div>
-            <div className={cx('send-msg-box')}> 
-                
-                <input placeholder='Nhập tin nhắn của bạn ...' value={message} onChange={(e) => setMessage(e.target.value)}></input>
+            <div className={cx('send-msg-box')}>
+                <input
+                    placeholder="Nhập tin nhắn của bạn ..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                ></input>
                 <button onClick={handleSendMessage}>
                     <FontAwesomeIcon icon={faPaperPlane} />
                 </button>

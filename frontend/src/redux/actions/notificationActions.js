@@ -1,5 +1,5 @@
 // actions/notificationActions.js
-import { ADD_NOTIFICATION,  DELETE_NOTIFICATION, CLEAR_NOTIFICATION} from "~/actionTypes/notificationActionTypes";
+import { ADD_NOTIFICATION, DELETE_NOTIFICATION, CLEAR_NOTIFICATION } from '~/redux/actionTypes/notificationActionTypes';
 
 // Action creators
 export const addNotification = (notification) => {
@@ -7,7 +7,7 @@ export const addNotification = (notification) => {
         type: ADD_NOTIFICATION,
         payload: notification,
     };
-}; 
+};
 
 export const clearNotification = () => {
     return {

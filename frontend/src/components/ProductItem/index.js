@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './ProductItem.module.scss';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCart, updateCart } from '~/actions/cartActions';
+import { addCart, updateCart } from '~/redux/actions/cartActions';
 
 const cx = classNames.bind({ ...styles, container: 'container' });
 
@@ -32,8 +32,6 @@ function ProductItem({ imageUrl, nameProduct, price, id }) {
     const productImg = imageUrl
         ? imageUrl
         : 'https://www.independentmediators.co.uk/wp-content/uploads/2016/02/placeholder-image.jpg';
-
-
 
     return (
         <div className={cx('product-item')}>

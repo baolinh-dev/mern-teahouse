@@ -9,14 +9,12 @@ import { faCheck, faShare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import MainLayout from '~/layouts/MainLayout';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCart } from '~/actions/cartActions';
+import { updateCart } from '~/redux/actions/cartActions';
 
-const cx = classNames.bind({ ...styles, container: 'container' }); 
+const cx = classNames.bind({ ...styles, container: 'container' });
 
-
-
-function Cart() { 
-    const carts = useSelector((state) => state.carts);  
+function Cart() {
+    const carts = useSelector((state) => state.carts);
     const dispatch = useDispatch();
 
     // Lấy danh sách sản phẩm từ localStorage
@@ -32,18 +30,18 @@ function Cart() {
         const newCartItems = [...carts];
         const parsedQuantity = parseInt(newQuantity);
         if (!isNaN(parsedQuantity)) {
-            newCartItems[index].quantity = parsedQuantity; 
-            console.log("newCartItems", newCartItems); 
+            newCartItems[index].quantity = parsedQuantity;
+            console.log('newCartItems', newCartItems);
 
-            dispatch(updateCart(newCartItems))
+            dispatch(updateCart(newCartItems));
         }
     };
 
     // Hàm để xóa sản phẩm khỏi danh sách
     const removeItem = (index) => {
         const newCartItems = [...carts];
-        newCartItems.splice(index, 1); 
-        dispatch(updateCart(newCartItems))
+        newCartItems.splice(index, 1);
+        dispatch(updateCart(newCartItems));
     };
 
     return (

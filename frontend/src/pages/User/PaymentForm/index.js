@@ -12,9 +12,9 @@ import { faCartShopping, faClipboardList } from '@fortawesome/free-solid-svg-ico
 import Footer from '~/components/Footer';
 import casual from 'casual-browserify';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNotification, clearNotification } from '~/actions/notificationActions';
+import { addNotification, clearNotification } from '~/redux/actions/notificationActions';
 import socket from '~/socket';
-import { clearCart } from '~/actions/cartActions';
+import { clearCart } from '~/redux/actions/cartActions';
 
 const cx = classNames.bind(styles);
 
@@ -183,10 +183,13 @@ const PaymentForm = () => {
         const authorName = customerInfo.name;
         const typeNoti = 'Đặt hàng thành công';
         const totalProductPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-        const content = `${customerInfo.name} đã đặt hàng thành công với số tiền ${totalProductPrice.toLocaleString('vi-VN', {
-            style: 'currency',
-            currency: 'VND',
-        })}`;
+        const content = `${customerInfo.name} đã đặt hàng thành công với số tiền ${totalProductPrice.toLocaleString(
+            'vi-VN',
+            {
+                style: 'currency',
+                currency: 'VND',
+            },
+        )}`;
         const idNoti = casual.uuid;
         const currentDate = new Date();
         const formattedDate = currentDate.toISOString().split('T')[0];
@@ -201,22 +204,22 @@ const PaymentForm = () => {
         };
         // FormDatas
         const formData = {
-            cart, 
+            cart,
             customerInfo,
             orderInfo,
-        }; 
+        };
 
         if (formData.cart.length === 0) {
             toast.warn('Giỏ hàng đang trống');
             return;
-        } 
+        }
 
         axios
             .post('/api/v1/order/new', formData)
             .then(() => {
                 if (cart.length > 0) {
                     dispatch(clearNotification());
-                    toast.success('Đặt hàng thành công'); 
+                    toast.success('Đặt hàng thành công');
                     dispatch(clearCart());
                     dispatch(addNotification(notification));
                 } else {
