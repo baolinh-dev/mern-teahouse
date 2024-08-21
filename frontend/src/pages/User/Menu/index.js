@@ -20,7 +20,7 @@ function Menu() {
             'Một món đồ uống tuyệt vời để bắt đầu ngày mới. Vị đắng đặc trưng của cà phê hòa quyện với hương thơm thảo mộc, mang lại sự tỉnh táo và sảng khoái.',
         'Bánh ngọt':
             'Những món bánh ngọt ngon lành, được làm từ những nguyên liệu tươi ngon và tinh túy. Vị ngọt ngào sẽ làm tan chảy trái tim bạn.',
-        Smoothies:
+        'Smoothies':
             'Thức uống trái cây tươi mát, giàu chất dinh dưỡng và hương vị tuyệt vời. Được làm từ những loại trái cây tươi ngon, smoothies là lựa chọn hoàn hảo cho một ngày nắng nóng.',
         'Trà hoa quả':
             'Trà hoa quả là sự kết hợp tuyệt vời giữa hương vị tự nhiên của trái cây và hương thơm của trà. Thức uống này không chỉ thỏa mãn khát, mà còn mang lại cảm giác sảng khoái và thư giãn.',
