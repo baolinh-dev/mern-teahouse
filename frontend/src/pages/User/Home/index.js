@@ -8,10 +8,14 @@ import Footer from '~/components/Footer';
 import TimeOpening from '~/pages/User/Home/TimeOpening';
 import News from './News';
 import Gallery from './Gallery';
+import { Helmet } from 'react-helmet';
 
 function Home() {
     return (
         <>
+            <Helmet>
+                <title>Trang chủ</title>
+            </Helmet>
             <Header />
             <Slider />
             <Category />

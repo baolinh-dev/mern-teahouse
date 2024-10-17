@@ -13,6 +13,7 @@ function App() {
     return (
         <Router>
             <div className="App">
+
                 <Routes>
                     {renderRoutes().map((route, index) => {
                         const Page = route.component;
