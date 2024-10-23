@@ -9,7 +9,21 @@ const { use } = require('../routes/userRoute');
 
 // Register a user
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-    const { name, email, password, phoneNumber } = req.body;
+    const { name, email, password, confirmPassword, phoneNumber } = req.body;
+
+    // Kiểm tra xem người dùng đã nhập mật khẩu và xác nhận mật khẩu chưa
+    if (!password) {
+        return next(new ErrorHandler('Vui lòng nhập Mật khẩu', 400));
+    }
+
+    if (!confirmPassword) {
+        return next(new ErrorHandler('Vui lòng nhập Xác nhận mật khẩu', 400));
+    }
+
+    // Kiểm tra xem mật khẩu và xác nhận mật khẩu có giống nhau không
+    if (password !== confirmPassword) {
+        return next(new ErrorHandler('Mật khẩu và xác nhận mật khẩu không khớp', 400));
+    }
 
     const user = await User.create({
         name,
@@ -25,37 +39,75 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     sendToken(user, 201, res);
 });
 
+
 // Login User
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     const { email, password } = req.body;
 
-    // checking if user has given password and email both
-    if (!email || !password) {
-        return next(new ErrorHandler('Please Enter Email & Password', 400));
+    // Kiểm tra nếu người dùng đã cung cấp email
+    if (!email) {
+        return next(new ErrorHandler('Vui lòng nhập Email', 400));
     }
 
-    const user = await User.findOne({ email }).select('+password');
+    // Kiểm tra định dạng email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return next(new ErrorHandler('Vui lòng nhập đúng định dạng email', 400));
+    }
 
+    // Kiểm tra nếu người dùng đã cung cấp mật khẩu
+    if (!password) {
+        return next(new ErrorHandler('Vui lòng nhập Mật khẩu', 400));
+    }
+
+    // Tìm người dùng trong cơ sở dữ liệu
+    const user = await User.findOne({ email }).select('+password +loginAttempts +lockUntil');
+
+    // Kiểm tra nếu tài khoản đang bị khóa
+    if (user.lockUntil && user.lockUntil > Date.now()) {
+        const remainingTime = Math.ceil((user.lockUntil - Date.now()) / 1000); // thời gian còn lại tính bằng giây
+        return next(new ErrorHandler(`Tài khoản của bạn bị khóa. Vui lòng thử lại sau ${remainingTime} giây`, 403));
+    }
+
+    // Kiểm tra nếu người dùng không tồn tại
     if (!user) {
-        return next(new ErrorHandler('Invalid email or password', 401));
+        return next(new ErrorHandler('Email hoặc mật khẩu không hợp lệ', 401));
     }
 
+    // Kiểm tra mật khẩu
     const isPasswordMatched = await user.comparePassword(password);
 
     if (!isPasswordMatched) {
-        return next(new ErrorHandler('Invalid email or password', 401));
+        user.loginAttempts += 1;
+
+        // Nếu vượt quá 5 lần, khóa tài khoản trong 1 phút
+        if (user.loginAttempts >= 5) {
+            user.lockUntil = Date.now() + 1 * 60 * 1000; // 1 phút
+            await user.save();
+            return next(new ErrorHandler('Tài khoản của bạn đã bị khóa trong 1 phút do nhập sai quá nhiều lần', 403));
+        }
+
+        await user.save();
+        return next(new ErrorHandler('Email hoặc mật khẩu không hợp lệ', 401));
     }
 
-    // Send the token to the client
+    // Nếu đăng nhập thành công, reset lại số lần nhập sai
+    user.loginAttempts = 0;
+    user.lockUntil = undefined;
+    await user.save();
+
+    // Gửi token cho client
     sendToken(user, 200, res);
 
-    // Kiểm tra vai trò của người dùng
+    // Kiểm tra vai trò của người dùng và chuyển hướng
     if (user.role === 'user') {
-        return res.redirect('/menu'); // Chuyển hướng đến tuyến admin nếu có vai trò admin
+        return res.redirect('/menu'); 
     } else if (user.role === 'admin') {
-        return res.redirect('/');
+        return res.redirect('/'); 
     }
 });
+
+
 // Logout User
 exports.logout = catchAsyncErrors(async (req, res, next) => {
     res.cookie('token', null, {

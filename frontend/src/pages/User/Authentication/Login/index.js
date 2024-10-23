@@ -8,6 +8,7 @@ import Heading from '~/components/Heading';
 import ContainerHeading from '~/components/ContainerHeading';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from 'react-helmet';
 
 const cx = classNames.bind(styles);
 
@@ -42,7 +43,7 @@ function Login() {
         } catch (err) {
             const errorMessage = err.response.data.message;
             setError(errorMessage);
-            toast.error(errorMessage); 
+            toast.error(errorMessage);
             console.log(error);
         }
     };
@@ -62,6 +63,9 @@ function Login() {
 
     return (
         <div className={cx('login')}>
+            <Helmet>
+                <title>Đăng nhập</title>
+            </Helmet>
             <form onSubmit={handleSubmit}>
                 <ContainerHeading center>
                     <Heading content={'Đăng nhập'} />
@@ -71,7 +75,7 @@ function Login() {
                     <label htmlFor="email">Email:</label>
                     <input
                         placeholder="Nhập email"
-                        type="email"
+                        type="text"
                         id="email"
                         name="email"
                         value={email}

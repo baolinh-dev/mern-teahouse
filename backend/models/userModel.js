@@ -11,7 +11,7 @@ const userShema = new mongoose.Schema({
         required: [true, 'PLease Enter Your Name'],
         maxLength: [30, 'Name cannot exceed 30 characters'],
         minLength: [4, 'Name should have more than 4 characters'],
-    }, 
+    },
     email: {
         type: String,
         required: [true, 'Please Enter Your Email'],
@@ -35,14 +35,22 @@ const userShema = new mongoose.Schema({
     role: {
         type: String,
         default: 'user',
-    }, 
+    },
     phoneNumber: {
-        type: Number,   
+        type: Number,
         default: null,
-    }, 
+    },
     address: {
-        type: String, 
+        type: String,
         default: null,
+    },
+
+    loginAttempts: {
+        type: Number,
+        default: 0, // Bắt đầu từ 0 lần nhập sai
+    },
+    lockUntil: {
+        type: Date, // Thời gian khóa tài khoản
     },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
@@ -57,10 +65,10 @@ userShema.pre('save', async function (next) {
 });
 
 // Compare Password
-userShema.methods.comparePassword = async function (enteredPassword) {  
-    const isPasswordMatched = await bcrypt.compare(enteredPassword, this.password); 
+userShema.methods.comparePassword = async function (enteredPassword) {
+    const isPasswordMatched = await bcrypt.compare(enteredPassword, this.password);
     return isPasswordMatched;
-}; 
+};
 
 // JWT Token
 userShema.methods.getJWTToken = function () {

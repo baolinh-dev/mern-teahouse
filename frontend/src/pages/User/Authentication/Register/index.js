@@ -8,6 +8,7 @@ import Heading from '~/components/Heading';
 import ContainerHeading from '~/components/ContainerHeading';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from 'react-helmet';
 
 const cx = classNames.bind(styles);
 
@@ -63,6 +64,9 @@ function Register() {
 
     return (
         <div className={cx('register')}>
+            <Helmet>
+                <title>Đăng kí</title>
+            </Helmet>
             <form onSubmit={handleSubmit}>
                 <ContainerHeading center>
                     <Heading content={'Đăng kí'} />
